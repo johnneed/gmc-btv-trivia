@@ -1,8 +1,8 @@
-import React from 'react';
-import './App.css';
-import {createBrowserRouter, RouterProvider, Navigate} from "react-router-dom";
-import QuizScreen from "./screens/quiz"
-import HomeScreen from "./screens/home"
+import React from "react";
+import "./App.css";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import QuizScreen from "./features/quiz"
+import HomeScreen from "./features/home"
 
 const router = createBrowserRouter([
         {

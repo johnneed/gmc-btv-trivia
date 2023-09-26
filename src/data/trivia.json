@@ -1,0 +1,29 @@
+{
+  "quizzes": [
+    {
+      "id": 1,
+      "title": "Long Trail History",
+      "publishDate": "09/01/2023",
+      "image": null,
+      "questions": [
+        {
+          "id": "a",
+          "tags": [
+            "a",
+            "b"
+          ],
+          "questionText": "Question 1",
+          "choices": [
+            "A",
+            "B",
+            "C",
+            "D"
+          ],
+          "correctAnswerIndex": 0,
+          "answerText": "BLAH BLAH BLAH",
+          "answerImage": ""
+        }
+      ]
+    }
+  ]
+}
