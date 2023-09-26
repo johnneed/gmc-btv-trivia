@@ -1,8 +1,7 @@
-import type Choice from './choice';
+import type Choice from "./choice.type";
 
 type Question = {
     id: string;
-    publish: Date;
     tags?: string[];
     questionText: string;
     choices: Choice[];
@@ -11,4 +10,5 @@ type Question = {
     answerImage?: string;
 }
 
-export default Question
+export default Question;
+
