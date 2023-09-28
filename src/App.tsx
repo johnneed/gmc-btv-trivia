@@ -1,9 +1,9 @@
 import React from "react";
 import "./App.css";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
-import QuizScreen from "./features/quiz"
-import HomeScreen from "./features/home"
-
+import QuizScreen from "./features/quiz";
+import HomeScreen from "./features/home";
+import Loader from "./features/loader/Loader";
 const router = createBrowserRouter([
         {
             path: "/",
@@ -26,6 +26,7 @@ const router = createBrowserRouter([
 function App() {
     return (
         <div className="App">
+            <Loader/>
             <RouterProvider router={router}/>
         </div>
     )

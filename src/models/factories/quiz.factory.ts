@@ -6,7 +6,7 @@ import { dateFactory } from "./factoryHelpers";
 const quizFactory = (data: any): Quiz => ({
     id: typeof data?.id === "string" ? data?.id : uuidv4(),
     title: typeof data?.title === "string" ? data?.title : "",
-    publishDate: dateFactory(data?.date, true) as Date,
+    publishDate: dateFactory(data?.publishDate, true) as Date,
     image: typeof data?.image === "string" ? data?.image : "",
     questions: (data?.questions || []).map((q: unknown) => questionFactory(q)),
     tags: Array.from(new Set((data?.questions || []).filter((t: unknown) => typeof t === "string"))),
