@@ -5,8 +5,8 @@ const initialState = {
     quizTags: [],
     questionTags: [],
     status: "idle",
-    selectedQuestionTags: new Set(),
-    selectedQuizTags: new Set(),
+    selectedQuestionTags: [],
+    selectedQuizTags: [],
     selectedQuiz: null
 } as LoaderState;
 describe("loader reducer", () => {

@@ -3,7 +3,7 @@ import Question from "./question.type";
 type Quiz = {
     id: string;
     title: string;
-    publishDate: Date;
+    publishDate: number;
     image?: string
     questions: Question[];
     tags: string[];
