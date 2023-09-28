@@ -10,8 +10,8 @@ export interface LoaderState {
     quizTags: string[];
     questionTags: string[];
     status: "idle" | "loading" | "failed";
-    selectedQuestionTags: Set<string>;
-    selectedQuizTags: Set<string>;
+    selectedQuestionTags: string[];
+    selectedQuizTags: string[];
     selectedQuiz: string | null;
 }
 
@@ -20,8 +20,8 @@ const initialState: LoaderState = {
     quizTags: [],
     questionTags: [],
     status: "idle",
-    selectedQuestionTags: new Set(),
-    selectedQuizTags: new Set(),
+    selectedQuestionTags: [],
+    selectedQuizTags: [],
     selectedQuiz: null
 };
 
@@ -59,22 +59,22 @@ export const loaderSlice = createSlice({
             state.selectedQuiz = null;
         },
         addQuizTag: (state, action: PayloadAction<string>) => {
-            state.selectedQuizTags.add(action.payload);
+            state.selectedQuizTags = R.compose(Array.from, (a)=> (new Set(a)), state.selectedQuizTags.concat)(action.payload) as string[];
         },
         removeQuizTag: (state, action: PayloadAction<string>) => {
-            state.selectedQuizTags.delete(action.payload);
+            state.selectedQuizTags = R.compose(Array.from, (a: string[])=> (new Set(a)), R.filter((x:string)=>x !== action.payload))(state.selectedQuizTags) as string[];
         },
         clearQuizTags: (state) => {
-            state.selectedQuizTags.clear();
+            state.selectedQuizTags = [];
         },
         addQuestionTag: (state, action: PayloadAction<string>) => {
-            state.selectedQuestionTags.add(action.payload);
+            state.selectedQuizTags = R.compose(Array.from, (a)=> (new Set(a)), state.selectedQuestionTags.concat)(action.payload) as string[];
         },
         removeQuestionTag: (state, action: PayloadAction<string>) => {
-            state.selectedQuestionTags.delete(action.payload);
+            state.selectedQuestionTags = R.compose(Array.from, (a: string[])=> (new Set(a)), R.filter((x:string)=>x !== action.payload))(state.selectedQuizTags) as string[];
         },
         clearQuestionTags: (state) => {
-            state.selectedQuestionTags.clear();
+            state.selectedQuestionTags = [];
         }
     },
     // The `extraReducers` field lets the slice handle actions defined elsewhere,

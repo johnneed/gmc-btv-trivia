@@ -11,7 +11,7 @@ const router = createBrowserRouter([
             errorElement: (<Navigate to="/" replace={true}/>)
         },
         {
-            path: "quiz",
+            path: "quiz/:qid",
             element: (<QuizScreen/>),
             errorElement: (<Navigate to="/" replace={true}/>)
         },

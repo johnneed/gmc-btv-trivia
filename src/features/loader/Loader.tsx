@@ -15,6 +15,6 @@ import "./styles.css";
         }
     },[quizzes, dispatch]);
     return (<></>);
-}
+};
 
 export default Loader;
