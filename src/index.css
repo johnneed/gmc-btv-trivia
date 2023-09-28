@@ -1,7 +1,7 @@
 @font-face {
     font-family: "LeckerliOne";
     src: local("LeckerliOne"),
-    url("./fonts/Leckerli-One/LeckerliOne-Regular.ttf") format("truetype");
+    url("assets/fonts/Leckerli-One/LeckerliOne-Regular.ttf") format("truetype");
     font-weight: bold;
 }
 

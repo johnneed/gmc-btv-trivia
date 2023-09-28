@@ -1,59 +1,27 @@
 import React from "react";
 import "./styles.css";
 import logo from "./logo.svg";
-import { Counter } from "../counter/Counter";
+import { useAppSelector } from "../../app/hooks";
+import { selectQuizzes } from "../loader/loaderSlice";
+// import { selectCount } from "../counter/counterSlice";
+import * as R from "ramda";
+import type { Quiz } from "../../models/types";
 
 const HomeScreen = () => {
+    const sortedQuizzes = R.compose(
+        R.sort((a: Quiz, b: Quiz) => (b.publishDate.getTime() - a.publishDate.getTime())),
+        useAppSelector
+    )(selectQuizzes);
+    console.log(JSON.stringify(sortedQuizzes));
     return (
         <div className={"home-screen"}>
-            <h1>GMC BTV TRAIL TRIVIA</h1>
-
-            <img src={logo} className="App-logo" alt="logo" />
-            <Counter />
-            <p>
-                Edit <code>src/App.tsx</code> and save to reload.
-            </p>
-            <span>
-          <span>Learn </span>
-          <a
-              className="App-link"
-              href="https://reactjs.org/"
-              target="_blank"
-              rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-              className="App-link"
-              href="https://redux.js.org/"
-              target="_blank"
-              rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-              className="App-link"
-              href="https://redux-toolkit.js.org/"
-              target="_blank"
-              rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-              className="App-link"
-              href="https://react-redux.js.org/"
-              target="_blank"
-              rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-
+            <div className={"home-screen_header"}><img src={logo} className="App-logo" alt="logo"/><h1>GMC BTV TRAIL
+                TRIVIA</h1></div>
+            <div className={"home-screen_latest-quiz"}>
+                <div>{(sortedQuizzes)[0].title}</div>
+            </div>
         </div>
     );
-}
+};
 
 export default HomeScreen;

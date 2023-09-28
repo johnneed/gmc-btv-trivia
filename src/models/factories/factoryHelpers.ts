@@ -4,11 +4,12 @@ import * as R from "ramda";
 // Modify this with a zero check if you intend generate a date by passing zero.
 const isValidDate = (value: unknown): boolean => Boolean(value) && new Date(value as any).toString() !== "Invalid Date";
 
+
 const fn = R.cond([
     [x => isValidDate(x[0]), x => new Date(x[0])],
     [x => x[1], () => new Date()],
     [R.T, R.always(undefined)]
-])
+]);
 export const dateFactory = (date: unknown, returnCurrentDate: boolean = false): Date | undefined => {
     return fn([date, returnCurrentDate]);
 };
