@@ -1,7 +1,7 @@
 {
   "quizzes": [
     {
-      "id": 2,
+      "id": "5481e5e8-91aa-4ff0-8271-755c7fe93672",
       "title": "Long Trail History",
       "publishDate": "09-01-2023",
       "image": null,
@@ -14,10 +14,18 @@
           ],
           "questionText": "Question 1",
           "choices": [
-            "A",
-            "B",
-            "C",
-            "D"
+            {
+              "text": "CHOICE A"
+            },
+            {
+              "text": "CHOICE B"
+            },
+            {
+              "text": "CHOICE C"
+            },
+            {
+              "text": "CHOICE D"
+            }
           ],
           "correctAnswerIndex": 0,
           "answerText": "BLAH BLAH BLAH",
@@ -31,10 +39,18 @@
           ],
           "questionText": "Question 1",
           "choices": [
-            "A",
-            "B",
-            "C",
-            "D"
+            {
+              "text": "CHOICE A"
+            },
+            {
+              "text": "CHOICE B"
+            },
+            {
+              "text": "CHOICE C"
+            },
+            {
+              "text": "CHOICE D"
+            }
           ],
           "correctAnswerIndex": 0,
           "answerText": "BLAH BLAH BLAH",
@@ -43,7 +59,7 @@
       ]
     },
     {
-      "id": 1,
+      "id": "7481e5e8-91aa-4ff0-8271-755c7fe93673",
       "title": "AT Shelters",
       "publishDate": "10-01-2023",
       "image": null,
@@ -56,13 +72,21 @@
           ],
           "questionText": "Question 1",
           "choices": [
-            "A",
-            "B",
-            "C",
-            "D"
+            {
+              "text": "CHOICE A"
+            },
+            {
+              "text": "CHOICE B"
+            },
+            {
+              "text": "CHOICE C"
+            },
+            {
+              "text": "CHOICE D"
+            }
           ],
           "correctAnswerIndex": 0,
-          "answerText": "BLAH BLAH BLAH",
+          "answerText": "BLAH BLAH BLAH 1",
           "answerImage": ""
         },
         {
@@ -71,15 +95,48 @@
             "a",
             "b"
           ],
-          "questionText": "Question 1",
+          "questionText": "Question 2",
           "choices": [
-            "A",
-            "B",
-            "C",
-            "D"
+            {
+              "text": "CHOICE A"
+            },
+            {
+              "text": "CHOICE B"
+            },
+            {
+              "text": "CHOICE C"
+            },
+            {
+              "text": "CHOICE D"
+            }
           ],
-          "correctAnswerIndex": 0,
-          "answerText": "BLAH BLAH BLAH",
+          "correctAnswerIndex": 1,
+          "answerText": "BLAH BLAH BLAH 2",
+          "answerImage": ""
+        },
+        {
+          "id": "c",
+          "tags": [
+            "a",
+            "b"
+          ],
+          "questionText": "Question 3",
+          "choices": [
+            {
+              "text": "CHOICE A"
+            },
+            {
+              "text": "CHOICE B"
+            },
+            {
+              "text": "CHOICE C"
+            },
+            {
+              "text": "CHOICE D"
+            }
+          ],
+          "correctAnswerIndex": 2,
+          "answerText": "BLAH BLAH BLAH 3",
           "answerImage": ""
         }
       ]

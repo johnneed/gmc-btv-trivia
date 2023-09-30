@@ -10,6 +10,7 @@ const questionFactory = (data?: any): Question => ({
     correctAnswerIndex: typeof data?.answerText === "number" ? data?.answerText : 0,
     answerText: typeof data?.answerText === "string" ? data?.answerText : "",
     answerImage: typeof data?.answerImage === "string" ? data?.answerImage : "",
+    answerImageAlt: typeof data?.answerImageAlt === "string" ? data?.answerImageAlt : "answer illustration"
 });
 
 export default questionFactory;

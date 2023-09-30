@@ -8,6 +8,7 @@ type Question = {
     correctAnswerIndex: number;
     answerText: string;
     answerImage?: string;
+    answerImageAlt?: string;
 }
 
 export default Question;
