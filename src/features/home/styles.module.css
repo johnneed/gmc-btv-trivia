@@ -1,0 +1,62 @@
+
+.home_screen {
+}
+
+.home_screen_header > h1 {
+    font-family: "Kablamo";
+    font-size: 4rem;
+    text-shadow: 0px 2px 2px #AAA;
+}
+
+.home_screen_logo{
+    width: 90%;
+    margin: 0 auto;
+    max-height: 40vmin;
+    max-width: 40vmin;
+    background-repeat:no-repeat;
+    background-position: center center;
+    background-size: contain;
+}
+.home_screen_logo > img {
+    max-height: 40vmin;
+    max-width: 40vmin;
+    pointer-events: none;
+}
+
+.home-screen h1 {
+    font-family: "LeckerliOne", sans-serif;
+}
+
+.play-button {
+    font-family: sans-serif;
+    padding: 1rem;
+    border: 1px solid #AAA;
+    border-radius: 0.25rem;
+    font-size: 16pt;
+    cursor: pointer;
+    background: #EEE;
+    transition: all 0.5s;
+}
+
+.play-button:hover {
+    background-color: #DDD;
+}
+
+.play-button > span {
+    display: block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .spinny_logo {
+        animation: logo-spin infinite 20s linear;
+    }
+}
+
+@keyframes logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
