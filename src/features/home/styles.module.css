@@ -6,17 +6,19 @@
     font-family: "Kablamo";
     font-size: 4rem;
     text-shadow: 0px 2px 2px #AAA;
+    color: indianred;
 }
 
-.home_screen_logo{
+.home_screen_logo {
     width: 90%;
     margin: 0 auto;
     max-height: 40vmin;
     max-width: 40vmin;
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     background-position: center center;
     background-size: contain;
 }
+
 .home_screen_logo > img {
     max-height: 40vmin;
     max-width: 40vmin;
@@ -27,24 +29,48 @@
     font-family: "LeckerliOne", sans-serif;
 }
 
-.play-button {
-    font-family: sans-serif;
+
+.latest_quiz {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.play_button {
+    margin: 1rem;
     padding: 1rem;
-    border: 1px solid #AAA;
-    border-radius: 0.25rem;
+    border: 1px solid #DDD;
     font-size: 16pt;
     cursor: pointer;
-    background: #EEE;
+    background: floralwhite;
     transition: all 0.5s;
+    box-shadow: 0 2px 1px #EEE;
 }
 
-.play-button:hover {
-    background-color: #DDD;
+.play_button:hover {
+    background-color: #FEFEFE;
 }
 
-.play-button > span {
+.play_button > span {
     display: block;
+    margin: 0 auto;
 }
+.play_button > span:first-child {
+   font-size: 2rem;
+        font-family: "Verdana", sans-serif;
+        text-shadow: 1px 1px 1px #FFF;
+}
+.play_button > span:last-child {
+    font-size: 3rem;
+    font-family:  "Verdana", sans-serif;
+    text-shadow: 1px 1px 1px #FFF;
+    margin-top: 2rem;
+    color: slateblue;
+    font-weight: bold;
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
     .spinny_logo {

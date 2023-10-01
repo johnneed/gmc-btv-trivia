@@ -33,7 +33,7 @@ const HomeScreen = () => {
             </div>
             <div className={styles.latest_quiz}>
                 <button onClick={handleClick} className={styles.play_button}>
-                    <span>{"Test yourself with this week's quiz"}</span>
+                    <span>{"Test your trail smarts with this week's quiz"}</span>
                     <span>{latestQuiz?.title || ""}</span>
                 </button>
             </div>
