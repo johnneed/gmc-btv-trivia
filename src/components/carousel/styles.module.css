@@ -1,8 +1,44 @@
-
+.answer{
+    margin: 0 2rem;
+}
 .answer_box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
+    border: solid 1px #AAA;
+    margin: 0 auto 2rem auto;
+    max-width: 80rem;
+}
+
+.answer_box > div:nth-child(1) {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: stretch;
+    max-width: 20rem;
+}
+
+.answer_box > div:nth-child(2) {
+    order: 0;
+    flex: 1 1 auto;
+    align-self: stretch;
+}
+.answer_box > div:nth-child(1) > figure > img{
+     border: solid 1rem white;
+    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.5);
+    border-radius: 0.1rem;
+    margin: 1rem;
 }
 
 .question_box {
     text-align: left;
-    padding: 0 4rem;
+    padding: 0 2rem;
+    display: inline-block;
+}
+
+.question_text{
+    font-size: 2rem;
+    font-weight: bold;
 }

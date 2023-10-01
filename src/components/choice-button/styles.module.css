@@ -1,6 +1,6 @@
 .choice{
     margin-left: -2rem;
-    margin-bottom: 2rem;
+    margin-top: 2rem;
 }
 
 .choice > button {
@@ -8,11 +8,15 @@
     border: none;
     background-color: transparent;
     font-size: 2rem;
+    transition: all 0.5s;
 }
 .icon{
     height: 2rem;
     width: 2rem;
+    transition: all 0.5s;
 }
+
+
 .selected {
 
 }

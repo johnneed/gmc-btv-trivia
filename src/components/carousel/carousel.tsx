@@ -22,20 +22,26 @@ interface QuestionBoxProps {
 
 const QuestionComponent = ({ question, handleSelect }: QuestionBoxProps) => (
     <article className={styles.question_box}>
-        <div>{question.questionText}</div>
-        <div>
+        <div className={styles.question_text}>{question.questionText}</div>
             {question.choices.map((c, index) => (
                 <ChoiceButton key={index} choice={c} isCorrect={index === question.correctAnswerIndex}
                               onClick={handleSelect}/>))}
-        </div>
     </article>
 );
 
 const AnswerComponent = ({ question }: AnswerBoxProps) => (
+    <div className={styles.answer}>
+        <h4>Huzzah</h4>
     <article className={styles.answer_box}>
-        <div><img src={question.answerImage} alt={question.answerImageAlt}/></div>
+        <div>
+            <figure>
+                <img src={question.answerImage} alt={question.answerImageAlt}/><img src={question.answerImage} alt={question.answerImageAlt}/>
+            <figcaption
+            </figure>
+            </div>
         <div>{question.answerText}</div>
     </article>
+    </div>
 );
 
 

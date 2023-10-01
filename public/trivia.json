@@ -89,7 +89,7 @@
           ],
           "correctAnswerIndex": 0,
           "answerText": "BLAH BLAH BLAH 1",
-          "answerImage": ""
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/03/cropped-vpr_3_musketeers.jpeg"
         },
         {
           "id": "b",
@@ -139,7 +139,7 @@
           ],
           "correctAnswerIndex": 2,
           "answerText": "BLAH BLAH BLAH 3",
-          "answerImage": ""
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/03/cropped-vpr_3_musketeers.jpeg"
         }
       ]
     }
