@@ -13,3 +13,15 @@ const fn = R.cond([
 export const dateFactory = (date: unknown, returnCurrentDate: boolean = false): Date | undefined => {
     return fn([date, returnCurrentDate]);
 };
+
+
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const dateFormatter = (date: unknown): string => {
+    if (!isValidDate(date)) {
+        return "";
+    }
+    const myDate = new Date(date as (Date | string));
+    return (`${months[myDate.getMonth()]} ${myDate.getDate()}, ${myDate.getUTCFullYear()}`);
+};
+
+export const date2String = R.memoizeWith(dateFormatter, dateFormatter);

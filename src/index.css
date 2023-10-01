@@ -1,10 +1,17 @@
 @font-face {
-    font-family: "LeckerliOne";
-    src: local("LeckerliOne"),
-    url("assets/fonts/Leckerli-One/LeckerliOne-Regular.ttf") format("truetype");
+    font-family: "HennyPenny";
+    src: local("HennyPenny"),
+    url("assets/fonts/HennyPenny/HennyPenny-Regular.ttf") format("truetype");
     font-weight: bold;
 }
 
+
+@font-face {
+    font-family: "TiltNeon";
+    src: local("TiltNeon"),
+    url("assets/fonts/Tilt-Neon/TiltNeon-Regular-VariableFont_XROT,YROT.ttf") format("truetype");
+    font-weight: bold;
+}
 
 body {
     margin: 0;
@@ -18,4 +25,10 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.home-screen_header > h1 {
+    font-family: "Kablamo";
+    font-size: 4rem;
+    text-shadow: 0px 2px 2px #AAA;
 }

@@ -1,5 +1,5 @@
-import { dateFactory } from "./factoryHelpers";
-
+import { dateFactory } from "./date-helpers";
+import { date2String } from "./date-helpers";
 describe("dateFactory", () => {
     it("returns a valid date when given a valid date", () => {
         const input = new Date("12-12-2023");
@@ -30,5 +30,24 @@ describe("dateFactory", () => {
         expect(returnVal?.getMonth()).toEqual(today.getMonth());
         expect(returnVal?.getFullYear()).toEqual(today.getFullYear());
         expect(returnVal?.getDate()).toEqual(today.getDate());
+    });
+});
+
+
+describe("date2String", () => {
+    it("returns a formatted date when given a date", () => {
+        const input = new Date("11-12-2023");
+        const returnVal = date2String(input);
+        expect(returnVal?.valueOf()).toEqual("November 12, 2023");
+    });
+    it("returns a formatted date when given a string representing a valid date", () => {
+        const input = "12-12-2023";
+        const returnVal = date2String(input);
+        expect(returnVal?.valueOf()).toEqual("December 12, 2023");
+    });
+    it("returns an empty string when given an invalid date", () => {
+        const input = "NOT A DATE";
+        const returnVal = date2String(input);
+        expect(returnVal?.valueOf()).toEqual("");
     });
 });

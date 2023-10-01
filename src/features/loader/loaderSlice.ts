@@ -39,9 +39,9 @@ export const loaderSlice = createSlice({
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
         loadQuizzes: (state, action: PayloadAction<Quiz[]>) => {
-            const extractQuizTags = R.compose(Array.from<string>, (t: string[]) => new Set(t), R.flatten, R.map((q: Quiz) => q.tags));
+            const extractQuizTags = R.compose(Array.from, (t: string[]) => new Set(t), R.flatten, R.map((q: Quiz) => q.tags));
             const extractQuestionTags = R.compose(
-                Array.from<string>,
+                Array.from,
                 (t: string[]) => new Set(t),
                 R.flatten,
                 R.map((q: Question) => q.tags),
@@ -49,8 +49,8 @@ export const loaderSlice = createSlice({
                 R.map((q: Quiz) => q.questions)
             );
             state.quizzes = action.payload;
-            state.quizTags = extractQuizTags(action.payload);
-            state.questionTags = extractQuestionTags(action.payload);
+            state.quizTags = extractQuizTags(action.payload) as string[];
+            state.questionTags = extractQuestionTags(action.payload) as string[];
         },
         setQuiz: (state, action: PayloadAction<string>) => {
             state.selectedQuiz = action.payload;
