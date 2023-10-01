@@ -1,18 +1,19 @@
-Kablammo Variable Font
-======================
+Tilt Neon Variable Font
+=======================
 
-This download contains Kablammo as both a variable font and a static font.
+This download contains Tilt Neon as both a variable font and a static font.
 
-Kablammo is a variable font with this axis:
-  MORF
+Tilt Neon is a variable font with these axes:
+  XROT
+  YROT
 
 This means all the styles are contained in a single file:
-  Kablammo-Regular-VariableFont_MORF.ttf
+  TiltNeon-Regular-VariableFont_XROT,YROT.ttf
 
 If your app fully supports variable fonts, you can now pick intermediate styles
 that aren’t available as static fonts. Not all apps support variable fonts, and
-in those cases you can use the static font file for Kablammo:
-  static/Kablammo-Regular.ttf
+in those cases you can use the static font file for Tilt Neon:
+  static/TiltNeon-Regular.ttf
 
 Get started
 -----------

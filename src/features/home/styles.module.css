@@ -1,17 +1,23 @@
 
 .home_screen {
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
 }
 
 .home_screen_header > h1 {
-    font-family: "Kablamo";
+    font-family: "HennyPenny", sans-serif;
     font-size: 4rem;
-    text-shadow: 0px 2px 2px #AAA;
+    text-shadow: 0 2px 2px #AAA;
     color: indianred;
+    margin: 1rem 0 0 0;
 }
 
 .home_screen_logo {
     width: 90%;
-    margin: 0 auto;
+    margin: 1rem auto 0 auto;
     max-height: 40vmin;
     max-width: 40vmin;
     background-repeat: no-repeat;
@@ -20,8 +26,8 @@
 }
 
 .home_screen_logo > img {
-    max-height: 40vmin;
-    max-width: 40vmin;
+    max-height: 30vmin;
+    max-width: 30vmin;
     pointer-events: none;
 }
 
@@ -29,6 +35,17 @@
     font-family: "LeckerliOne", sans-serif;
 }
 
+.message {
+    margin: 0;
+}
+
+.quiz_title {
+    font-family: "TiltNeon", sans-serif;
+    font-size: 3rem;
+    color: slateblue;
+    text-shadow: 1px 1px 1px #DDD;
+    margin: 0 auto;
+}
 
 .latest_quiz {
     margin-top: 4rem;
@@ -39,36 +56,22 @@
 }
 
 .play_button {
-    margin: 1rem;
-    padding: 1rem;
+    color: floralwhite;
+    margin: 0 0 1rem 0;
+    padding: 0.5rem 3rem;
     border: 1px solid #DDD;
-    font-size: 16pt;
+    font-size: 2rem;
     cursor: pointer;
-    background: floralwhite;
+    border-radius: 2rem;
+    background: black;
     transition: all 0.5s;
     box-shadow: 0 2px 1px #EEE;
+    text-transform: uppercase;
+    font-family: Verdana, sans-serif;
 }
 
 .play_button:hover {
-    background-color: #FEFEFE;
-}
-
-.play_button > span {
-    display: block;
-    margin: 0 auto;
-}
-.play_button > span:first-child {
-   font-size: 2rem;
-        font-family: "Verdana", sans-serif;
-        text-shadow: 1px 1px 1px #FFF;
-}
-.play_button > span:last-child {
-    font-size: 3rem;
-    font-family:  "Verdana", sans-serif;
-    text-shadow: 1px 1px 1px #FFF;
-    margin-top: 2rem;
-    color: slateblue;
-    font-weight: bold;
+    background-color: #111;
 }
 
 

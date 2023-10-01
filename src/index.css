@@ -1,8 +1,15 @@
+@font-face {
+    font-family: "HennyPenny";
+    src: local("HennyPenny"),
+    url("assets/fonts/HennyPenny/HennyPenny-Regular.ttf") format("truetype");
+    font-weight: bold;
+}
+
 
 @font-face {
-    font-family: "Kablamo";
-    src: local("Kablamo"),
-    url("assets/fonts/Kablamo/Kablamo-Regular.ttf") format("truetype");
+    font-family: "TiltNeon";
+    src: local("TiltNeon"),
+    url("assets/fonts/Tilt-Neon/TiltNeon-Regular-VariableFont_XROT,YROT.ttf") format("truetype");
     font-weight: bold;
 }
 
@@ -19,6 +26,7 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 .home-screen_header > h1 {
     font-family: "Kablamo";
     font-size: 4rem;

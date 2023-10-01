@@ -5,6 +5,7 @@
       "title": "Long Trail History",
       "publishDate": "09-01-2023",
       "image": null,
+      "author": "Lancelot Link",
       "questions": [
         {
           "id": "c",
@@ -61,8 +62,9 @@
     {
       "id": "7481e5e8-91aa-4ff0-8271-755c7fe93673",
       "title": "AT Shelters",
-      "publishDate": "10-01-2023",
+      "publishDate": "09-30-2023",
       "image": null,
+      "author": "Speed Racer",
       "questions": [
         {
           "id": "a",
