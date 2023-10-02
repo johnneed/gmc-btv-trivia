@@ -22,20 +22,33 @@ interface QuestionBoxProps {
 
 const QuestionComponent = ({ question, handleSelect }: QuestionBoxProps) => (
     <article className={styles.question_box}>
-        <div>{question.questionText}</div>
-        <div>
-            {question.choices.map((c, index) => (
-                <ChoiceButton key={index} choice={c} isCorrect={index === question.correctAnswerIndex}
-                              onClick={handleSelect}/>))}
-        </div>
+        <div className={styles.question_text}>{question.questionText}</div>
+        {question.choices.map((c, index) => (
+            <ChoiceButton key={index} choice={c} isCorrect={index === question.correctAnswerIndex}
+                          onClick={handleSelect}/>))}
     </article>
 );
 
 const AnswerComponent = ({ question }: AnswerBoxProps) => (
-    <article className={styles.answer_box}>
-        <div><img src={question.answerImage} alt={question.answerImageAlt}/></div>
-        <div>{question.answerText}</div>
-    </article>
+    <div className={styles.answer}>
+        <h4 className={styles.huzzah}>Huzzah!</h4>
+        {question.answerImage
+            ? (
+                <article className={styles.answer_box}>
+                    <figure>
+                        <img src={question.answerImage} alt={question.answerImageAlt}/>
+                        <figcaption>{question.answerImageCaption}</figcaption>
+                    </figure>
+                    <div>{question.answerText}</div>
+                </article>
+            )
+            : (
+                <article className={styles.answer_box_no_image}>
+                    <div>{question.answerText}</div>
+                </article>
+            )
+        }
+    </div>
 );
 
 
@@ -66,8 +79,23 @@ const Carousel = ({ quiz }: CarouselProps) => {
                             <div>
                                 {
                                     questionIndex >= quiz.questions.length - 1
-                                        ? (<Link to={"/"}>Congratulations!</Link>)
-                                        : (<button onClick={() => nextQuestion()}>Next Question</button>)
+                                        ? (
+                                            <div className={styles.congratulations}>
+                                                <div>
+                                                    <span>{"🎉"}</span>
+                                                    <span>
+                                                    <Link className={styles.congrats_text} to={`/score/${quiz.id}`}>
+                                                        Congratulations!<br/>
+                                                        You survived the quiz.<br/>
+                                                        Checkout your score.
+                                                    </Link>
+                                                    </span>
+                                                    <span>{"🎉"}</span>
+                                                </div>
+                                            </div>
+                                        )
+                                        : (<button className={styles.next_question} onClick={() => nextQuestion()}>Next
+                                            Question <span>{"\u2192"}</span></button>)
                                 }
                             </div>
                         </>

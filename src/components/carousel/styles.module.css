@@ -1,6 +1,130 @@
+.answer {
+    margin: 0 2rem;
+}
+
+.huzzah {
+    font-family: HennyPenny, sans-serif;
+    font-size: 5rem;
+    margin: 0;
+    color: tomato;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+}
 
 .answer_box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
+    border: solid 1px #AAA;
+    margin: 0 auto 2rem auto;
+    max-width: 80rem;
+}
+
+.answer_box > figure {
+    order: 0;
+    flex: 0 1 25%;
+    align-self: stretch;
+    max-width: 25%;
+    padding: 1rem;
+}
+
+.answer_box > figure > img {
+    border: solid 1rem white;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.5);
+    border-radius: 0.1rem;
+    margin: 0;
+    max-width: calc(100% - 2rem);
+}
+
+.answer_box > figure > figcaption {
+    text-align: center;
+    margin: 0.5rem 0 0 0;
+}
+
+.answer_box > div {
+    order: 1;
+    flex: 1 1 auto;
+    align-self: stretch;
+    padding: 2rem 1rem 1rem 0;
+    text-align: left;
+}
+
+.answer_box_no_image {
+    border: solid 1px #AAA;
+    margin: 0 auto 2rem auto;
+    max-width: 80rem;
+}
+
+.answer_box_no_image > div {
+    padding: 2rem;
+    text-align: left;
 }
 
 .question_box {
+    text-align: left;
+    padding: 0 2rem;
+    display: inline-block;
+}
+
+.question_text {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.next_question {
+    font-family: TiltNeon, sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #AAA;
+    text-align: right;
+    padding: 1rem 2rem;
+    display: inline-block;
+    cursor: pointer;
+    border: solid 1px #AAA;
+}
+
+.congratulations {
+    display: inline-block;
+}
+
+.congratulations > div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.congratulations > div > span {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+}
+
+.congratulations > div > span:nth-child(1) {
+    transform: scale(-1, 1);
+    font-size: 4rem;
+}
+
+.congratulations > div > span:nth-child(3) {
+    font-size: 4rem;
+}
+
+.congratulations > div > span:nth-child(2) {
+    padding: 1rem 2rem;
+    margin: 0 1rem;
+    border: solid 1px #AAA;
+
+}
+
+.congrats_text {
+    font-family: TiltNeon, sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #AAA;
+    text-align: center;
+    display: inline-block;
 }

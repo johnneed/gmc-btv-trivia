@@ -1,4 +1,4 @@
-import loaderReducer, { LoaderState, setQuiz } from "./loaderSlice";
+import loaderReducer, { LoaderState, setQuiz } from "./loader-slice";
 
 const initialState = {
     quizzes: [],

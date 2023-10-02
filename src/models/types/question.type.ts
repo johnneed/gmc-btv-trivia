@@ -9,6 +9,7 @@ type Question = {
     answerText: string;
     answerImage?: string;
     answerImageAlt?: string;
+    answerImageCaption?: string;
 }
 
 export default Question;

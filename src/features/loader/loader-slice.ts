@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { fetchTrivia } from "./loaderAPI";
+import { fetchTrivia } from "./loader-api";
 import type { Question, Quiz } from "../../models/types";
 import * as R from "ramda";
 import { quizFactory } from "../../models/factories";
@@ -15,6 +15,8 @@ export interface LoaderState {
     selectedQuiz: string | null;
 }
 
+
+
 const initialState: LoaderState = {
     quizzes: [],
     quizTags: [],
@@ -24,6 +26,8 @@ const initialState: LoaderState = {
     selectedQuizTags: [],
     selectedQuiz: null
 };
+
+const quizSort = R.sort((a: Quiz, b: Quiz) => (b.publishDate - a.publishDate));
 
 export const fetchQuizzes = createAsyncThunk(
     "loader/loadQuizzes",
@@ -108,7 +112,10 @@ export const {
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.loader.value)`
-export const selectQuizzes = (state: RootState) => state.loader.quizzes;
+export const selectQuizzes = (state: RootState) => quizSort(state.loader.quizzes);
+
+export const selectLatestQuiz = (state: RootState) => quizSort(state.loader.quizzes)[0];
+
 export const selectQuizTags = (state: RootState) => state.loader.quizTags;
 export const selectQuestionTags = (state: RootState) => state.loader.questionTags;
 

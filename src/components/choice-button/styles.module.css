@@ -1,6 +1,21 @@
-.choice > button {
-
+.choice{
+    margin-left: -2rem;
+    margin-top: 2rem;
 }
+
+.choice > button {
+    height: 2rem;
+    border: none;
+    background-color: transparent;
+    font-size: 2rem;
+    transition: all 0.5s;
+}
+.icon{
+    height: 2rem;
+    width: 2rem;
+    transition: all 0.5s;
+}
+
 
 .selected {
 
@@ -14,4 +29,7 @@
 }
 
 .waiting_for_clicks {
+}
+.choice_answer_icon{
+
 }

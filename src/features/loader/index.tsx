@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import {   fetchQuizzes, selectQuizzes  } from "./loaderSlice";
+import {   fetchQuizzes, selectQuizzes  } from "./loader-slice";
 import "./styles.css";
 
  const Loader = () => {
