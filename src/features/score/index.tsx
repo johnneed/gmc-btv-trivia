@@ -1,24 +1,32 @@
 import React from "react";
 import styles from "./styles.module.css";
-import logo_sans_compass from "../../assets/images/logo_sans_compass.svg";
-import logo_compass_only from "../../assets/images/logo_compass_only.svg";
+
 import { useAppSelector } from "../../app/hooks";
-import { selectScore } from "./score-slice";
-import { Link, useNavigate } from "react-router-dom";
+import { selectScores } from "./score-slice";
+import { Link, useParams } from "react-router-dom";
+import { selectQuizzes } from "../loader/loader-slice";
+
 const ScoreScreen = () => {
-    const navigate = useNavigate();
-    const score = useAppSelector(selectScore);
+
+    const { qid } = useParams();
+    const score = useAppSelector(selectScores)[qid || ""];
+    const quiz = useAppSelector(selectQuizzes).find((q) => q.id === qid);
     return (
         <div className={styles.score_screen}>
             <div className={styles.score_screen_header}>
                 <h1>GMC-BTV Trail Trivia</h1>
             </div>
-            <p className={styles.message}>{`You got ${score} out of ${quiz.questions.length} right on the first try`</p>
-            <p className={styles.quiz_title}>{latestQuiz?.title || ""}</p>
-            <div className={styles.latest_quiz}>
-                <Link to={"/"}>Back to Trail Trivia</Link>
-            </div>
-
+            {
+                (score === undefined || quiz === undefined)
+                    ? (<p className={styles.message}>Sorry, we couldn't find that quiz</p>) :
+                    (
+                        <>
+                            <p className={styles.message}>{`You got ${score} out of ${quiz.questions.length} right on the first try`}</p>
+                            <div className={styles.back_to_trail_trivia}>
+                                <Link to={"/"}>Back to Trail Trivia</Link>
+                            </div>
+                        </>
+                    )}
         </div>
     );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./styles.module.css";
 import { Link, useParams } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
-import { selectQuizzes } from "../loader/loaderSlice";
+import { selectQuizzes } from "../loader/loader-slice";
 import * as R from "ramda";
 import { Carousel } from "../../components/carousel";
 import type { Quiz } from "../../models/types";

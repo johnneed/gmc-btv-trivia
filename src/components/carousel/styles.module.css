@@ -3,10 +3,11 @@
 }
 
 .huzzah {
-    font-family: HennyPenny;
+    font-family: HennyPenny, sans-serif;
     font-size: 5rem;
     margin: 0;
     color: tomato;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
 }
 
 .answer_box {
@@ -70,4 +71,60 @@
 .question_text {
     font-size: 2rem;
     font-weight: bold;
+}
+
+.next_question {
+    font-family: TiltNeon, sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #AAA;
+    text-align: right;
+    padding: 1rem 2rem;
+    display: inline-block;
+    cursor: pointer;
+    border: solid 1px #AAA;
+}
+
+.congratulations {
+    display: inline-block;
+}
+
+.congratulations > div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.congratulations > div > span {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+}
+
+.congratulations > div > span:nth-child(1) {
+    transform: scale(-1, 1);
+    font-size: 4rem;
+}
+
+.congratulations > div > span:nth-child(3) {
+    font-size: 4rem;
+}
+
+.congratulations > div > span:nth-child(2) {
+    padding: 1rem 2rem;
+    margin: 0 1rem;
+    border: solid 1px #AAA;
+
+}
+
+.congrats_text {
+    font-family: TiltNeon, sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #AAA;
+    text-align: center;
+    display: inline-block;
 }

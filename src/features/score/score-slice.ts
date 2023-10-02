@@ -1,31 +1,33 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-
-
 export interface ScoreState {
-    currentScore: number;
+    scores: { [quizId: string]: number };
 }
 
 const initialState: ScoreState = {
-    currentScore: 0
+    scores: {}
 };
-
 
 export const scoreSlice = createSlice({
     name: "score",
     initialState,
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
-        setScore: (state, action: PayloadAction<number>) => {
-            state.currentScore = action.payload;
+        setScore: (state, action: PayloadAction<{ quizId: string, score: number }>) => {
+            state.scores = { ...state.scores, [action.payload.quizId]: action.payload.score };
+        },
+        incrementScore: (state, action: PayloadAction<string>) => {
+            const currentScore = state.scores[action.payload] || 0;
+            state.scores = { ...state.scores, [action.payload]: currentScore + 1 };
         }
-    },
+    }
 });
 
 export const {
-    setScore
+    setScore,
+    incrementScore
 } = scoreSlice.actions;
 
-export const selectScore = (state: RootState) => state.score.currentScore;
- 
+export const selectScores = (state: RootState) => state.score.scores;
+
 export default scoreSlice.reducer;

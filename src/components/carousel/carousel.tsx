@@ -79,8 +79,23 @@ const Carousel = ({ quiz }: CarouselProps) => {
                             <div>
                                 {
                                     questionIndex >= quiz.questions.length - 1
-                                        ? (<Link to={`/score/${quiz.id}`}>Congratulations!</Link>)
-                                        : (<button onClick={() => nextQuestion()}>Next Question</button>)
+                                        ? (
+                                            <div className={styles.congratulations}>
+                                                <div>
+                                                    <span>{"🎉"}</span>
+                                                    <span>
+                                                    <Link className={styles.congrats_text} to={`/score/${quiz.id}`}>
+                                                        Congratulations!<br/>
+                                                        You survived the quiz.<br/>
+                                                        Checkout your score.
+                                                    </Link>
+                                                    </span>
+                                                    <span>{"🎉"}</span>
+                                                </div>
+                                            </div>
+                                        )
+                                        : (<button className={styles.next_question} onClick={() => nextQuestion()}>Next
+                                            Question <span>{"\u2192"}</span></button>)
                                 }
                             </div>
                         </>

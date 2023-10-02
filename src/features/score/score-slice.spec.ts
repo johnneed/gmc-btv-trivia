@@ -1,23 +1,25 @@
-import loaderReducer, { LoaderState, setQuiz } from "./score-slice";
+import ScoreReducer, { incrementScore, ScoreState, setScore } from "./score-slice";
 
 const initialState = {
-    quizzes: [],
-    quizTags: [],
-    questionTags: [],
-    status: "idle",
-    selectedQuestionTags: [],
-    selectedQuizTags: [],
-    selectedQuiz: null
-} as LoaderState;
-describe("loader reducer", () => {
+    scores: { "ABC-123": 2 }
+} as ScoreState;
+describe("score reducer", () => {
 
     it("should handle initial state", () => {
-        expect(loaderReducer(undefined, { type: "unknown" })).toEqual(initialState);
+        expect(ScoreReducer(undefined, { type: "unknown" })).toEqual({
+            scores: {}
+        });
     });
 
-    it("should handle setQuiz", () => {
-        const actual = loaderReducer(initialState, setQuiz("ABC-123"));
-        expect(actual.selectedQuiz).toEqual("ABC-123");
+    it("should handle incrementScore", () => {
+        const actual = ScoreReducer(initialState, incrementScore("ABC-123"));
+        expect(actual.scores).toEqual({ "ABC-123": 3 });
     });
+
+    it("should handle setScore", () => {
+        const actual = ScoreReducer(initialState, setScore({ quizId: "ABC-123", score: 5 }));
+        expect(actual.scores).toEqual({ "ABC-123": 5 });
+    });
+
 
 });

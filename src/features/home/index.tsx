@@ -3,22 +3,15 @@ import styles from "./styles.module.css";
 import logo_sans_compass from "../../assets/images/logo_sans_compass.svg";
 import logo_compass_only from "../../assets/images/logo_compass_only.svg";
 import { useAppSelector } from "../../app/hooks";
-import { selectQuizzes } from "../loader/loaderSlice";
+import { selectLatestQuiz } from "../loader/loader-slice";
 // import { selectCount } from "../counter/counterSlice";
-import * as R from "ramda";
-import type { Quiz } from "../../models/types";
 import { useNavigate } from "react-router-dom";
 import { date2String } from "../../libs/date-helpers";
 
 const HomeScreen = () => {
     const navigate = useNavigate();
 
-    const sortedQuizzes = R.compose(
-        R.sort((a: Quiz, b: Quiz) => (b.publishDate - a.publishDate)),
-        useAppSelector
-    )(selectQuizzes);
-
-    const latestQuiz = sortedQuizzes[0];
+    const latestQuiz = useAppSelector(selectLatestQuiz);
 
     const handleClick = () => {
         navigate("/quiz/" + latestQuiz?.id);
