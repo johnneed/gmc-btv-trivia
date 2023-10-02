@@ -1,0 +1,91 @@
+
+.score_screen {
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+}
+
+.score_screen_header > h1 {
+    font-family: "HennyPenny", sans-serif;
+    font-size: 4rem;
+    text-shadow: 0 2px 2px #AAA;
+    color: indianred;
+    margin: 1rem 0 0 0;
+}
+
+.score_screen_logo {
+    width: 90%;
+    margin: 1rem auto 0 auto;
+    max-height: 40vmin;
+    max-width: 40vmin;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+}
+
+.score_screen_logo > img {
+    max-height: 30vmin;
+    max-width: 30vmin;
+    pointer-events: none;
+}
+
+.score-screen h1 {
+    font-family: "LeckerliOne", sans-serif;
+}
+
+.message {
+    margin: 0;
+}
+
+.quiz_title {
+    font-family: "TiltNeon", sans-serif;
+    font-size: 3rem;
+    color: slateblue;
+    text-shadow: 1px 1px 1px #DDD;
+    margin: 0 auto;
+}
+
+.latest_quiz {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.play_button {
+    color: floralwhite;
+    margin: 0 0 1rem 0;
+    padding: 0.5rem 3rem;
+    border: 1px solid #DDD;
+    font-size: 2rem;
+    cursor: pointer;
+    border-radius: 2rem;
+    background: black;
+    transition: all 0.5s;
+    box-shadow: 0 2px 1px #EEE;
+    text-transform: uppercase;
+    font-family: Verdana, sans-serif;
+}
+
+.play_button:hover {
+    background-color: #111;
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+    .spinny_logo {
+        animation: logo-spin infinite 20s linear;
+    }
+}
+
+@keyframes logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

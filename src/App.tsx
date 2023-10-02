@@ -3,7 +3,9 @@ import "./App.css";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import QuizScreen from "./features/quiz";
 import HomeScreen from "./features/home";
+import ScoreScreen from "./features/score";
 import Loader from "./features/loader/Loader";
+
 const router = createBrowserRouter([
         {
             path: "/",
@@ -16,10 +18,15 @@ const router = createBrowserRouter([
             errorElement: (<Navigate to="/" replace={true}/>)
         },
         {
+            path: "score/:qid",
+            element: (<ScoreScreen/>),
+            errorElement: (<Navigate to="/" replace={true}/>)
+        },
+        {
             path: "*",
             // eslint-disable-next-line react/jsx-no-undef
             element: (<Navigate to="/" replace={true}/>)
-        },
+        }
     ])
 ;
 

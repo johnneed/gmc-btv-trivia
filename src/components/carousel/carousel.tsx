@@ -23,24 +23,31 @@ interface QuestionBoxProps {
 const QuestionComponent = ({ question, handleSelect }: QuestionBoxProps) => (
     <article className={styles.question_box}>
         <div className={styles.question_text}>{question.questionText}</div>
-            {question.choices.map((c, index) => (
-                <ChoiceButton key={index} choice={c} isCorrect={index === question.correctAnswerIndex}
-                              onClick={handleSelect}/>))}
+        {question.choices.map((c, index) => (
+            <ChoiceButton key={index} choice={c} isCorrect={index === question.correctAnswerIndex}
+                          onClick={handleSelect}/>))}
     </article>
 );
 
 const AnswerComponent = ({ question }: AnswerBoxProps) => (
     <div className={styles.answer}>
-        <h4>Huzzah</h4>
-    <article className={styles.answer_box}>
-        <div>
-            <figure>
-                <img src={question.answerImage} alt={question.answerImageAlt}/><img src={question.answerImage} alt={question.answerImageAlt}/>
-            <figcaption
-            </figure>
-            </div>
-        <div>{question.answerText}</div>
-    </article>
+        <h4 className={styles.huzzah}>Huzzah!</h4>
+        {question.answerImage
+            ? (
+                <article className={styles.answer_box}>
+                    <figure>
+                        <img src={question.answerImage} alt={question.answerImageAlt}/>
+                        <figcaption>{question.answerImageCaption}</figcaption>
+                    </figure>
+                    <div>{question.answerText}</div>
+                </article>
+            )
+            : (
+                <article className={styles.answer_box_no_image}>
+                    <div>{question.answerText}</div>
+                </article>
+            )
+        }
     </div>
 );
 
@@ -72,7 +79,7 @@ const Carousel = ({ quiz }: CarouselProps) => {
                             <div>
                                 {
                                     questionIndex >= quiz.questions.length - 1
-                                        ? (<Link to={"/"}>Congratulations!</Link>)
+                                        ? (<Link to={`/score/${quiz.id}`}>Congratulations!</Link>)
                                         : (<button onClick={() => nextQuestion()}>Next Question</button>)
                                 }
                             </div>
