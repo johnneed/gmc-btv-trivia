@@ -7,7 +7,7 @@ const questionFactory = (data?: any): Question => ({
     tags: Array.from<string>(new Set((data?.tags || []).filter((t: unknown) => typeof t === "string"))),
     questionText: data.questionText,
     choices: (data?.choices || []).map((c: unknown) => choiceFactory(c)),
-    correctAnswerIndex: typeof data?.answerText === "number" ? data?.answerText : 0,
+    correctAnswerIndex: typeof data?.correctAnswerIndex === "number" ? data?.correctAnswerIndex : 0,
     answerText: typeof data?.answerText === "string" ? data?.answerText : "",
     answerImage: typeof data?.answerImage === "string" ? data?.answerImage : "",
     answerImageAlt: typeof data?.answerImageAlt === "string" ? data?.answerImageAlt : "answer illustration",
