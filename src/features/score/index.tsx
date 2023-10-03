@@ -18,11 +18,17 @@ const ScoreScreen = () => {
             </div>
             {
                 (score === undefined || quiz === undefined)
-                    ? (<p className={styles.message}>Sorry, we couldn't find that quiz</p>) :
+                    ? (<>
+                            <p className={styles.message}>Sorry, we couldn't find that quiz</p>
+                            <div className={styles.back_button}>
+                                <Link to={"/"}>Back to Trail Trivia</Link>
+                            </div>
+                        </>
+                    ) :
                     (
                         <>
                             <p className={styles.message}>{`You got ${score} out of ${quiz.questions.length} right on the first try`}</p>
-                            <div className={styles.back_to_trail_trivia}>
+                            <div className={styles.back_button}>
                                 <Link to={"/"}>Back to Trail Trivia</Link>
                             </div>
                         </>

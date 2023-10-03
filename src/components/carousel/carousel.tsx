@@ -6,18 +6,19 @@ import { Link } from "react-router-dom";
 
 interface CarouselProps {
     quiz: Quiz;
-};
+    incrementScore: () => void;
+}
 
 interface AnswerBoxProps {
     question: Question;
     handleNext: () => void;
     isLast: boolean;
-};
+}
 
 interface QuestionBoxProps {
     question: Question;
     handleSelect: (x: boolean) => void;
-};
+}
 
 
 const QuestionComponent = ({ question, handleSelect }: QuestionBoxProps) => (
@@ -52,19 +53,26 @@ const AnswerComponent = ({ question }: AnswerBoxProps) => (
 );
 
 
-const Carousel = ({ quiz }: CarouselProps) => {
+const Carousel = ({ quiz, incrementScore }: CarouselProps) => {
 
     const [questionIndex, setQuestionIndex] = useState(0);
     const [isCurrentQuestionAnswered, setIsCurrentQuestionAnswered] = useState(false);
+    const [isFirstTry, setIsFirstTry] = useState(true);
     const handleSelect = (isAnswer: boolean) => {
         if (isAnswer) {
             setIsCurrentQuestionAnswered(true);
+            if (isFirstTry) {
+                incrementScore();
+            }
+        } else {
+            setIsFirstTry(false);
         }
     };
 
     const nextQuestion = () => {
         setQuestionIndex(questionIndex + 1);
         setIsCurrentQuestionAnswered(false);
+        setIsFirstTry(true);
     };
 
     return (
@@ -94,8 +102,11 @@ const Carousel = ({ quiz }: CarouselProps) => {
                                                 </div>
                                             </div>
                                         )
-                                        : (<button className={styles.next_question} onClick={() => nextQuestion()}>Next
-                                            Question <span>{"\u2192"}</span></button>)
+                                        : (
+                                            <button className={styles.next_question} onClick={() => nextQuestion()}>
+                                                Next Question <span>{"\u2192"}</span>
+                                            </button>
+                                        )
                                 }
                             </div>
                         </>
