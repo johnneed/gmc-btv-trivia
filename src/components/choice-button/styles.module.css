@@ -1,19 +1,34 @@
-.choice{
+.choice {
     margin-left: -2rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
+
 }
 
 .choice > button {
-    height: 2rem;
-    border: none;
     background-color: transparent;
     font-size: 2rem;
     transition: all 0.5s;
+    padding: 1rem;
+    border: solid 1px #DDD;
+    cursor: pointer;
+    width: calc(100% - 3rem);
+    text-align: left;
 }
-.icon{
+
+.choice > button:hover {
+    background-color: #DDD;
+}
+
+.choice > button > span {
+
+}
+
+.icon {
     height: 2rem;
     width: 2rem;
     transition: all 0.5s;
+    margin-right: 1rem;
+
 }
 
 
@@ -26,10 +41,13 @@
 }
 
 .huzzah {
+    display: inline-block;
 }
 
 .waiting_for_clicks {
+
 }
-.choice_answer_icon{
+
+.choice_answer_icon {
 
 }

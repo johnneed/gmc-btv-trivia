@@ -1,147 +1,139 @@
 {
   "quizzes": [
     {
-      "id": "5481e5e8-91aa-4ff0-8271-755c7fe93672",
-      "title": "Long Trail History",
+      "id": "1081e5e8-91aa-4ff0-8271-755c7fe93672",
+      "title": "Founding of the Green Mountain Club",
       "publishDate": "09-01-2023",
       "image": null,
-      "author": "Lancelot Link",
+      "author": "John Need",
       "questions": [
         {
-          "id": "c",
+          "id": "2381e5e8-91aa-4ff0-8271-755c7fe93671",
           "tags": [
-            "a",
-            "b"
+            "HISTORY",
+            "LONG TRAIL"
           ],
-          "questionText": "Question 1",
+          "questionText": "What year was the Green Mountain Club Founded?",
           "choices": [
             {
-              "text": "CHOICE A"
+              "text": "1876"
             },
             {
-              "text": "CHOICE B"
+              "text": "1903"
             },
             {
-              "text": "CHOICE C"
+              "text": "1910"
             },
             {
-              "text": "CHOICE D"
-            }
-          ],
-          "correctAnswerIndex": 0,
-          "answerText": "BLAH BLAH BLAH",
-          "answerImage": ""
-        },
-        {
-          "id": "d",
-          "tags": [
-            "a",
-            "b"
-          ],
-          "questionText": "Question 1",
-          "choices": [
-            {
-              "text": "CHOICE A"
-            },
-            {
-              "text": "CHOICE B"
-            },
-            {
-              "text": "CHOICE C"
-            },
-            {
-              "text": "CHOICE D"
-            }
-          ],
-          "correctAnswerIndex": 0,
-          "answerText": "BLAH BLAH BLAH",
-          "answerImage": ""
-        }
-      ]
-    },
-    {
-      "id": "7481e5e8-91aa-4ff0-8271-755c7fe93673",
-      "title": "AT Shelters",
-      "publishDate": "09-30-2023",
-      "image": null,
-      "author": "Speed Racer",
-      "questions": [
-        {
-          "id": "a",
-          "tags": [
-            "a",
-            "b"
-          ],
-          "questionText": "Question 1",
-          "choices": [
-            {
-              "text": "CHOICE A"
-            },
-            {
-              "text": "CHOICE B"
-            },
-            {
-              "text": "CHOICE C"
-            },
-            {
-              "text": "CHOICE D"
-            }
-          ],
-          "correctAnswerIndex": 0,
-          "answerText": "BLAH BLAH BLAH 1",
-          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/03/cropped-vpr_3_musketeers.jpeg",
-          "answerImageCaption": "This is a caption"
-        },
-        {
-          "id": "b",
-          "tags": [
-            "a",
-            "b"
-          ],
-          "questionText": "Question 2",
-          "choices": [
-            {
-              "text": "CHOICE A"
-            },
-            {
-              "text": "CHOICE B"
-            },
-            {
-              "text": "CHOICE C"
-            },
-            {
-              "text": "CHOICE D"
-            }
-          ],
-          "correctAnswerIndex": 1,
-          "answerText": "BLAH BLAH BLAH 2",
-          "answerImage": ""
-        },
-        {
-          "id": "c",
-          "tags": [
-            "a",
-            "b"
-          ],
-          "questionText": "Question 3",
-          "choices": [
-            {
-              "text": "CHOICE A"
-            },
-            {
-              "text": "CHOICE B"
-            },
-            {
-              "text": "CHOICE C"
-            },
-            {
-              "text": "CHOICE D"
+              "text": "1917"
             }
           ],
           "correctAnswerIndex": 2,
-          "answerText": "BLAH BLAH BLAH 3",
-          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/03/cropped-vpr_3_musketeers.jpeg",
-          "answerImageCaption": "This is a caption"
+          "answerText": "The Green Mountain Club was officially founded on Friday, March 11, 1910.  It followed the founding of the Appalachian Mountain Club in 1876, and the Ascutney Mountain Association in 1903."
+        },
+        {
+          "id": "3381e5e8-91aa-4ff0-8271-755c7fe93671",
+          "tags": [
+            "HISTORY",
+            "LONG TRAIL"
+          ],
+          "questionText": "Where was the first meeting of the Green Mountain Club held?",
+          "choices": [
+            {
+              "text": "The True Temper Inn in Wallingford Vermont"
+            },
+            {
+              "text": "The Van Ness House in Burlington Vermont"
+            },
+            {
+              "text": "Roughan Hall in Boston Massachusetts"
+            },
+            {
+              "text": "The Beane Farm in Hanksville Vermont"
+            }
+          ],
+          "correctAnswerIndex": 1,
+          "answerText": "According to an article published in The Vermonter magazine: “On Friday, March 11, 1910 a company of gentlemen from different parts of Vermont met at the Van Ness House for the purpose of forming a Green Mountain Club.  There were about twenty-five present.  Letters were read from many prominent gentlemen who could not come to the meeting, but who wished to express their approval of the project.”\nThe Van Ness House opened in 1897 and was named for Vermont Governor Cornelius P. Van Ness.   It burned in 1951.  Today, a historic marker commemorating the founding of the GMC marks the spot where the hotel once stood.",
+          "answerImage": "https://upload.wikimedia.org/wikipedia/commons/6/6f/The_Van_Ness_House%2C_Burlington%2C_VT.jpg",
+          "answerImageCaption": "The Van Ness House from a 1910 postcard published by C. H. Bessey"
+        },
+        {
+          "id": "4381e5e8-91aa-4ff0-8271-755c7fe93671",
+          "tags": [
+            "HISTORY",
+            "LONG TRAIL"
+          ],
+          "questionText": "Who served as the first president of the Green Mountain Club and is considered to be its founder?",
+          "choices": [
+            {
+              "text": "Benton MacKaye"
+            },
+            {
+              "text": "Myron Avery"
+            },
+            {
+              "text": "Edward Pickering"
+            },
+            {
+              "text": "James Taylor"
+            }
+          ],
+          "correctAnswerIndex": 3,
+          "answerText": "James P Taylor was the Assistant Headmaster of the Vermont Academy in Saxtons River, Vermont who regularly took his students on hikes.  After growing frustrated with the lack of hiking trails in the state he posed the question “Should the Green Mountain Range continue to be sacrosanct to the spirits of the first ‘Green Mountain Boys,’ and to hedgehogs, and untouchable to everybody else?”\nHis answer was the promotion of a club dedicated to creating a trail stretching the entire length of Vermont across the State’s highest peaks.  He recruited many like-minded Vermonters and in 1910, the first meeting of the GMC was held in Burlington Vermont where he was elected President.",
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2022/09/TaylorJamesP1918-610x992-2.jpg",
+          "answerImageCaption": "James P Taylor, first president of the Green Mountain Club"
+        },
+        {
+          "id": "5381e5e8-91aa-4ff0-8271-755c7fe93671",
+          "tags": [
+            "HISTORY",
+            "LONG TRAIL"
+          ],
+          "questionText": "Construction of the Long Trail began in 1912. What was the first completed section?",
+          "choices": [
+            {
+              "text": "Jay Peak to Hazen’s Notch"
+            },
+            {
+              "text": "Sterling Pond to Camel’s Hump"
+            },
+            {
+              "text": "Massachusetts Line to Maple Hill"
+            },
+            {
+              "text": "The “Monroe Skyline”, from Camel’s Hump to Mount Abraham"
+            }
+          ],
+          "correctAnswerIndex": 1,
+          "answerText": "The Mount Mansfield Summit Hotel’s location just below the Nose on Mount Mansfield’s ridge line provided the perfect basecamp for trail crews cutting the first stretch of the Long Trail.  Existing trails to Sterling Pond were incorporated, while James P. Taylor led the crew cutting new trail from the Nose to Nebraska Notch, where Taylor Lodge sits today. Taylor also scouted the route from the Winooski River to Camel’s Hump, incorporating old lumber roads and existing trails.  The abandoned Randall Lumber Camp at the base of Camel’s Hump served as one of the first shelters on the Long Trail.",
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/07/Screenshot-2023-04-08-at-6.49.01-PM-1024x643.png",
+          "answerImageCaption": "Postcard featuring the Mount Mansfield Hotel which closed in 1959"
+        },
+        {
+          "id": "6381e5e8-91aa-4ff0-8271-755c7fe93671",
+          "tags": [
+            "HISTORY",
+            "LONG TRAIL"
+          ],
+          "questionText": "The Green Mountain Club is composed of 14 section clubs, each responsible for maintaining the trails in a geographic area.  What was the name of the first GMC section club?",
+          "choices": [
+            {
+              "text": "Mansfield Section"
+            },
+            {
+              "text": "Burlington Section"
+            },
+            {
+              "text": "Worcester Section"
+            },
+            {
+              "text": "Montpelier Section"
+            }
+          ],
+          "correctAnswerIndex": 0,
+          "answerText": "The Mansfield Section was the first GMC section, founded in August 1910.  The section was responsible for the trail from Mount Mansfield to Bolton Mountain.  It started with 10 members, and Harry G Burrough was elected as the first section president.   It languished for several years until 1916, accomplishing little until  a reorganization meeting was held in 1916 to  revive the club.  It was renamed the Burlington Section and Joanna D. Croft was elected president.   A high school teacher and active suffragette, Croft’s organizational skills revitalized the club.  The Burlington Section is the oldest and largest active section club.",
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/05/cropped-Joanna-D.-Croft-Read-jpg.webp",
+          "answerImageCaption": "Joanna D. Croft, Burlington Section President, 1916-1917"
         }
       ]
     }
