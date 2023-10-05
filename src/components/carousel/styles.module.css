@@ -24,18 +24,20 @@
 
 .answer_picture{
     order: 0;
-    flex: 0 1 50%;
-    max-height: 20rem;
-    max-width: 30rem;
+    flex-basis: 50%;
+    flex-grow: 0;
+    flex-shrink: 1;
+    align-self: stretch;
+
 }
 
 .answer_text {
     order: 1;
-    flex: 0 0 50%;
-    align-self: stretch;
+    flex: 1 1 auto;
     text-align: left;
     padding: 0.25rem 1rem 0.25rem 1.25rem;
-
+    font-size: 1.5rem;
+align-self: stretch;
 }
 
 .answer_picture > figure{
@@ -47,8 +49,8 @@
     box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
     border-radius: 0.1rem;
     margin: 0;
-    max-width: calc(100% - 2rem);
-    max-height: 30rem;
+    max-height: calc(100vh - 30rem);
+    object-fit: contain;
 
 }
 
