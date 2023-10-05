@@ -3,6 +3,7 @@ import type { Question, Quiz } from "../../models/types";
 import { ChoiceButton } from "../choice-button";
 import styles from "./styles.module.css";
 import { Link } from "react-router-dom";
+import { splitOnCarriageReturn } from "../../libs/string-helpers";
 
 interface CarouselProps {
     quiz: Quiz;
@@ -36,16 +37,22 @@ const AnswerComponent = ({ question }: AnswerBoxProps) => (
         {question.answerImage
             ? (
                 <article className={styles.answer_box}>
+                    <div className={styles.answer_picture}>
                     <figure>
                         <img src={question.answerImage} alt={question.answerImageAlt}/>
                         <figcaption>{question.answerImageCaption}</figcaption>
                     </figure>
-                    <div>{question.answerText}</div>
+                    </div>
+                    <div className={styles.answer_text}>
+                        {splitOnCarriageReturn(question.answerText).map((text, i) => (<p key={i}>{text}</p>))}
+                    </div>
                 </article>
             )
             : (
                 <article className={styles.answer_box_no_image}>
-                    <div>{question.answerText}</div>
+                    <div>
+                        {splitOnCarriageReturn(question.answerText).map((text, i) => (<p key={i}>{text}</p>))}
+                    </div>
                 </article>
             )
         }
