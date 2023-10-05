@@ -136,6 +136,143 @@
           "answerImageCaption": "Joanna D. Croft, Burlington Section President, 1916-1917"
         }
       ]
+    },
+    {
+      "id": "2081e5e8-91aa-4ff0-8271-755c7fe93674",
+      "title": "From MA to Canada",
+      "publishDate": "10-02-2023",
+      "image": null,
+      "author": "John Need",
+      "questions": [
+        {
+          "id": "9381e5e8-91aa-4ff0-8271-755c7fe93671",
+          "tags": [
+            "HISTORY",
+            "LONG TRAIL"
+          ],
+          "questionText": "Those who hike the entire Appalachian Trail are called “Thru-Hikers”.  What are folks called who hike the whole Long Trail?",
+          "choices": [
+            {
+              "text": "LT’ers"
+            },
+            {
+              "text": "Thru Hikers"
+            },
+            {
+              "text": "Blaze Runners"
+            },
+            {
+              "text": "End-to-Enders"
+            }
+          ],
+          "correctAnswerIndex": 3,
+          "answerText": "People who hike the entire Long Trailare called “End-to-Enders”. End-to-Enders can hike the entire trail in one go or over time.  Ender-to-Enders can become certified by the Green Mountain Club by applying online, through the GMC website.  Each year, the list of End-to-Enders and their journals are archived at the Vermont Historical Society."
+        },
+        {
+          "id": "8381e5e8-91aa-4ff0-8271-755c7fe93671",
+          "tags": [
+            "HISTORY",
+            "LONG TRAIL"
+          ],
+          "questionText": "The Long Trail is marked from Massachusetts to Quebec with white blazes.   The side trails are blazed blue and connect the Long Trail to shelters, parking lots, springs, overlooks and other points of interest.   Folks who hike the entire Long Trail are called 'End-to-Enders'.  What do we call folks who hike all of the blue-blazed side trails?",
+          "choices": [
+            {
+              "text": "Blue Blazers"
+            },
+            {
+              "text": "Dedicated Day Hikers"
+            },
+            {
+              "text": "Side-to-Siders"
+            },
+            {
+              "text": "There is no name for them"
+            }
+          ],
+          "correctAnswerIndex": 2,
+          "answerText": "Folks who complete all the blue blazed trails connecting to the Long Trail are called “Side-to-Siders”.  Those who accomplish this feat hike a total of 88 trails and 166 miles.  The Green Mountain Club issues certifications for Side-to-Siders.",
+          "answerImage": "https://www.greenmountainclub.org/wp-content/uploads/2021/07/Side-Trails-rock-garden-trail-by-Amy-Potter-1100px-1024x681.jpg",
+          "answerImageCaption": "The Rock Garden Trail is one of the 88 side trails. Photo by: Amy Potter"
+        },
+        {
+          "id": "7381e5e8-91aa-4ff0-8271-755c7fe93671",
+          "tags": [
+            "HISTORY",
+            "LONG TRAIL"
+          ],
+          "questionText": "As of the publication date of this quiz, who holds the record as the fastest end-to-ender?",
+          "choices": [
+            {
+              "text": "John Kelly "
+            },
+            {
+              "text": "Scott Jurek"
+            },
+            {
+              "text": "Alyssa Godesky"
+            },
+            {
+              "text": "Karel Sabbe"
+            }
+          ],
+          "correctAnswerIndex": 0,
+          "answerText": "John Kelly is an American endurance athlete who specializes in ultra running.  On July 3, 2023 he completed the Long Trail in 4 days, 4 hours, 25 minutes, and 50 seconds.\nThe women’s record is currently held by Alyssa Godesky who completed the LT on July 31, 2018 with a time of  5 days, 2 hours, and 37 minutes.",
+          "answerImage": "http://gmcburlington.org/wp-content/uploads/2023/10/john-kelly-jpg.webp",
+          "answerImageCaption": "John Kelly, Endurance Athlete"
+        },
+        {
+          "id": "6381e5e8-91aa-4ff0-8271-755c7fe93671",
+          "tags": [
+            "HISTORY",
+            "LONG TRAIL"
+          ],
+          "questionText": "The Long Trail was completed in 1930.  The following year, many picked up the challenge of hiking the trail.  What end-to-ender popularized end-to-ending by publishing an account of his hike entitled 'So Clear, So Cool, So Grand: A 1931 HIke on Vermont’s Long Trail'?",
+          "choices": [
+            {
+              "text": "Earl Victor Shaffer"
+            },
+            {
+              "text": "Roy O. Buchanan"
+            },
+            {
+              "text": "James P. Taylor"
+            },
+            {
+              "text": "James Gordon Hindes"
+            }
+          ],
+          "correctAnswerIndex": 3,
+          "answerText": "In 1931, James Gordon Hindes and his friend John Eames, set out with 60 pound packs intending to be among the first end-to-enders.  His was one of the first published trail journals and serves as one the best depictions of the early days of long-distance hiking.\nHindes' journal is still in print and can be purchased on the Green Mountain Club website.",
+          "answerImage": "http://gmcburlington.org/wp-content/uploads/2023/10/Hindes-Ames-jpg.webp",
+          "answerImageCaption": "James Gordon Hindes and hiking partner John Eames"
+        },
+        {
+          "id": "5381e5e8-91aa-4ff0-8271-755c7fe93625",
+          "tags": [
+            "HISTORY",
+            "LONG TRAIL"
+          ],
+          "questionText": "What was the nickname given to the trio who were the first women to complete an end-to-end hike?",
+          "choices": [
+            {
+              "text": "The Three Musketeers"
+            },
+            {
+              "text": "The Lady Trampers"
+            },
+            {
+              "text": "Trail Angels"
+            },
+            {
+              "text": "The Three She-roes"
+            }
+          ],
+          "correctAnswerIndex": 0,
+          "answerText": "Hilda M. Kurth and Kathleen M. Norris of Schenectady, New York, and Catherine E. Robbins of Cornwall Vermont set out 1927 to become the first women to complete the Long Trail.   Their 250 mile trek captured the attention of the media who followed them along the trail and dubbed them “The Three Musketeers”.\nTheir hike inspired many women to adopt outdoor sports, including Cara Clifford Nelson and Amity Clifford who hiked the Long Trail in 1997 in honor of their grandmother Catherine Robbins Clifford, the last surviving musketeer.",
+          "answerImage": "https://www.greenmountainclub.org/wp-content/uploads/2017/03/three-musketeers.jpg",
+          "answerImageCaption": "The Three Musketeers"
+        }
+      ]
     }
   ]
 }

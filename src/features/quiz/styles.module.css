@@ -1,11 +1,5 @@
 .quiz_screen {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-content: stretch;
-    align-items: flex-start;
-    min-height: 100vh;
+
 }
 
 .quiz_screen > h3{
@@ -13,9 +7,6 @@
     font-family: "TiltNeon", sans-serif;
     padding: .5rem 1rem;
     text-align: left;
-    order: 0;
-    flex: 0 1 auto;
-    align-self: stretch;
     font-size: 1.2rem;
 }
 .quiz_screen > h3 > span {
@@ -24,15 +15,9 @@
 
 
 .quiz_box {
-    order: 1;
-    flex: 1 1 auto;
-    align-self: stretch;
     position: relative;
 }
 .quiz_box_content{
     margin: 0 auto;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
     width: 100%;
 }

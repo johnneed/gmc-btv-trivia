@@ -1,5 +1,5 @@
 .answer {
-    margin: 0 2rem;
+    margin: 2rem 2rem 0 2rem;
 }
 
 .huzzah {
@@ -22,38 +22,49 @@
     max-width: 80rem;
 }
 
-.answer_box > figure {
+.answer_picture {
     order: 0;
-    flex: 1 0 50%;
+    flex-basis: 50%;
+    flex-grow: 0;
+    flex-shrink: 1;
     align-self: stretch;
-    padding: 1rem;
+
 }
 
-.answer_box > figure > img {
+.answer_text {
+    order: 1;
+    flex: 1 1 auto;
+    text-align: left;
+    padding: 0.25rem 1rem 0.25rem 1.25rem;
+    font-size: 1.5rem;
+    align-self: stretch;
+}
+
+.answer_picture > figure {
+    margin: 1.5rem 0 1rem 1rem;
+    padding: 0;
+}
+
+.answer_picture > figure > img {
     border: solid 0.7rem white;
     box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
     border-radius: 0.1rem;
     margin: 0;
-    max-width: calc(100% - 2rem);
+    max-height: calc(100vh - 30rem);
+    object-fit: contain;
+
 }
 
-.answer_box > figure > figcaption {
+.answer_picture > figure > figcaption {
     text-align: center;
     margin: 0.5rem 0 0 0;
 }
 
-.answer_box > div {
-    order: 1;
-    flex: 1 1 auto;
-    align-self: stretch;
-    padding: 2rem 1rem 1rem 0;
-    text-align: left;
-}
 
 .answer_box_no_image {
     border: solid 1px #AAA;
     margin: 0 auto 2rem auto;
-    max-width: 80rem;
+    max-width: 60rem;
 }
 
 .answer_box_no_image > div {
@@ -66,27 +77,36 @@
     padding: 0 2rem;
     display: inline-block;
     max-width: 60rem;
+    margin-top: 6rem;
 }
 
 .question_text {
     font-size: 2rem;
     font-weight: bold;
+    margin-bottom: 4rem;
 }
 
 .next_question {
     font-family: TiltNeon, sans-serif;
     font-size: 1.5rem;
     font-weight: bold;
-    color: #AAA;
+    color: #000;
     text-align: right;
     padding: 1rem 2rem;
     display: inline-block;
     cursor: pointer;
     border: solid 1px #AAA;
+    transition: all 0.2s;
+}
+
+.next_question:hover {
+    background-color: slateblue;
+    color: white;
 }
 
 .congratulations {
     display: inline-block;
+    margin-bottom: 1rem;
 }
 
 .congratulations > div {
@@ -114,11 +134,14 @@
 }
 
 .congratulations > div > span:nth-child(2) {
-    padding: 1rem 2rem;
+    padding: 0;
     margin: 0 1rem;
     border: solid 1px #AAA;
-
+    transition: all 0.2s;
+    cursor: pointer;
 }
+
+
 
 .congrats_text {
     font-family: TiltNeon, sans-serif;
@@ -127,4 +150,12 @@
     color: #AAA;
     text-align: center;
     display: inline-block;
+    text-decoration: none;
+    transition: all 0.2s;
+    padding: 1rem 2rem;
+}
+
+.congrats_text:hover {
+    color: white;
+    background-color: slateblue;
 }

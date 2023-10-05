@@ -1,0 +1,1 @@
+export const splitOnCarriageReturn = (str: string): string[] => str.split(/[\n\r]/g).filter(t => t.trim().length > 0);
