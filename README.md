@@ -2,6 +2,11 @@
 
 A small web-based trivia game developed for Green Mountain Club - Burlington Section
 
+
+## Screenshots
+
+![Home Screen](https://github.com/johnneed/gmc-btv-trivia/blob/main/public/home_screen.png?raw=true)
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -13,7 +18,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
+Launches the test runner in the interactive watch mode.
 
 ### `npm run build`
 

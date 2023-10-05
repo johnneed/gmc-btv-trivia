@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import styles from "./styles.module.css";
 import { Link, useParams } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectQuizzes } from "../loader/loader-slice";
 import * as R from "ramda";
 import { Carousel } from "../../components/carousel";
@@ -12,7 +12,7 @@ const QuizScreen = () => {
     const { qid } = useParams();
     const quiz = R.compose(R.find((q: Quiz) => q.id === qid), useAppSelector)(selectQuizzes);
     const dispatch = useAppDispatch();
-     useEffect(() => {
+    useEffect(() => {
         if (quiz?.id) {
             dispatch(setScore({ quizId: quiz.id, score: 0 }));
         }
@@ -33,6 +33,7 @@ const QuizScreen = () => {
                     <Carousel incrementScore={() => dispatch(incrementScore(quiz.id))} quiz={quiz}/>
                 </div>
             </div>
+            {quiz.questions.filter(q => Boolean(q.answerImage)).map(q => <img alt={"preload"} key={q.id} src={q.answerImage} style={{ display: "none" }}/>)}
         </div>
     );
 };
