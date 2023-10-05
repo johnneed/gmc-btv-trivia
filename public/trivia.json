@@ -150,7 +150,7 @@
             "HISTORY",
             "LONG TRAIL"
           ],
-          "questionText": "Folks who hike the entire Appalachian Trail are called “Thru-Hikers”.  What are people who hike the whole Long Trail called?",
+          "questionText": "Those who hike the entire Appalachian Trail are called “Thru-Hikers”.  What are folks called who hike the whole Long Trail?",
           "choices": [
             {
               "text": "LT’ers"
@@ -166,7 +166,7 @@
             }
           ],
           "correctAnswerIndex": 3,
-          "answerText": "People who hike the entire Long Trail in one go, or in several section hikes are called “End-to-Enders”.\nEnd-to-Enders can be certified by the Green Mountain Club by applying online at their website.  Each year, the list of End-to-Enders and their journals are archived at the Vermont Historical Society."
+          "answerText": "People who hike the entire Long Trailare called “End-to-Enders”. End-to-Enders can hike the entire trail in one go or over time.  Ender-to-Enders can become certified by the Green Mountain Club by applying online, through the GMC website.  Each year, the list of End-to-Enders and their journals are archived at the Vermont Historical Society."
         },
         {
           "id": "8381e5e8-91aa-4ff0-8271-755c7fe93671",
@@ -174,7 +174,7 @@
             "HISTORY",
             "LONG TRAIL"
           ],
-          "questionText": "The Long Trail is marked from Massachusetts to Quebec with white blazes.   The side trails are blazed blue and connect the Long Trail to shelters, parking lots, springs, overlooks and other points of interest.   Folks who hike the entire Long Trail are called 'End-to-Enders'.  What do you call folks who hike all of the blue-blazed side trails?",
+          "questionText": "The Long Trail is marked from Massachusetts to Quebec with white blazes.   The side trails are blazed blue and connect the Long Trail to shelters, parking lots, springs, overlooks and other points of interest.   Folks who hike the entire Long Trail are called 'End-to-Enders'.  What do we call folks who hike all of the blue-blazed side trails?",
           "choices": [
             {
               "text": "Blue Blazers"
@@ -190,7 +190,7 @@
             }
           ],
           "correctAnswerIndex": 2,
-          "answerText": "Folks who complete all the blue blazed trails connecting to the Long Trail are called “side-to-siders”.  Those who accomplish this feat hike a total of 88 trails and 166 miles.  The Green Mountain Club issues certifications for side-to-siders.",
+          "answerText": "Folks who complete all the blue blazed trails connecting to the Long Trail are called “Side-to-Siders”.  Those who accomplish this feat hike a total of 88 trails and 166 miles.  The Green Mountain Club issues certifications for Side-to-Siders.",
           "answerImage": "https://www.greenmountainclub.org/wp-content/uploads/2021/07/Side-Trails-rock-garden-trail-by-Amy-Potter-1100px-1024x681.jpg",
           "answerImageCaption": "The Rock Garden Trail is one of the 88 side trails. Photo by: Amy Potter"
         },
