@@ -3,7 +3,7 @@
     {
       "id": "1081e5e8-91aa-4ff0-8271-755c7fe93672",
       "title": "Founding of the Green Mountain Club",
-      "publishDate": "09-29-2023",
+      "publishDate": "10-06-2023",
       "image": null,
       "author": "John Need",
       "questions": [
@@ -140,7 +140,7 @@
     {
       "id": "2081e5e8-91aa-4ff0-8271-755c7fe93674",
       "title": "From MA to Canada",
-      "publishDate": "10-04-2023",
+      "publishDate": "10-13-2023",
       "image": null,
       "author": "John Need",
       "questions": [
@@ -279,7 +279,7 @@
     {
       "id": "3181e5e8-91aa-4ff0-8271-755c7fe93639",
       "title": "Long Trail Geography",
-      "publishDate": "10-05-2023",
+      "publishDate": "10-20-2023",
       "image": null,
       "author": "John Need",
       "questions": [
@@ -412,6 +412,145 @@
           "answerText": "The lowest point on the Long Trail is where the trail crosses the Winooski River, near the town of Jonesville. This point is located at an elevation of approximately 320 feet (98 meters) above sea level. The 224ft suspension bridge that crosses the river here was first authorized by the Vermont Legislature in 1912, but wasn't opened until 2015.  Before the bridge, hikers crossed the river after a long road walk to the Jonesville bridge or by taking a ferry ride provided by residents of Bolton.",
           "answerImage": "http://gmcburlington.org/wp-content/uploads/2023/07/Crossing-the-Winooski-River-at-Bolton-1928-jpg.webp",
           "answerImageCaption": "Crossing the Winooski River at Bolton, 1928"
+        }
+      ]
+    },
+    {
+      "id": "4181e5e8-91aa-4ff0-8271-755c7fe93639",
+      "title": "Gimme Shelters",
+      "publishDate": "10-27-2023",
+      "image": null,
+      "author": "John Need",
+      "questions": [
+        {
+          "id": "1481e5e8-91aa-4ff0-8271-755c7fe93673",
+          "tags": [
+            "SHELTERS",
+            "LONG TRAIL"
+          ],
+          "questionText": "What was the first official Long Trail shelter built by the Green Mountain Club?\n",
+          "choices": [
+            {
+              "text": "The Long Trail Lodge"
+            },
+            {
+              "text": "Emily Proctor Lodge"
+            },
+            {
+              "text": "Aeolus View Shelter"
+            },
+            {
+              "text": "Taft Lodge"
+            }
+          ],
+          "correctAnswerIndex": 1,
+          "answerText": "The first shelter built by the GMC was the Emily Proctor Lodge in 1913. This was one of three shelters funded by Emily Proctor, daughter of Vermont Governor Redfield Proctor. A resident of Proctor Vermont, she helped run the family business, the Vermont Marble Company.  Emily was also a social reformer, promoting workers’ rights, women’s suffrage, and outdoor recreation.",
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/04/cropped-Emily-Proctor-Lodge-1918.jpg\n",
+          "answerImageCaption": "Emily Proctor Lodge, 1918"
+        },
+        {
+          "id": "2481e5e8-91aa-4ff0-8271-755c7fe93673",
+          "tags": [
+            "SHELTERS",
+            "LONG TRAIL"
+          ],
+          "questionText": "Who was the first official GMC shelter caretaker?",
+          "choices": [
+            {
+              "text": "Clarence “Judge” Cowles at Taft Lodge"
+            },
+            {
+              "text": "Roy Buchanan at Buchanan Lodge"
+            },
+            {
+              "text": "Daan Zwick at Taft Lodge"
+            },
+            {
+              "text": "Edward Cooper at the Killington Huts"
+            }
+          ],
+          "correctAnswerIndex": 0,
+          "answerText": "Clarence Cowles was a Vermont probate judge and founding member of the Green Mountain Club.  In 1920, he supervised the construction of Taft Lodge on Mount Mansfield.  That summer he spent several weeks living in the lodge, becoming the first official caretaker.",
+          "answerImage": "https://www.greenmountainclub.org/wp-content/uploads/2020/06/1920-Taft-Lodge_Cowles.jpg\n",
+          "answerImageCaption": "Taft Lodge, 1920’s"
+        },
+        {
+          "id": "3481e5e8-91aa-4ff0-8271-755c7fe93673",
+          "tags": [
+            "SHELTERS",
+            "LONG TRAIL"
+          ],
+          "questionText": "How many women have had GMC shelters named for them?",
+          "choices": [
+            {
+              "text": "11"
+            },
+            {
+              "text": "4"
+            },
+            {
+              "text": "2"
+            },
+            {
+              "text": "0"
+            }
+          ],
+          "correctAnswerIndex": 1,
+          "answerText": "Four women have had shelters named for them: Lula Tye, Minerva Hinchey, Emily Proctor, and Laura Woodward.\nLaura Woodward and Emily Proctor have had their namesakes replaced, relocated, and rededicated multiple times.\nThe Lula Tye shelter was removed in 2011.",
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/08/Lula-Tye-jpg.webp",
+          "answerImageCaption": "Lula M.Tye, GMC Corresponding Secretary from 1925 to 1955"
+        },
+        {
+          "id": "4481e5e8-91aa-4ff0-8271-755c7fe93673",
+          "tags": [
+            "SHELTERS",
+            "LONG TRAIL"
+          ],
+          "questionText": "The largest and oldest Long Trail shelter is Taft Lodge on Mount Mansfield.  What is the smallest?",
+          "choices": [
+            {
+              "text": "Hazen’s Notch Camp"
+            },
+            {
+              "text": "Puffer Shelter"
+            },
+            {
+              "text": "Jay Camp"
+            },
+            {
+              "text": "Atlas Valley Shelter"
+            }
+          ],
+          "correctAnswerIndex": 3,
+          "answerText": "Located just north of route 242, this shelter is a small lean-to of plywood and plywood cores. It was built in 1967 by the Altas Plywood Division for the use of day hikers.  Maintained by the GMC, it houses no bunks, only a single small bench.",
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/04/Construction-of-Atlas-Valley-Shelter-1967-768x509.webp",
+          "answerImageCaption": "The Atlas Valley Shelter, shortly after construction in 1967"
+        },
+        {
+          "id": "1481e5e8-91aa-4ff0-8271-755c7fe93673",
+          "tags": [
+            "SHELTERS",
+            "LONG TRAIL"
+          ],
+          "questionText": "Cooper Lodge on Mount Killington is the highest LT shelter at 3,850 ft.  What is the lowest shelter on the Long Trail?",
+          "choices": [
+            {
+              "text": "Duck Brook Shelter"
+            },
+            {
+              "text": "Clarendon Shelter"
+            },
+            {
+              "text": "Corliss Camp"
+            },
+            {
+              "text": "Journey’s End Shelter"
+            }
+          ],
+          "correctAnswerIndex": 1,
+          "answerText": "Clarendon Shelter sits at 1350 ft above sea level. Duck Brook Shelter is at 670 ft, but is no longer on the Long Trail after the Winooski River trail relocation in 2015.",
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/04/cropped-Clarendon-Shlelter-2011.jpeg",
+          "answerImageCaption": "Clarendon Shelter, 2011"
         }
       ]
     }
