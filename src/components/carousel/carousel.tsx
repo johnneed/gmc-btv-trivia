@@ -50,7 +50,7 @@ const AnswerComponent = ({ question }: AnswerBoxProps) => (
             )
             : (
                 <article className={styles.answer_box_no_image}>
-                    <div>
+                    <div className={styles.answer_text}>
                         {splitOnCarriageReturn(question.answerText).map((text, i) => (<p key={i}>{text}</p>))}
                     </div>
                 </article>

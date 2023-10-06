@@ -39,7 +39,9 @@
     font-size: 1.5rem;
     align-self: stretch;
 }
-
+.answer_text > p {
+    line-height: 2rem;
+}
 .answer_picture > figure {
     margin: 1.5rem 0 1rem 1rem;
     padding: 0;
@@ -51,6 +53,7 @@
     border-radius: 0.1rem;
     margin: 0;
     max-height: calc(100vh - 30rem);
+    max-width: 40vw;
     object-fit: contain;
 
 }
