@@ -16,7 +16,6 @@ export interface LoaderState {
 }
 
 
-
 const initialState: LoaderState = {
     quizzes: [],
     quizTags: [],
@@ -27,13 +26,20 @@ const initialState: LoaderState = {
     selectedQuiz: null
 };
 
-const quizSort = R.sort((a: Quiz, b: Quiz) => (b.publishDate - a.publishDate));
+// Remove unpublished quizzes and sort by publish date
+const quizFilterSort  = R.compose<any[], Quiz[], Quiz[], Quiz[], Quiz[]>(
+     R.sort((a, b) => (b.publishDate - a.publishDate)),
+     R.filter((q: Quiz) => q.publishDate <= Date.now()),
+     R.filter((q: Quiz) => (new Date(q.publishDate)).toString() !== "Invalid Date"),
+     R.filter((q: Quiz) => Boolean(q.publishDate))
+);
+
 
 export const fetchQuizzes = createAsyncThunk(
     "loader/loadQuizzes",
     async () => {
         const response = await fetchTrivia();
-        return  R.map(quizFactory)(response.quizzes);
+        return R.map(quizFactory)(response.quizzes);
     }
 );
 
@@ -63,19 +69,19 @@ export const loaderSlice = createSlice({
             state.selectedQuiz = null;
         },
         addQuizTag: (state, action: PayloadAction<string>) => {
-            state.selectedQuizTags = R.compose(Array.from, (a)=> (new Set(a)), state.selectedQuizTags.concat)(action.payload) as string[];
+            state.selectedQuizTags = R.compose(Array.from, (a) => (new Set(a)), state.selectedQuizTags.concat)(action.payload) as string[];
         },
         removeQuizTag: (state, action: PayloadAction<string>) => {
-            state.selectedQuizTags = R.compose(Array.from, (a: string[])=> (new Set(a)), R.filter((x:string)=>x !== action.payload))(state.selectedQuizTags) as string[];
+            state.selectedQuizTags = R.compose(Array.from, (a: string[]) => (new Set(a)), R.filter((x: string) => x !== action.payload))(state.selectedQuizTags) as string[];
         },
         clearQuizTags: (state) => {
             state.selectedQuizTags = [];
         },
         addQuestionTag: (state, action: PayloadAction<string>) => {
-            state.selectedQuizTags = R.compose(Array.from, (a)=> (new Set(a)), state.selectedQuestionTags.concat)(action.payload) as string[];
+            state.selectedQuizTags = R.compose(Array.from, (a) => (new Set(a)), state.selectedQuestionTags.concat)(action.payload) as string[];
         },
         removeQuestionTag: (state, action: PayloadAction<string>) => {
-            state.selectedQuestionTags = R.compose(Array.from, (a: string[])=> (new Set(a)), R.filter((x:string)=>x !== action.payload))(state.selectedQuizTags) as string[];
+            state.selectedQuestionTags = R.compose(Array.from, (a: string[]) => (new Set(a)), R.filter((x: string) => x !== action.payload))(state.selectedQuizTags) as string[];
         },
         clearQuestionTags: (state) => {
             state.selectedQuestionTags = [];
@@ -112,10 +118,8 @@ export const {
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.loader.value)`
-export const selectQuizzes = (state: RootState) => quizSort(state.loader.quizzes);
-
-export const selectLatestQuiz = (state: RootState) => quizSort(state.loader.quizzes)[0];
-
+export const selectQuizzes = (state: RootState) => quizFilterSort(state.loader.quizzes);
+export const selectLatestQuiz = (state: RootState) => quizFilterSort(state.loader.quizzes)[0];
 export const selectQuizTags = (state: RootState) => state.loader.quizTags;
 export const selectQuestionTags = (state: RootState) => state.loader.questionTags;
 

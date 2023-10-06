@@ -32,22 +32,13 @@
 }
 
 
-.selected {
-
-}
-
-.unselected {
-
-}
-
-.huzzah {
-    display: inline-block;
-}
-
-.waiting_for_clicks {
-
-}
-
-.choice_answer_icon {
-
+@media only screen and (max-width: 600px) {
+    .choice > button {
+        font-size: 1.5rem;
+    }
+    .icon {
+        height: 1.5rem;
+        width: 1.5rem;
+        margin: 0 0.2rem;
+    }
 }

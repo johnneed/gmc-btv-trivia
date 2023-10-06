@@ -142,7 +142,6 @@
 }
 
 
-
 .congrats_text {
     font-family: TiltNeon, sans-serif;
     font-size: 1.5rem;
@@ -158,4 +157,50 @@
 .congrats_text:hover {
     color: white;
     background-color: slateblue;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .question_text {
+        font-size: 1.2rem;
+    }
+
+    .answer_box {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-content: stretch;
+        align-items: flex-start;
+    }
+
+    .answer_picture {
+        order: 1;
+        flex: 0 1 auto;
+        align-self: stretch;
+
+    }
+
+    .answer_picture > figure {
+
+        max-width: calc(100% - 3.5rem);
+    }
+
+    .answer_picture > figure > img {
+        max-width: 100%;
+    }
+
+
+    .answer_text {
+        order: 0;
+        flex: 0 1 auto;
+        align-self: stretch;
+    }
+
+    .congratulations{
+        max-width: 100%;
+    }
+    .congratulations > div > span:nth-child(2) {
+        margin: 0 0.1rem;
+    }
 }
