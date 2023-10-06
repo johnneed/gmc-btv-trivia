@@ -5,11 +5,18 @@ import QuizScreen from "./features/quiz";
 import HomeScreen from "./features/home";
 import ScoreScreen from "./features/score";
 import Loader from "./features/loader";
+import QuizListScreen from "./features/quiz-list";
+
 
 const router = createBrowserRouter([
         {
             path: "/",
             element: (<HomeScreen/>),
+            errorElement: (<Navigate to="/" replace={true}/>)
+        },
+        {
+            path: "quiz-list",
+            element: (<QuizListScreen/>),
             errorElement: (<Navigate to="/" replace={true}/>)
         },
         {

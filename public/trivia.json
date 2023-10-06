@@ -3,7 +3,7 @@
     {
       "id": "1081e5e8-91aa-4ff0-8271-755c7fe93672",
       "title": "Founding of the Green Mountain Club",
-      "publishDate": "09-01-2023",
+      "publishDate": "09-29-2023",
       "image": null,
       "author": "John Need",
       "questions": [
@@ -131,7 +131,7 @@
             }
           ],
           "correctAnswerIndex": 0,
-          "answerText": "The Mansfield Section was the first GMC section, founded in August 1910.  The section was responsible for the trail from Mount Mansfield to Bolton Mountain.  It started with 10 members, and Harry G Burrough was elected as the first section president.   It languished for several years until 1916, accomplishing little until  a reorganization meeting was held in 1916 to  revive the club.  It was renamed the Burlington Section and Joanna D. Croft was elected president.   A high school teacher and active suffragette, Croft’s organizational skills revitalized the club.  The Burlington Section is the oldest and largest active section club.",
+          "answerText": "The Mansfield Section was the first GMC section, founded in August 1910.  The section was responsible for the trail from Mount Mansfield to Bolton Mountain.  It started with 10 members   Under the leaders of Harry G. Burrough, the club languished for several years.  It 1916, in an attempt to save the section, it was reorganized and renamed the Burlington Section. A high school teacher and active suffragette, Joanna D. Croft was elected president. During her tenure the club was revitalized and became the GMC's largest section club.",
           "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/05/cropped-Joanna-D.-Croft-Read-jpg.webp",
           "answerImageCaption": "Joanna D. Croft, Burlington Section President, 1916-1917"
         }
@@ -140,7 +140,7 @@
     {
       "id": "2081e5e8-91aa-4ff0-8271-755c7fe93674",
       "title": "From MA to Canada",
-      "publishDate": "10-02-2023",
+      "publishDate": "10-05-2023",
       "image": null,
       "author": "John Need",
       "questions": [
@@ -166,7 +166,9 @@
             }
           ],
           "correctAnswerIndex": 3,
-          "answerText": "People who hike the entire Long Trailare called “End-to-Enders”. End-to-Enders can hike the entire trail in one go or over time.  Ender-to-Enders can become certified by the Green Mountain Club by applying online, through the GMC website.  Each year, the list of End-to-Enders and their journals are archived at the Vermont Historical Society."
+          "answerText": "People who hike the entire Long Trailare called “End-to-Enders”. End-to-Enders can hike the entire trail in one go or over time.  Ender-to-Enders can become certified by the Green Mountain Club by applying online, through the GMC website.  Each year, the list of End-to-Enders and their journals are archived at the Vermont Historical Society.",
+          "answerImage": "http://gmcburlington.org/wp-content/uploads/2023/10/end-to-end-patch.png",
+            "answerImageCaption": "End-to-End Rocker Patch"
         },
         {
           "id": "8381e5e8-91aa-4ff0-8271-755c7fe93671",

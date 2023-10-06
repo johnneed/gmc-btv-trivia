@@ -7,6 +7,12 @@
     width: 100%;
 }
 
+.quiz_list{
+    text-align: right;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
 .score_screen_header > h1 {
     font-family: "HennyPenny", sans-serif;
     font-size: 4rem;

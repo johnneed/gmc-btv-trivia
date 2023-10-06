@@ -7,6 +7,13 @@
     width: 100%;
 }
 
+.quiz_list{
+    text-align: right;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
 .home_screen_header > h1 {
     font-family: "HennyPenny", sans-serif;
     font-size: 4rem;
@@ -36,7 +43,7 @@
 }
 
 .message {
-    margin: 0;
+    margin: 0 auto 2rem auto;
 }
 
 .quiz_title {
@@ -48,7 +55,7 @@
 }
 
 .latest_quiz {
-    margin-top: 4rem;
+    margin-top: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
