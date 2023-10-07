@@ -31,19 +31,22 @@ const assignGraphic = (index: number) => {
 const QuizListScreen = () => {
     const quizzes = useAppSelector(selectQuizzes);
     return (
-        <div className={styles.home_screen}>
-            <div className={styles.home_screen_header}>
-                <h1><Link to="/">GMC-BTV Trail Trivia</Link></h1>
-                <div className={styles.quiz_cards}>
-                    {quizzes.map((q, i) => (
-                        <div className={styles.quiz_card_container}>
-                            <QuizCard key={q.id} quiz={q}>
-                                {assignGraphic(i)}
-                            </QuizCard>
-                    </div>))}
+        <>
+            <Link className={styles.go_home} to={"/"}>Go Back!</Link>
+            <div className={styles.home_screen}>
+                <div className={styles.home_screen_header}>
+                    <h1><Link to="/">Trail Trivia</Link></h1>
+                    <div className={styles.quiz_cards}>
+                        {quizzes.map((q, i) => (
+                            <div className={styles.quiz_card_container}>
+                                <QuizCard key={q.id} quiz={q}>
+                                    {assignGraphic(i)}
+                                </QuizCard>
+                            </div>))}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

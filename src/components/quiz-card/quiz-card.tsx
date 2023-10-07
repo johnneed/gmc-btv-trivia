@@ -21,7 +21,7 @@ const QuizCard = ({ children, quiz  }: QuizCardProps) => {
         day: "numeric"
     });
     return (
-        <Link onClick={scrollToTop} className={styles.quiz_card} to={`/trail-trivia/quiz/${quiz.id}`}>
+        <Link onClick={scrollToTop} className={styles.quiz_card} to={`/quiz/${quiz.id}`}>
             <span className={styles.quiz_card_title}>{quiz.title}</span>
             <span className={styles.quiz_card_image}>
                 {children}

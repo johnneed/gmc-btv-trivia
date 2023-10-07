@@ -146,7 +146,7 @@
 .congrats_text {
     font-family: "Tilt Neon", sans-serif;
     font-size: 1.5rem;
-    color: #AAA;
+    color: #111;
     text-align: center;
     display: inline-block;
     text-decoration: none;
@@ -156,11 +156,15 @@
 
 .congrats_text:hover {
     color: white;
+    text-shadow: 1px 0 1px rgba(0, 0, 0, 0.25);
     background-color: slateblue;
 }
 
 
 @media only screen and (max-width: 600px) {
+    .answer{
+        margin: 2rem 0.5rem 0 .5rem;
+    }
     .question_box{
         margin-top: 2rem;
     }
@@ -193,11 +197,15 @@
         max-width: 100%;
     }
 
-
     .answer_text {
         order: 0;
         flex: 0 1 auto;
         align-self: stretch;
+
+    }
+    .answer_text > p {
+        font-size: 1.2rem;
+        line-height: normal;
     }
     .huzzah {
         font-size: 3rem;

@@ -509,7 +509,7 @@ const trivia   = {
                         "SHELTERS",
                         "LONG TRAIL"
                     ],
-                    "questionText": "The largest and oldest Long Trail shelter is Taft Lodge on Mount Mansfield.  What is the smallest?",
+                    "questionText": "The largest Long Trail shelter is Taft Lodge on Mount Mansfield, which sleeps 24 comfortably.  What is the smallest?",
                     "choices": [
                         {
                             "text": "Hazen’s Notch Camp"

@@ -40,7 +40,17 @@ h1 > a:hover{
     align-self: stretch;
 }
 
+
+.go_home {
+    text-align: right;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
 @media only screen and (max-width: 600px) {
+    .home_screen_header {font-size: 2.3rem;}
+    h1 > a {font-size: 3.5rem;}
 
     .quiz_cards {
         display: flex;

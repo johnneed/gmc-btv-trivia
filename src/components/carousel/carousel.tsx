@@ -65,23 +65,25 @@ const Carousel = ({ quiz, incrementScore }: CarouselProps) => {
     const [questionIndex, setQuestionIndex] = useState(0);
     const [isCurrentQuestionAnswered, setIsCurrentQuestionAnswered] = useState(false);
     const [isFirstTry, setIsFirstTry] = useState(true);
-    const handleSelect = (isAnswer: boolean) => {
-        if (isAnswer) {
-            setIsCurrentQuestionAnswered(true);
-            if (isFirstTry) {
-                incrementScore();
-            }
-        } else {
-            setIsFirstTry(false);
-        }
-    };
-
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
             behavior: "smooth"
         });
     };
+    const handleSelect = (isAnswer: boolean) => {
+        if (isAnswer) {
+            setIsCurrentQuestionAnswered(true);
+            if (isFirstTry) {
+                incrementScore();
+            }
+            scrollToTop();
+        } else {
+            setIsFirstTry(false);
+        }
+    };
+
+
     const nextQuestion = () => {
         setQuestionIndex(questionIndex + 1);
         setIsCurrentQuestionAnswered(false);
@@ -107,7 +109,7 @@ const Carousel = ({ quiz, incrementScore }: CarouselProps) => {
                                                     <span>{"🎉"}</span>
                                                     <span>
                                                     <Link onClick={scrollToTop} className={styles.congrats_text}
-                                                          to={`/trail-trivia/score/${quiz.id}`}>
+                                                          to={`/score/${quiz.id}`}>
                                                         Congratulations!<br/>
                                                         You survived the quiz.<br/>
                                                         Checkout your score.

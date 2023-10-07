@@ -13,12 +13,12 @@ const HomeScreen = () => {
     const latestQuiz = useAppSelector(selectLatestQuiz);
     const quizzes = useAppSelector(selectQuizzes);
     const handleClick = () => {
-        navigate("/trail-trivia/quiz/" + latestQuiz?.id);
+        navigate("/quiz/" + latestQuiz?.id);
     };
 
     return (
         <>
-            {quizzes.length > 1 && <Link className={styles.quiz_list} to={"/trail-trivia/quiz-list"}>More Trivia</Link>}
+            {quizzes.length > 1 && <Link className={styles.quiz_list} to={"/quiz-list"}>More Trivia!</Link>}
             <div className={styles.home_screen}>
                 <div className={styles.home_screen_logo}>
                     <span><LogoCompassOnly/></span>
