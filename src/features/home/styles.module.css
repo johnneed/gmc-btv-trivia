@@ -45,10 +45,6 @@
     display: block;
 }
 
-.home-screen h1 {
-    font-family: "LeckerliOne", sans-serif;
-}
-
 .message {
     margin: 0 auto 2rem auto;
 }
@@ -88,13 +84,14 @@
     background-color: #444;
 }
 
-
 .home_screen_logo > span:last-child {
     animation: logo-spin infinite 20s linear;
 }
 
+
 @media only screen and (max-width: 600px) {
     .quiz_title {font-size: 2.3rem;}
+    .home_screen_header > h1 {font-size: 3.5rem;}
 }
 
 @keyframes logo-spin {
