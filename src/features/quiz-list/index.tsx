@@ -3,28 +3,28 @@ import styles from "./styles.module.css";
 import { QuizCard } from "../../components/quiz-card";
 import { useAppSelector } from "../../app/hooks";
 import { selectQuizzes } from "../loader/loader-slice";
-import bear from "../../assets/images/bear.svg";
-import tent from "../../assets/images/tent.svg";
-import compass from "../../assets/images/compass.svg";
-import mountain from "../../assets/images/mountain.svg";
-import mapleLeaf from "../../assets/images/maple-leaf.svg";
-import backpack from "../../assets/images/backpack.svg";
+import { Bear } from "../../assets/images/bear";
+import { Tent } from "../../assets/images/tent";
+import { Compass } from "../../assets/images/compass";
+import { Mountain } from "../../assets/images/mountain";
+import { MapleLeaf } from "../../assets/images/maple-leaf";
+import { Backpack } from "../../assets/images/backpack";
 import { Link } from "react-router-dom";
 
 const assignGraphic = (index: number) => {
     switch (0) {
         case (index % 6):
-            return bear;
+            return <Bear/>;
         case(index % 5):
-            return compass;
+            return <Compass/>;
         case(index % 4):
-            return tent;
+            return <Tent/>;
         case(index % 3):
-            return mountain;
+            return <Mountain/>;
         case(index % 2):
-            return mapleLeaf;
+            return <MapleLeaf/>;
         default:
-            return backpack;
+            return <Backpack/>;
     }
 };
 
@@ -33,14 +33,16 @@ const QuizListScreen = () => {
     return (
         <div className={styles.home_screen}>
             <div className={styles.home_screen_header}>
-                <h1><Link to ='/'>GMC-BTV Trail Trivia</Link></h1>
+                <h1><Link to="/">GMC-BTV Trail Trivia</Link></h1>
                 <div className={styles.quiz_cards}>
-                    {quizzes.map((q, i) => (<div className={styles.quiz_card_container}><QuizCard key={q.id} quiz={q}
-                                                                                                  image={assignGraphic(i)}/>
+                    {quizzes.map((q, i) => (
+                        <div className={styles.quiz_card_container}>
+                            <QuizCard key={q.id} quiz={q}>
+                                {assignGraphic(i)}
+                            </QuizCard>
                     </div>))}
                 </div>
             </div>
-
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./styles.module.css";
-import logo_sans_compass from "../../assets/images/logo_sans_compass.svg";
-import logo_compass_only from "../../assets/images/logo_compass_only.svg";
+import { LogoSansCompass } from "../../assets/images/logo-sans-compass";
+import { LogoCompassOnly } from "../../assets/images/logo-compass-only";
 import { useAppSelector } from "../../app/hooks";
 import { selectLatestQuiz, selectQuizzes } from "../loader/loader-slice";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,10 +18,11 @@ const HomeScreen = () => {
 
     return (
         <>
-        {quizzes.length > 1  && <Link className={styles.quiz_list} to={"/quiz-list"}>More Trivia</Link>}
+            {quizzes.length > 1 && <Link className={styles.quiz_list} to={"/quiz-list"}>More Trivia</Link>}
             <div className={styles.home_screen}>
-                <div className={styles.home_screen_logo} style={{ backgroundImage: `url(${logo_compass_only})` }}>
-                    <img src={logo_sans_compass} className={styles.spinny_logo} alt="logo"/>
+                <div className={styles.home_screen_logo}>
+                    <span className={styles.non_spinny_logo}><LogoCompassOnly/></span>
+                    <span className={styles.spinny_logo}><LogoSansCompass/></span>
                 </div>
                 <div className={styles.home_screen_header}>
                     <h1>GMC-BTV Trail Trivia</h1>
@@ -39,7 +40,8 @@ const HomeScreen = () => {
                 </div>
             </div>
         </>
-    );
+    )
+        ;
 };
 
 export default HomeScreen;

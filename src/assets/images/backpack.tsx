@@ -1,4 +1,4 @@
-export const backpack = () => <>
+export const Backpack = () => <>
     <svg width="600" height="600" enableBackground="new 0 0 1419 1419" version="1.1" viewBox="0 0 600 600"
          xmlns="http://www.w3.org/2000/svg">
         <path className="st0"
