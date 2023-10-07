@@ -1,4 +1,4 @@
-export const NotAnswered = () => <>
+export const RightAnswer = () => <>
     <svg width="90" height="90" version="1.1" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
         <path d="m77.8 52.6c-10.6 0.4-21 1.5-30 6.5 9.5-0.5 18.4-2.9 29.7 1.5-0.1-2.6 0.7-5 0.3-8z" fill="#ffd42a"/>
         <path d="m70.1 30.1c-2.8-0.6-3.7-0.2-6.6-0.9-1.6 13.3-14.4 22.8-19 27.1 9.7-5.2 19.2-11.2 25.6-26.2z" fill="#fd5"/>

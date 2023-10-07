@@ -1,17 +1,5 @@
-@font-face {
-    font-family: "HennyPenny";
-    src: local("HennyPenny"),
-    url("assets/fonts/HennyPenny/HennyPenny-Regular.ttf") format("truetype");
-    font-weight: bold;
-}
-
-
-@font-face {
-    font-family: "TiltNeon";
-    src: local("TiltNeon"),
-    url("assets/fonts/Tilt-Neon/TiltNeon-Regular-VariableFont_XROT,YROT.ttf") format("truetype");
-    font-weight: bold;
-}
+@import url('https://fonts.googleapis.com/css?family=Tilt+Neon&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Henny+Penny&display=swap');
 
 body {
     margin: 0;
@@ -27,8 +15,8 @@ code {
     monospace;
 }
 
-.home-screen_header > h1 {
-    font-family: "Kablamo";
-    font-size: 4rem;
-    text-shadow: 0px 2px 2px #AAA;
+#root {
+    background-color: white;
+    min-height: 87.4rem;
+    margin-bottom: 29rem;
 }

@@ -13,19 +13,19 @@ const HomeScreen = () => {
     const latestQuiz = useAppSelector(selectLatestQuiz);
     const quizzes = useAppSelector(selectQuizzes);
     const handleClick = () => {
-        navigate("/quiz/" + latestQuiz?.id);
+        navigate("/trail-trivia/quiz/" + latestQuiz?.id);
     };
 
     return (
         <>
-            {quizzes.length > 1 && <Link className={styles.quiz_list} to={"/quiz-list"}>More Trivia</Link>}
+            {quizzes.length > 1 && <Link className={styles.quiz_list} to={"/trail-trivia/quiz-list"}>More Trivia</Link>}
             <div className={styles.home_screen}>
                 <div className={styles.home_screen_logo}>
-                    <span className={styles.non_spinny_logo}><LogoCompassOnly/></span>
-                    <span className={styles.spinny_logo}><LogoSansCompass/></span>
+                    <span><LogoCompassOnly/></span>
+                    <span><LogoSansCompass/></span>
                 </div>
                 <div className={styles.home_screen_header}>
-                    <h1>GMC-BTV Trail Trivia</h1>
+                    <h1>Trail Trivia</h1>
                 </div>
                 <p className={styles.message}>{"A new trivia challenge every Friday"}</p>
                 <p className={styles.quiz_title}>{latestQuiz?.title || ""}</p>
@@ -36,12 +36,11 @@ const HomeScreen = () => {
                 </div>
                 <div>
                     <p>{date2String(latestQuiz?.publishDate)}</p>
-                    {latestQuiz?.author && <p>Quiz courtesy of {latestQuiz?.author}</p>}
+                    {latestQuiz?.author && <p>This week's quiz master is: <br/>{latestQuiz?.author}</p>}
                 </div>
             </div>
         </>
-    )
-        ;
+    );
 };
 
 export default HomeScreen;

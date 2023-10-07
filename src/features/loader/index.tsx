@@ -2,18 +2,19 @@ import React, { useEffect } from "react";
 
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import {   fetchQuizzes, selectQuizzes  } from "./loader-slice";
+import {   fetchQuizzes, selectQuizzes, selectStatus  } from "./loader-slice";
 import "./styles.css";
 
  const Loader = () => {
     const quizzes = useAppSelector(selectQuizzes);
+     const fetchStatus = useAppSelector(selectStatus);
     const dispatch = useAppDispatch();
 
     useEffect(()=>{
-        if((quizzes || []).length === 0){
+        if((quizzes || []).length === 0 && fetchStatus === "idle"){
             dispatch(fetchQuizzes());
         }
-    },[quizzes, dispatch]);
+    },[]);
     return (<></>);
 };
 

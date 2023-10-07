@@ -38,10 +38,10 @@ const AnswerComponent = ({ question }: AnswerBoxProps) => (
             ? (
                 <article className={styles.answer_box}>
                     <div className={styles.answer_picture}>
-                    <figure>
-                        <img src={question.answerImage} alt={question.answerImageAlt}/>
-                        <figcaption>{question.answerImageCaption}</figcaption>
-                    </figure>
+                        <figure>
+                            <img src={question.answerImage} alt={question.answerImageAlt}/>
+                            <figcaption>{question.answerImageCaption}</figcaption>
+                        </figure>
                     </div>
                     <div className={styles.answer_text}>
                         {splitOnCarriageReturn(question.answerText).map((text, i) => (<p key={i}>{text}</p>))}
@@ -76,10 +76,17 @@ const Carousel = ({ quiz, incrementScore }: CarouselProps) => {
         }
     };
 
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    };
     const nextQuestion = () => {
         setQuestionIndex(questionIndex + 1);
         setIsCurrentQuestionAnswered(false);
         setIsFirstTry(true);
+        scrollToTop();
     };
 
     return (
@@ -99,7 +106,8 @@ const Carousel = ({ quiz, incrementScore }: CarouselProps) => {
                                                 <div>
                                                     <span>{"🎉"}</span>
                                                     <span>
-                                                    <Link className={styles.congrats_text} to={`/score/${quiz.id}`}>
+                                                    <Link onClick={scrollToTop} className={styles.congrats_text}
+                                                          to={`/trail-trivia/score/${quiz.id}`}>
                                                         Congratulations!<br/>
                                                         You survived the quiz.<br/>
                                                         Checkout your score.

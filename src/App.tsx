@@ -11,29 +11,29 @@ import { Provider } from "react-redux";
 
 const router = createBrowserRouter([
         {
-            path: "/",
+            path: "/trail-trivia/",
             element: (<HomeScreen/>),
-            errorElement: (<Navigate to="/" replace={true}/>)
+            errorElement: (<Navigate to="/trail-trivia/" replace={true}/>)
         },
         {
-            path: "quiz-list",
+            path: "/trail-trivia/quiz-list",
             element: (<QuizListScreen/>),
-            errorElement: (<Navigate to="/" replace={true}/>)
+            errorElement: (<Navigate to="/trail-trivia/" replace={true}/>)
         },
         {
-            path: "quiz/:qid",
+            path: "/trail-trivia/quiz/:qid",
             element: (<QuizScreen/>),
-            errorElement: (<Navigate to="/" replace={true}/>)
+            errorElement: (<Navigate to="/trail-trivia/" replace={true}/>)
         },
         {
             path: "score/:qid",
             element: (<ScoreScreen/>),
-            errorElement: (<Navigate to="/" replace={true}/>)
+            errorElement: (<Navigate to="/trail-trivia/" replace={true}/>)
         },
         {
             path: "*",
             // eslint-disable-next-line react/jsx-no-undef
-            element: (<Navigate to="/" replace={true}/>)
+            element: (<Navigate to="/trail-trivia/" replace={true}/>)
         }
     ])
 ;

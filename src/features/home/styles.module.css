@@ -1,13 +1,9 @@
 
 .home_screen {
     margin: 0 auto;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
 }
 
-.quiz_list{
+.quiz_list {
     text-align: right;
     position: absolute;
     top: 1rem;
@@ -15,7 +11,7 @@
 }
 
 .home_screen_header > h1 {
-    font-family: "HennyPenny", sans-serif;
+    font-family: "Henny Penny", sans-serif;
     font-size: 4rem;
     text-shadow: 0 2px 2px #AAA;
     color: indianred;
@@ -23,19 +19,30 @@
 }
 
 .home_screen_logo {
-    width: 90%;
     margin: 1rem auto 0 auto;
-    max-height: 40vmin;
-    max-width: 40vmin;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: contain;
+    height: 40vmin;
+    width: 40vmin;
+    pointer-events: none;
+    position: relative;
 }
 
-.home_screen_logo > img {
-    max-height: 30vmin;
-    max-width: 30vmin;
+.home_screen_logo > span {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 40vmin;
+    width: 40vmin;
+}
+
+.home_screen_logo > span > svg {
+    height: 40vmin;
+    width: 40vmin;
     pointer-events: none;
+    display: block;
 }
 
 .home-screen h1 {
@@ -47,7 +54,7 @@
 }
 
 .quiz_title {
-    font-family: "TiltNeon", sans-serif;
+    font-family: "Tilt Neon", sans-serif;
     font-size: 3rem;
     color: slateblue;
     text-shadow: 1px 1px 1px #DDD;
@@ -82,10 +89,12 @@
 }
 
 
-@media (prefers-reduced-motion: no-preference) {
-    .spinny_logo {
-        animation: logo-spin infinite 20s linear;
-    }
+.home_screen_logo > span:last-child {
+    animation: logo-spin infinite 20s linear;
+}
+
+@media only screen and (max-width: 600px) {
+    .quiz_title {font-size: 2.3rem;}
 }
 
 @keyframes logo-spin {
@@ -96,3 +105,4 @@
         transform: rotate(360deg);
     }
 }
+

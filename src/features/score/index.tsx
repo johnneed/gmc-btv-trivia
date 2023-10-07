@@ -15,17 +15,17 @@ const ScoreScreen = () => {
 
     return (
         <>
-            {quizzes.length > 1 && <Link className={styles.quiz_list} to={"/quiz-list"}>More Trivia</Link>}
+            {quizzes.length > 1 && <Link className={styles.quiz_list} to={"trail-trivia/quiz-list"}>More Trivia</Link>}
             <div className={styles.score_screen}>
                 <div className={styles.score_screen_header}>
-                    <h1>GMC-BTV Trail Trivia</h1>
+                    <h1>Trail Trivia</h1>
                 </div>
                 {
                     (score === undefined || quiz === undefined)
                         ? (<>
                                 <p className={styles.message}>Sorry, we couldn't find that quiz</p>
                                 <div className={styles.back_button}>
-                                    <Link to={"/"}>Back to Trail Trivia</Link>
+                                    <Link to={"/trail-trivia/"}>Back to Trail Trivia</Link>
                                 </div>
                             </>
                         ) :
@@ -33,7 +33,7 @@ const ScoreScreen = () => {
                             <>
                                 <p className={styles.message}>{`You got ${score} out of ${quiz.questions.length} right on the first try`}</p>
                                 <div className={styles.back_button}>
-                                    <Link to={"/"}>Back to Trail Trivia</Link>
+                                    <Link to={"/trail-trivia/"}>Back to Trail Trivia</Link>
                                 </div>
                             </>
                         )}

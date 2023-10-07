@@ -3,7 +3,7 @@
 }
 
 .huzzah {
-    font-family: HennyPenny, sans-serif;
+    font-family: "Henny Penny", sans-serif;
     font-size: 5rem;
     margin: 0;
     color: tomato;
@@ -85,14 +85,12 @@
 
 .question_text {
     font-size: 2rem;
-    font-weight: bold;
     margin-bottom: 4rem;
 }
 
 .next_question {
-    font-family: TiltNeon, sans-serif;
+    font-family: "Tilt Neon", sans-serif;
     font-size: 1.5rem;
-    font-weight: bold;
     color: #000;
     text-align: right;
     padding: 1rem 2rem;
@@ -146,9 +144,8 @@
 
 
 .congrats_text {
-    font-family: TiltNeon, sans-serif;
+    font-family: "Tilt Neon", sans-serif;
     font-size: 1.5rem;
-    font-weight: bold;
     color: #AAA;
     text-align: center;
     display: inline-block;
@@ -164,6 +161,9 @@
 
 
 @media only screen and (max-width: 600px) {
+    .question_box{
+        margin-top: 2rem;
+    }
     .question_text {
         font-size: 1.2rem;
     }
@@ -199,11 +199,14 @@
         flex: 0 1 auto;
         align-self: stretch;
     }
-
+    .huzzah {
+        font-size: 3rem;
+    }
     .congratulations{
         max-width: 100%;
     }
     .congratulations > div > span:nth-child(2) {
         margin: 0 0.1rem;
     }
+    .congrats_text {max-width: 45vw;   padding: 1rem 1rem; font-size: 1.2rem;}
 }

@@ -122,6 +122,7 @@ export const selectQuizzes = (state: RootState) => quizFilterSort(state.loader.q
 export const selectLatestQuiz = (state: RootState) => quizFilterSort(state.loader.quizzes)[0];
 export const selectQuizTags = (state: RootState) => state.loader.quizTags;
 export const selectQuestionTags = (state: RootState) => state.loader.questionTags;
+export const selectStatus = (state: RootState) => state.loader.status;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.

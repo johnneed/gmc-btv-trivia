@@ -8,6 +8,12 @@ interface QuizCardProps {
     children: any;
 }
 
+const scrollToTop = () => {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+};
 const QuizCard = ({ children, quiz  }: QuizCardProps) => {
     const publishedDateString = new Date(quiz.publishDate).toLocaleDateString("en-us", {
         year: "numeric",
@@ -15,7 +21,7 @@ const QuizCard = ({ children, quiz  }: QuizCardProps) => {
         day: "numeric"
     });
     return (
-        <Link className={styles.quiz_card} to={`/quiz/${quiz.id}`}>
+        <Link onClick={scrollToTop} className={styles.quiz_card} to={`/trail-trivia/quiz/${quiz.id}`}>
             <span className={styles.quiz_card_title}>{quiz.title}</span>
             <span className={styles.quiz_card_image}>
                 {children}
