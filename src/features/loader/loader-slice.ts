@@ -3,7 +3,6 @@ import { RootState } from "../../app/store";
 import { fetchTrivia } from "./loader-api";
 import type { Question, Quiz } from "../../models/types";
 import * as R from "ramda";
-import { quizFactory } from "../../models/factories";
 
 export interface LoaderState {
     quizzes: Quiz[];
@@ -26,20 +25,11 @@ const initialState: LoaderState = {
     selectedQuiz: null
 };
 
-// Remove unpublished quizzes and sort by publish date
-const quizFilterSort  = R.compose<any[], Quiz[], Quiz[], Quiz[], Quiz[]>(
-     R.sort((a, b) => (b.publishDate - a.publishDate)),
-     R.filter((q: Quiz) => q.publishDate <= Date.now()),
-     R.filter((q: Quiz) => (new Date(q.publishDate)).toString() !== "Invalid Date"),
-     R.filter((q: Quiz) => Boolean(q.publishDate))
-);
-
-
 export const fetchQuizzes = createAsyncThunk(
     "loader/loadQuizzes",
     async () => {
         const response = await fetchTrivia();
-        return R.map(quizFactory)(response.quizzes);
+        return response;
     }
 );
 
@@ -118,8 +108,8 @@ export const {
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.loader.value)`
-export const selectQuizzes = (state: RootState) => quizFilterSort(state.loader.quizzes);
-export const selectLatestQuiz = (state: RootState) => quizFilterSort(state.loader.quizzes)[0];
+export const selectQuizzes = (state: RootState) => state.loader.quizzes;
+export const selectLatestQuiz = (state: RootState) => state.loader.quizzes[0];
 export const selectQuizTags = (state: RootState) => state.loader.quizTags;
 export const selectQuestionTags = (state: RootState) => state.loader.questionTags;
 export const selectStatus = (state: RootState) => state.loader.status;
