@@ -39,9 +39,11 @@
     font-size: 1.5rem;
     align-self: stretch;
 }
+
 .answer_text > p {
     line-height: 2rem;
 }
+
 .answer_picture > figure {
     margin: 1.5rem 0 1rem 1rem;
     padding: 0;
@@ -162,12 +164,14 @@
 
 
 @media only screen and (max-width: 600px) {
-    .answer{
+    .answer {
         margin: 2rem 0.5rem 0 .5rem;
     }
-    .question_box{
+
+    .question_box {
         margin-top: 2rem;
     }
+
     .question_text {
         font-size: 1.2rem;
     }
@@ -203,18 +207,27 @@
         align-self: stretch;
 
     }
+
     .answer_text > p {
         font-size: 1.2rem;
         line-height: normal;
     }
+
     .huzzah {
         font-size: 3rem;
     }
-    .congratulations{
+
+    .congratulations {
         max-width: 100%;
     }
+
     .congratulations > div > span:nth-child(2) {
         margin: 0 0.1rem;
     }
-    .congrats_text {max-width: 45vw;   padding: 1rem 1rem; font-size: 1.2rem;}
+
+    .congrats_text {
+        max-width: 45vw;
+        padding: 1rem 1rem;
+        font-size: 1rem;
+    }
 }

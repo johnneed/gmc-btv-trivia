@@ -20,3 +20,10 @@ code {
     min-height: 87.4rem;
     margin-bottom: 29rem;
 }
+
+@media only screen and (max-width: 600px) {
+    #root {
+        min-height: 100vh;
+        margin-bottom: 3rem;
+    }
+}

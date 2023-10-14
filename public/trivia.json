@@ -3,7 +3,7 @@
     {
       "id": "1081e5e8-91aa-4ff0-8271-755c7fe93672",
       "title": "Founding of the Green Mountain Club",
-      "publishDate": "10-06-2023",
+      "publishDate": "2023-10-06",
       "image": null,
       "author": "John Need",
       "questions": [
@@ -140,7 +140,7 @@
     {
       "id": "2081e5e8-91aa-4ff0-8271-755c7fe93674",
       "title": "From MA to Canada",
-      "publishDate": "10-13-2023",
+      "publishDate": "2023-10-13",
       "image": null,
       "author": "John Need",
       "questions": [
@@ -279,7 +279,7 @@
     {
       "id": "3181e5e8-91aa-4ff0-8271-755c7fe93639",
       "title": "Long Trail Geography",
-      "publishDate": "10-20-2023",
+      "publishDate": "2023-10-20",
       "image": null,
       "author": "John Need",
       "questions": [
@@ -418,7 +418,7 @@
     {
       "id": "4181e5e8-91aa-4ff0-8271-755c7fe93639",
       "title": "Gimme Shelters",
-      "publishDate": "10-27-2023",
+      "publishDate": "2023-10-27",
       "image": null,
       "author": "John Need",
       "questions": [
@@ -558,7 +558,7 @@
     {
       "id": "5181e5e8-91aa-4ff0-8271-755c7fe93639",
       "title": "Its News to Me",
-      "publishDate": "11-03-2023",
+      "publishDate": "2023-11-03",
       "image": null,
       "author": "John Need",
       "questions": [
@@ -696,6 +696,350 @@
           "answerText": "RidgeLines Editor, Anne Clark borrowed Roy Buchanan’s collection of shelter photographs when designing the masthead.  The shelter was drawn from a photo of Sucker Brook shelter.  Sucker Brook shelter lies south of Ripton.  So, she exercised a bit of artistic license when she put Mount Mansfield in the background.",
           "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/10/Screenshot-2023-10-08-at-4.33.00-PM.png",
           "answerImageCaption": "Masthead from the first RidgeLines newsletter"
+        }
+      ]
+    },
+    {
+      "id": "6181e5e8-91aa-4ff0-8271-755c7fe93639",
+      "title": "What's in a Name",
+      "publishDate": "2023-11-10",
+      "image": null,
+      "author": "John Need",
+      "questions": [
+        {
+          "id": "12345678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "Which is these is NOT the name of a former Long Trail shelter.",
+          "choices": [
+            {
+              "text": "High Hill Lodge"
+            },
+            {
+              "text": "Honted House Camp"
+            },    {
+              "text": "Porky Lodge"
+            },    {
+              "text": "Hell Hollow Camp"
+            }
+          ],
+          "correctAnswerIndex": 0,
+          "answerText": "Honted House was a private camp that was open to hikers in the 1930’s.  It was located north of the Lamoille River and got its name from its delapidated appearance.\nPorky Lodge was located just below the summit of Killington Peak.  It was constructed from  stone in an effort to defeat destructive porcupines.\nHell Hollow Camp was located in Hell Hollow, which was named because its rocky soil and frequent flooding made life hell for farmers.\nHigh Hill Lodge was not a shelter on the Long Trail.",
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/04/Porcupine-Camp-on-Killington-Peak.jpg",
+          "answerImageCaption": "Porky Lodge, near the summit of Killington Peak"
+        },
+        {
+          "id": "22345678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "Which of these Long Trail peaks was NOT named after a president?",
+          "choices": [
+            {
+              "text": "Mount Wilson"
+            },
+            {
+              "text": "Lincoln Peak"
+            },    {
+              "text": "Mount Abraham"
+            },    {
+              "text": "Mount Cleveland"
+            }
+          ],
+          "correctAnswerIndex": 1,
+          "answerText": "Mount Wilson is named after Woodrow Wilson.\nMount Abraham is named after Abraham Lincoln.\nMount Cleveland is named after Grover Cleveland.\nLincoln Peak is named after the nearby town of Lincoln, which was named after Major General Benjamin Lincoln, who was instrumental in the American Revolutionary War victory at Saratoga.",
+          "answerImage": "https://upload.wikimedia.org/wikipedia/commons/b/b0/General_Benjamin_Lincoln-restored.jpg",
+          "answerImageCaption": "1784 portrait of Major General Benjamin Lincoln by Charles Wilson Peale"
+        },
+        {
+          "id": "32345678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "How did Kid Gore shelter get its name?",
+          "choices": [
+            {
+              "text": "Gores are what they call unorganized towns in Vermont; the shelter lies in Kid Gore."
+            },
+            {
+              "text": "It was named after Al Gore’s grandson."
+            },    {
+              "text": "It was named after an obnoxious goat that frequented the area."
+            },    {
+              "text": "It was named after Harold Martin 'Kid' Gore."
+            }
+          ],
+          "correctAnswerIndex": 3,
+          "answerText": "In 1924, Harold Martin “Kid” Gore  founded Camp Najerog, a boys’ camp in Wilmington Vermont.  Gore was a proponent of outdoor recreation and helped maintain 5 miles of the Long Trail. In 1971, Connecticut Section volunteers and Camp Najerog alumni built the shelter in his honor.",
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/05/Harold-Kid-Gore-746x1024.webp",
+          "answerImageCaption": "Harold Martin “Kid” Gore (1891– 1969)"
+        },
+        {
+          "id": "42345678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "What is the most popular trail name?",
+          "choices": [
+            {
+              "text": "Scout"
+            },
+            {
+              "text": "Mountain Goat"
+            },    {
+              "text": "Sunshine"
+            },
+            {
+              "text": "Happy Feet"
+            }
+          ],
+          "correctAnswerIndex": 2,
+          "answerText": "After collecting nearly 30,000 trail names from records kept by the   Pacific Crest Trail Association, the Continental Divide Trail Coalition, and the Appalachian Trail Conservancy, Mac, from the popular hiking blog, 'Halfway Anywhere', determined that “Sunshine” is the most popular trail name.",
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/10/sunshine.jpeg",
+          "answerImageCaption": ""
+        },
+        {
+          "id": "52345678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "What’s another name for a Wampahoofus?",
+          "choices": [
+            {
+              "text": "Catamount"
+            },
+            {
+              "text": "Fisher Cat"
+            },    {
+              "text": "Fur Bearing Trout"
+            },    {
+              "text": "Sidehill Gouger"
+            }
+          ],
+          "correctAnswerIndex": 3,
+          "answerText": "The Wampahoofus, or Sidehill Gouger, is a four-footer creature that continuously circles Mount Mansfield in only one direction.  To adapt to this strange method of locomotion, its uphill legs are shorter than its downhill legs.\nUndoubtedly, the best place to encounter an elusive Wampahoofus is along the Wampahoofus Trail, which connects Butler Lodge to the Frost Trail.",
+          "answerImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Sidehillgouger.jpg/453px-Sidehillgouger.jpg?20180526121705",
+          "answerImageCaption": "Artist rendering of the fabled Wampahoofus, AKA Sidehill Gouger"
+        }
+      ]
+    },
+    {
+      "id": "7181e5e8-91aa-4ff0-8271-755c7fe93639",
+      "title": "The Appalachian Trail",
+      "publishDate": "2023-11-17",
+      "image": null,
+      "author": "John Need",
+      "questions": [
+        {
+          "id": "19345678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "Today, the Appalachian Trail runs from Springer Mountain in Georgia to Mount Katahdin in Maine. However, the trail originally started south of Springer Mountain. What was the original southern terminus of the AT?",
+          "choices": [
+            {
+              "text": "The Oasis Visitor Center in Ochopee, Florida"
+            },
+            {
+              "text": "Flagg Mountain in Alabama"
+            },    {
+              "text": "Big Creek in the Great Smoky Mountains National Park"
+            },    {
+              "text": "Mount Oglethorpe in Georgia"
+            }
+          ],
+          "correctAnswerIndex": 3,
+          "answerText": "The original southern terminus of the Appalachian Trail was at the summit of Mount Oglethorpe in Georgia. Shortly after the decision was made to extend the Trail to this mountaintop, a monument was constructed at the terminus in memory of Jame Oglethorpe, the founder of the Georgia colony. Dedicated in 1930, the monument was moved about 20 miles to the northeast to the town of Jasper, Georgia in 1958 after the terminus of the Trail was moved to Springer Mountain in order to avoid the encroachment of several large chicken farms on the Trail.",
+          "answerImage": "http://gmcburlington.org/wp-content/uploads/2023/10/Mount-Oglethorpe-jpeg.webp",
+          "answerImageCaption": "George Masa’s photo of the Mount Oglethorpe Monument"
+        },
+        {
+          "id": "19445678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "",
+          "choices": [
+            {
+              "text": ""
+            },
+            {
+              "text": ""
+            },    {
+              "text": ""
+            },    {
+              "text": ""
+            }
+          ],
+          "correctAnswerIndex": 1,
+          "answerText": "",
+          "answerImage": "",
+          "answerImageCaption": ""
+        },
+        {
+          "id": "19545678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "",
+          "choices": [
+            {
+              "text": ""
+            },
+            {
+              "text": ""
+            },    {
+              "text": ""
+            },    {
+              "text": ""
+            }
+          ],
+          "correctAnswerIndex": 1,
+          "answerText": "",
+          "answerImage": "",
+          "answerImageCaption": ""
+        },
+        {
+          "id": "19645678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "",
+          "choices": [
+            {
+              "text": ""
+            },
+            {
+              "text": ""
+            },    {
+              "text": ""
+            },    {
+              "text": ""
+            }
+          ],
+          "correctAnswerIndex": 1,
+          "answerText": "",
+          "answerImage": "",
+          "answerImageCaption": ""
+        },
+        {
+          "id": "19745678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "Dragon’s Tooth McAfee Knob, and Tinker Cliffs are three hikes with phenomenal views on Virginia’s stretch of the AT.  collectively, What are these hikes called?",
+          "choices": [
+            {
+              "text": "The Three Amigos"
+            },
+            {
+              "text": "The Triple Crown"
+            },    {
+              "text": "The Virginian Views"
+            },    {
+              "text": "The Virginian Dominions"
+            }
+          ],
+          "correctAnswerIndex": 1,
+          "answerText": "Virginia’s Triple Crown is one of the most iconic sections of a thru-hiker’s journey.  For those with less time, the Triple Crown loop is a 35 mile, 3 day hike that takes you over all three locations.",
+          "answerImage": "https://upload.wikimedia.org/wikipedia/commons/2/27/VT_Student_enjoying_the_view_at_McAfee%27s_Knob_-_panoramio.jpg",
+          "answerImageCaption": "Mcafee Knob"
+        }
+      ]
+    },
+    {
+      "id": "7181e5e8-91aa-4ff0-8271-755c7fe93639",
+      "title": "The AT in VT",
+      "publishDate": "2023-11-24",
+      "image": null,
+      "author": "John Need",
+      "questions": [
+        {
+          "id": "29345678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "The Appalachian Trail traverses Vermont for about 151 miles.  It travels north from Massachusetts, sharing its path with the Long Trail before turning east towards New Hampshire.  How long (approximately) do the AT and LT run together, before parting ways?",
+          "choices": [
+            {
+              "text": "52 Miles"
+            },
+            {
+              "text": "95 miles"
+            },    {
+              "text": "105 miles"
+            },    {
+              "text": "120 miles"
+            }
+          ],
+          "correctAnswerIndex": 2,
+          "answerText": "The AT and the LT run together for about 105 miles from the Massachusetts border to Main Junction.",
+          "answerImage": "https://www.greenmountainclub.org/wp-content/uploads/2022/11/Nika-Meyers-FinishingPhoto_FKT_OCT22021-1024x768.jpg",
+          "answerImageCaption": "Sign marking the start of the Long Trail on the Massachusetts border."
+        },
+        {
+          "id": "19345678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "The Appalachian Trail meets the Long Trail at Maine Junction.  However, Maine Junction connects three long hiking trails.  What is the third trail?",
+          "choices": [
+            {
+              "text": "Cross Vermont Trail"
+            },
+            {
+              "text": "American Discovery Trail"
+            },    {
+              "text": "TAM Trail"
+            },    {
+              "text": "North Country Trail"
+            }
+          ],
+          "correctAnswerIndex": 3,
+          "answerText": "The North Country Trail is a 4,800 mile hiking trail that runs from Lake Sakakawea State Park in North Dakota to Maine Junction in Vermont.  It was established in 1980, but stopped in Crown Point, New York until 2019 when it was extended 45 miles to connect with the Appalachian Trail.\nThe Vermont section of the NCT passes through scenic public lands including the Green Mountain National Forest and Moosalamoo National Recreation Area, and includes the existing North Country Trail that follows the Trail Around Middlebury (TAM).",
+          "answerImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/North_Country_National_Scenic_Trail_-_Maplewood_State_Park%2C_Minnesota_%2837124196363%29.jpg/640px-North_Country_National_Scenic_Trail_-_Maplewood_State_Park%2C_Minnesota_%2837124196363%29.jpg\n",
+          "answerImageCaption": "North Country Trail Blaze"
+        },
+
+        {
+          "id": "39345678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "The Long Trail is marked with white blazes.  When the Appalachian trail was constructed from Maine Junction to New Hampshire what color was it blazed?",
+          "choices": [
+            {
+              "text": "Blue"
+            },
+            {
+              "text": "White"
+            },    {
+              "text": "Yellow"
+            },    {
+              "text": "Pink"
+            }
+          ],
+          "correctAnswerIndex": 0,
+          "answerText": "The original path for the AT, from Maine Junction to New Hampshire, mostly followed old logging roads, at low elevations.  For this reason it was considered a side trail, connecting the Long Trail to the AT proper, and blazed blue.   It was eventually re-blazed white, and in the 1970’s a major relocation effort moved the trail off the logging roads, up to the ridgelines where it is today.",
+          "answerImage": "https://www.greenmountainclub.org/wp-content/uploads/2020/10/caretaker-Naomi-painting-blue-blaze-KC-1024x1024.jpg",
+          "answerImageCaption": "Painting blue blazes"
+        },
+        {
+          "id": "49345678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "Who maintains the Appalachian Trail from Maine Junction to New Hampshire?",
+          "choices": [
+            {
+              "text": "Montpelier Section"
+            },
+            {
+              "text": "Upper Valley Ottauquechee Section"
+            },    {
+              "text": "Worcester Section"
+            },    {
+              "text": "No one"
+            }
+          ],
+          "correctAnswerIndex": 1,
+          "answerText": "When the AT relocation project was completed in 1979,The Upper Valley Ottauquechee Section was created to maintain the new trail.\nBefore 1979, the trail was maintained by a few dedicated individuals.  One of those was Mauri Wintturi, a large, Finnish man,  known for his love of beer and this underloved stretch of the AT.  For years, Winturri painted blazes, cleared blowdowns, and cleaned shelters. After Wintturi’s death in 1982, the GMC approved a proposal that the old Gulf Shelter be moved, reconstructed and renamed the Mauri Wintturi Shelter.",
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/05/Screenshot-2023-05-23-at-8.24.21-PM.png",
+          "answerImageCaption": "Mauri Wintturi"
+        },
+        {
+          "id": "59345678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "What unofficial AT shelter offers hikers a rooftop view of the White Mountains?",
+          "choices": [
+            {
+              "text": "Happy Hill"
+            },
+            {
+              "text": "Luce’s Lookout"
+            },    {
+              "text": "Cloudland Shelter"
+            },    {
+              "text": "Woodstock Cabin"
+            }
+          ],
+          "correctAnswerIndex": 1,
+          "answerText": "Often simply referred to as “The Lookout”, this private, rustic cabin north of Woodstock lies a short hike from the Appalachian Trail, and features a rooftop platform providing commanding views of the White Mountains.  The cabin and short access trail are both privately maintained, but are open to hikers.\nThe 2.5 mile out-and-back hike from the trailhead on Green Gate Road to Luce’s Lookout is a popular day hike.",
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/05/The-Lookout-2023-2048x1536.webp",
+          "answerImageCaption": "Inu at Luce's Lookouts"
         }
       ]
     }

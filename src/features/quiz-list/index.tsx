@@ -32,7 +32,6 @@ const QuizListScreen = () => {
     const quizzes = useAppSelector(selectQuizzes);
     return (
         <>
-            <Link className={styles.go_home} to={"/"}>Go Back!</Link>
             <div className={styles.home_screen}>
                 <div className={styles.home_screen_header}>
                     <h1><Link to="/">Trail Trivia</Link></h1>
@@ -46,6 +45,7 @@ const QuizListScreen = () => {
                     </div>
                 </div>
             </div>
+            <Link className={styles.go_home} to={"/"}>◀ Go Back!</Link>
         </>
     );
 };

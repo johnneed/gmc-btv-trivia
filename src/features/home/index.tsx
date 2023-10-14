@@ -18,7 +18,6 @@ const HomeScreen = () => {
 
     return (
         <>
-            {quizzes.length > 1 && <Link className={styles.quiz_list} to={"/quiz-list"}>More Trivia!</Link>}
             <div className={styles.home_screen}>
                 <div className={styles.home_screen_logo}>
                     <span><LogoCompassOnly/></span>
@@ -39,6 +38,7 @@ const HomeScreen = () => {
                     {latestQuiz?.author && <p>This week's quiz master is: <br/>{latestQuiz?.author}</p>}
                 </div>
             </div>
+            {quizzes.length > 1 && <Link className={styles.quiz_list} to={"/quiz-list"}>More Trivia!</Link>}
         </>
     );
 };
