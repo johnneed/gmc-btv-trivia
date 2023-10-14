@@ -6,12 +6,12 @@ const isValidDate = (value: unknown): boolean => Boolean(value) && new Date(valu
 
 
 const fn = R.cond([
-    [x => isValidDate(x[0]), x => new Date(x[0])],
+    [x => isValidDate(x[0]), x => new Date(x[0] + " 5:00:00")],
     [x => x[1], () => new Date()],
     [R.T, R.always(undefined)]
 ]);
-export const dateFactory = (date: unknown, returnCurrentDate: boolean = false): Date | undefined => {
-    return fn([date, returnCurrentDate]);
+export const dateFactory = (date: unknown, returnCurrentDate?: boolean): Date | undefined => {
+    return fn([date, Boolean(returnCurrentDate)]);
 };
 
 
