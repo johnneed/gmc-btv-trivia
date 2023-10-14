@@ -10,6 +10,7 @@ import { Mountain } from "../../assets/images/mountain";
 import { MapleLeaf } from "../../assets/images/maple-leaf";
 import { Backpack } from "../../assets/images/backpack";
 import { Link } from "react-router-dom";
+import { scrollTop } from "../../libs/window-helpers";
 
 const assignGraphic = (index: number) => {
     switch (0) {
@@ -45,7 +46,7 @@ const QuizListScreen = () => {
                     </div>
                 </div>
             </div>
-            <Link className={styles.go_home} to={"/"}>◀ Go Back!</Link>
+            <Link onClick={scrollTop} className={styles.go_home} to={"/"}>◀ Go Back!</Link>
         </>
     );
 };

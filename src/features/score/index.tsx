@@ -5,6 +5,7 @@ import { useAppSelector } from "../../app/hooks";
 import { selectScores } from "./score-slice";
 import { Link, useParams } from "react-router-dom";
 import { selectQuizzes } from "../loader/loader-slice";
+import { scrollTop } from "../../libs/window-helpers";
 
 const ScoreScreen = () => {
 
@@ -15,7 +16,6 @@ const ScoreScreen = () => {
 
     return (
         <>
-            {quizzes.length > 1 && <Link className={styles.quiz_list} to={"trail-trivia/quiz-list"}>More Trivia!</Link>}
             <div className={styles.score_screen}>
                 <div className={styles.score_screen_header}>
                     <h1>Trail Trivia</h1>
@@ -38,6 +38,8 @@ const ScoreScreen = () => {
                             </>
                         )}
             </div>
+            {quizzes.length > 1 && <Link onClick={scrollTop} className={styles.quiz_list} to={"/quiz-list"}>More
+                Trivia!</Link>}
         </>
     );
 };

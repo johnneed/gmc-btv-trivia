@@ -6,6 +6,7 @@ import { useAppSelector } from "../../app/hooks";
 import { selectLatestQuiz, selectQuizzes } from "../loader/loader-slice";
 import { Link, useNavigate } from "react-router-dom";
 import { date2String } from "../../libs/date-helpers";
+import { scrollTop } from "../../libs/window-helpers";
 
 const HomeScreen = () => {
     const navigate = useNavigate();
@@ -38,7 +39,7 @@ const HomeScreen = () => {
                     {latestQuiz?.author && <p>This week's quiz master is: <br/>{latestQuiz?.author}</p>}
                 </div>
             </div>
-            {quizzes.length > 1 && <Link className={styles.quiz_list} to={"/quiz-list"}>More Trivia!</Link>}
+            {quizzes.length > 1 && <Link onClick={scrollTop} className={styles.quiz_list} to={"/quiz-list"}>More Trivia!</Link>}
         </>
     );
 };

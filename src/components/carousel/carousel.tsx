@@ -4,6 +4,7 @@ import { ChoiceButton } from "../choice-button";
 import styles from "./styles.module.css";
 import { Link } from "react-router-dom";
 import { splitOnCarriageReturn } from "../../libs/string-helpers";
+import { scrollTop } from "../../libs/window-helpers";
 
 interface CarouselProps {
     quiz: Quiz;
@@ -65,19 +66,14 @@ const Carousel = ({ quiz, incrementScore }: CarouselProps) => {
     const [questionIndex, setQuestionIndex] = useState(0);
     const [isCurrentQuestionAnswered, setIsCurrentQuestionAnswered] = useState(false);
     const [isFirstTry, setIsFirstTry] = useState(true);
-    const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    };
+
     const handleSelect = (isAnswer: boolean) => {
         if (isAnswer) {
             setIsCurrentQuestionAnswered(true);
             if (isFirstTry) {
                 incrementScore();
             }
-            scrollToTop();
+            scrollTop();
         } else {
             setIsFirstTry(false);
         }
@@ -88,7 +84,7 @@ const Carousel = ({ quiz, incrementScore }: CarouselProps) => {
         setQuestionIndex(questionIndex + 1);
         setIsCurrentQuestionAnswered(false);
         setIsFirstTry(true);
-        scrollToTop();
+        scrollTop();
     };
 
     return (
@@ -108,7 +104,7 @@ const Carousel = ({ quiz, incrementScore }: CarouselProps) => {
                                                 <div>
                                                     <span>{"🎉"}</span>
                                                     <span>
-                                                    <Link onClick={scrollToTop} className={styles.congrats_text}
+                                                    <Link onClick={scrollTop} className={styles.congrats_text}
                                                           to={`/score/${quiz.id}`}>
                                                         Congratulations!<br/>
                                                         You survived the quiz.<br/>
