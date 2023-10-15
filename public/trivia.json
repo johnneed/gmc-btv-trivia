@@ -824,7 +824,7 @@
         {
           "id": "19345678-91aa-4ff0-8271-755c7fe93673",
           "tags": [],
-          "questionText": "Today, the Appalachian Trail runs from Springer Mountain in Georgia to Mount Katahdin in Maine. However, the trail originally started south of Springer Mountain. What was the original southern terminus of the AT?",
+          "questionText": "Today's Appalachian Trail runs from Springer Mountain in Georgia to Mount Katahdin in Maine. Previously, the AT started south of Springer Mountain. What was the original southern terminus of the AT?",
           "choices": [
             {
               "text": "The Oasis Visitor Center in Ochopee, Florida"
@@ -845,70 +845,70 @@
         {
           "id": "19445678-91aa-4ff0-8271-755c7fe93673",
           "tags": [],
-          "questionText": "",
+          "questionText": "Which US president has a monument on the Appalachian Trail in Maryland that predates his monument in Washington DC?",
           "choices": [
             {
-              "text": ""
+              "text": "George Washington"
             },
             {
-              "text": ""
+              "text": "Thomas Jefferson"
             },    {
-              "text": ""
+              "text": "Abraham Lincoln"
             },    {
-              "text": ""
+              "text": "Calvin Coolidge"
             }
           ],
-          "correctAnswerIndex": 1,
-          "answerText": "",
-          "answerImage": "",
-          "answerImageCaption": ""
+          "correctAnswerIndex": 0,
+          "answerText": "The Washington Monument at the summit of  South Mountain, was initially erected by the citizens of Boonsboro in 1827.   The the monument in Washington DC wasn't completed until 1888.\nOriginally constructed from local stones, this small milk bottle shaped tower has been rebuilt twice.  Today the Maryland State Department of Parks maintains the tower.  AT hikers can climb the tower and get views of the valley below",
+          "answerImage": "https://upload.wikimedia.org/wikipedia/commons/3/33/First_monument_to_George_Washington%2C_near_U._S._40%2C_Boonsboro%2C_Maryland_%2870563%29.jpg",
+          "answerImageCaption": "Postcard depicting the first Washington Monument"
         },
         {
           "id": "19545678-91aa-4ff0-8271-755c7fe93673",
           "tags": [],
-          "questionText": "",
+          "questionText": "Which state has the shortest section of the Appalachian Trail",
           "choices": [
             {
-              "text": ""
+              "text": "Vermont"
             },
             {
-              "text": ""
+              "text": "Connecticut"
             },    {
-              "text": ""
+              "text": "West Virginia"
             },    {
-              "text": ""
+              "text": "New York"
             }
           ],
-          "correctAnswerIndex": 1,
-          "answerText": "",
-          "answerImage": "",
-          "answerImageCaption": ""
+          "correctAnswerIndex": 2,
+          "answerText": "The trail through West Virginia is a mere 4 miles.  It passes through the town of Harper's Ferry, which is the home to the Appalachian Trail Conservancy, and the honorary, not actual, half-way point.",
+          "answerImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Hiker_being_photographed_at_ATC_for_the_thru-hiker_album.jpg/640px-Hiker_being_photographed_at_ATC_for_the_thru-hiker_album.jpg",
+          "answerImageCaption": "Taking a celebratory, half-way photo at the ATC headquarters in Harper’s Ferry is a long-standing, thru-hiker tradition"
         },
         {
           "id": "19645678-91aa-4ff0-8271-755c7fe93673",
           "tags": [],
-          "questionText": "",
+          "questionText": "Thru-hikers pass by the National War Correspondents Memorial,  dedicated to journalists who have died in wars.  If you’re looking at from the AT, what state are you in?",
           "choices": [
             {
-              "text": ""
+              "text": "Maryland"
             },
             {
-              "text": ""
+              "text": "West Virginia"
             },    {
-              "text": ""
+              "text": "Pennsylvania"
             },    {
-              "text": ""
+              "text": "Connecticut"
             }
           ],
-          "correctAnswerIndex": 1,
-          "answerText": "",
-          "answerImage": "",
-          "answerImageCaption": ""
+          "correctAnswerIndex": 0,
+          "answerText": "The National War Correspondents Memorial looks like a castle wall with three Roman arches above a Moorish arch.  The three roman arches represent Description, Depiction and Photography.  The wall also contains a statue of the Greek god Hermes, the messenger of the gods.\nIt was built by Civil War correspondent George Alfred Townsend, in 1896. The memorial sits in Gatland State Park in Western Maryland and has 157 names inscribed upon it.  The names are assumed to be war correspondents.",
+          "answerImage": "https://upload.wikimedia.org/wikipedia/commons/e/ec/War_Correspondents_Arch_MD1.jpg",
+          "answerImageCaption": "The National War Correspondents Memorial in Maryland's Gathland State Park"
         },
         {
           "id": "19745678-91aa-4ff0-8271-755c7fe93673",
           "tags": [],
-          "questionText": "Dragon’s Tooth McAfee Knob, and Tinker Cliffs are three hikes with phenomenal views on Virginia’s stretch of the AT.  collectively, What are these hikes called?",
+          "questionText": "Dragon’s Tooth, McAfee Knob, and Tinker Cliffs are three scenic spots along Virginia’s stretch of the AT.  What are these three spots collectively called?",
           "choices": [
             {
               "text": "The Three Amigos"
@@ -922,14 +922,14 @@
             }
           ],
           "correctAnswerIndex": 1,
-          "answerText": "Virginia’s Triple Crown is one of the most iconic sections of a thru-hiker’s journey.  For those with less time, the Triple Crown loop is a 35 mile, 3 day hike that takes you over all three locations.",
+          "answerText": "Virginia’s Triple Crown is among the most memorable sections of a thru-hiker's journey.  For non-thru-hikers, the Triple Crown loop is a 35 mile, 3 day hike that takes you over all three locations.",
           "answerImage": "https://upload.wikimedia.org/wikipedia/commons/2/27/VT_Student_enjoying_the_view_at_McAfee%27s_Knob_-_panoramio.jpg",
           "answerImageCaption": "Mcafee Knob"
         }
       ]
     },
     {
-      "id": "7181e5e8-91aa-4ff0-8271-755c7fe93639",
+      "id": "8181e5e8-91aa-4ff0-8271-755c7fe93639",
       "title": "The AT in VT",
       "publishDate": "2023/11/24",
       "image": null,
@@ -952,14 +952,14 @@
             }
           ],
           "correctAnswerIndex": 2,
-          "answerText": "The AT and the LT run together for about 105 miles from the Massachusetts border to Main Junction.",
+          "answerText": "The AT and the LT run together for about 105 miles, from the Massachusetts border to Main Junction.",
           "answerImage": "https://www.greenmountainclub.org/wp-content/uploads/2022/11/Nika-Meyers-FinishingPhoto_FKT_OCT22021-1024x768.jpg",
-          "answerImageCaption": "Sign marking the start of the Long Trail on the Massachusetts border."
+          "answerImageCaption": "The Long Trail's southern terminus"
         },
         {
           "id": "19345678-91aa-4ff0-8271-755c7fe93673",
           "tags": [],
-          "questionText": "The Appalachian Trail meets the Long Trail at Maine Junction.  However, Maine Junction connects three long hiking trails.  What is the third trail?",
+          "questionText": "The Appalachian and Long trails at Maine Junction.  However, Maine Junction is a nexus for 3 hiking trails.  What is the third trail?",
           "choices": [
             {
               "text": "Cross Vermont Trail"
@@ -973,7 +973,7 @@
             }
           ],
           "correctAnswerIndex": 3,
-          "answerText": "The North Country Trail is a 4,800 mile hiking trail that runs from Lake Sakakawea State Park in North Dakota to Maine Junction in Vermont.  It was established in 1980, but stopped in Crown Point, New York until 2019 when it was extended 45 miles to connect with the Appalachian Trail.\nThe Vermont section of the NCT passes through scenic public lands including the Green Mountain National Forest and Moosalamoo National Recreation Area, and includes the existing North Country Trail that follows the Trail Around Middlebury (TAM).",
+          "answerText": "The North Country Trail is a 4,800 mile hiking trail running from Lake Sakakawea State Park in North Dakota to Maine Junction in Vermont.  When it was established in 1980, it stopped at Crown Point in New York. In 2019 it was connected to the AT via 45 miles extension through Vermont.\nThe Vermont section of the NCT passes through scenic public lands including the Green Mountain National Forest and Moosalamoo National Recreation Area, and follows the Trail Around Middlebury (TAM).",
           "answerImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/North_Country_National_Scenic_Trail_-_Maplewood_State_Park%2C_Minnesota_%2837124196363%29.jpg/640px-North_Country_National_Scenic_Trail_-_Maplewood_State_Park%2C_Minnesota_%2837124196363%29.jpg\n",
           "answerImageCaption": "North Country Trail Blaze"
         },
@@ -1039,7 +1039,7 @@
           "correctAnswerIndex": 1,
           "answerText": "Often simply referred to as “The Lookout”, this private, rustic cabin north of Woodstock lies a short hike from the Appalachian Trail, and features a rooftop platform providing commanding views of the White Mountains.  The cabin and short access trail are both privately maintained, but are open to hikers.\nThe 2.5 mile out-and-back hike from the trailhead on Green Gate Road to Luce’s Lookout is a popular day hike.",
           "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/05/The-Lookout-2023-2048x1536.webp",
-          "answerImageCaption": "Inu at Luce's Lookouts"
+          "answerImageCaption": "Inu at Luce's Lookout"
         }
       ]
     }
