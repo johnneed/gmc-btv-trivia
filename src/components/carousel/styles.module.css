@@ -36,12 +36,12 @@
     flex: 1 1 auto;
     text-align: left;
     padding: 0.25rem 1rem 0.25rem 1.25rem;
-    font-size: 1.5rem;
     align-self: stretch;
 }
 
 .answer_text > p {
     line-height: 2rem;
+    font-size: 1.5rem;
 }
 
 .answer_picture > figure {

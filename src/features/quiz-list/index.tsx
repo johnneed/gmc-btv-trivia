@@ -46,7 +46,7 @@ const QuizListScreen = () => {
                     </div>
                 </div>
             </div>
-            <Link onClick={scrollTop} className={styles.go_home} to={"/"}>◀ Go Back!</Link>
+            <Link onClick={scrollTop} className={styles.go_home} to={"/"}><span></span> Go Back!</Link>
         </>
     );
 };
