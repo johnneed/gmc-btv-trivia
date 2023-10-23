@@ -1,14 +1,14 @@
 {
   "quizzes": [
     {
-      "id": "1081e5e8-91aa-4ff0-8271-755c7fe93672",
+      "id": "0101e5e8-91aa-4ff0-8271-755c7fe93672",
       "title": "Founding of the Green Mountain Club",
       "publishDate": "2023/10/06",
       "image": null,
       "author": "John Need",
       "questions": [
         {
-          "id": "2381e5e8-91aa-4ff0-8271-755c7fe93671",
+          "id": "0281e5e8-91aa-4ff0-8271-755c7fe93671",
           "tags": [
             "HISTORY",
             "LONG TRAIL"
@@ -138,7 +138,7 @@
       ]
     },
     {
-      "id": "2081e5e8-91aa-4ff0-8271-755c7fe93674",
+      "id": "0281e5e8-91aa-4ff0-8271-755c7fe93674",
       "title": "From MA to Canada",
       "publishDate": "2023/10/13",
       "image": null,
@@ -168,7 +168,7 @@
           "correctAnswerIndex": 3,
           "answerText": "People who hike the entire Long Trailare called “End-to-Enders”. End-to-Enders can hike the entire trail in one go or over time.  Ender-to-Enders can become certified by the Green Mountain Club by applying online, through the GMC website.  Each year, the list of End-to-Enders and their journals are archived at the Vermont Historical Society.",
           "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/10/end-to-end-patch.png",
-            "answerImageCaption": "End-to-End Rocker Patch"
+          "answerImageCaption": "End-to-End Rocker Patch"
         },
         {
           "id": "8381e5e8-91aa-4ff0-8271-755c7fe93671",
@@ -277,7 +277,7 @@
       ]
     },
     {
-      "id": "3181e5e8-91aa-4ff0-8271-755c7fe93639",
+      "id": "0381e5e8-91aa-4ff0-8271-755c7fe93639",
       "title": "Long Trail Geography",
       "publishDate": "2023/10/20",
       "image": null,
@@ -305,7 +305,7 @@
             }
           ],
           "correctAnswerIndex": 0,
-          "answerText": "The halfway mark changes every year due to trail locations but Breadloaf Mountain is considered to be the unofficial halfway point.",
+          "answerText": "The halfway mark changes every year due to trail re-locations but Bread Loaf Mountain is considered to be the unofficial halfway point.",
           "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/10/breadloaf-mountain-jpeg.webp",
           "answerImageCaption": "Postcard of the Breadloaf campus with a view of Breadloaf Mountain"
         },
@@ -416,7 +416,7 @@
       ]
     },
     {
-      "id": "4181e5e8-91aa-4ff0-8271-755c7fe93639",
+      "id": "0481e5e8-91aa-4ff0-8271-755c7fe93639",
       "title": "Gimme Shelters",
       "publishDate": "2023/10/27",
       "image": null,
@@ -556,7 +556,7 @@
       ]
     },
     {
-      "id": "5181e5e8-91aa-4ff0-8271-755c7fe93639",
+      "id": "0581e5e8-91aa-4ff0-8271-755c7fe93639",
       "title": "Its News to Me",
       "publishDate": "2023/11/03",
       "image": null,
@@ -700,7 +700,7 @@
       ]
     },
     {
-      "id": "6181e5e8-91aa-4ff0-8271-755c7fe93639",
+      "id": "0681e5e8-91aa-4ff0-8271-755c7fe93639",
       "title": "What's in a Name",
       "publishDate": "2023/11/10",
       "image": null,
@@ -716,9 +716,11 @@
             },
             {
               "text": "Honted House Camp"
-            },    {
+            },
+            {
               "text": "Porky Lodge"
-            },    {
+            },
+            {
               "text": "Hell Hollow Camp"
             }
           ],
@@ -737,9 +739,11 @@
             },
             {
               "text": "Lincoln Peak"
-            },    {
+            },
+            {
               "text": "Mount Abraham"
-            },    {
+            },
+            {
               "text": "Mount Cleveland"
             }
           ],
@@ -758,9 +762,11 @@
             },
             {
               "text": "It was named after Al Gore’s grandson."
-            },    {
+            },
+            {
               "text": "It was named after an obnoxious goat that frequented the area."
-            },    {
+            },
+            {
               "text": "It was named after Harold Martin 'Kid' Gore."
             }
           ],
@@ -779,7 +785,8 @@
             },
             {
               "text": "Mountain Goat"
-            },    {
+            },
+            {
               "text": "Sunshine"
             },
             {
@@ -801,9 +808,11 @@
             },
             {
               "text": "Fisher Cat"
-            },    {
+            },
+            {
               "text": "Fur Bearing Trout"
-            },    {
+            },
+            {
               "text": "Sidehill Gouger"
             }
           ],
@@ -815,7 +824,7 @@
       ]
     },
     {
-      "id": "7181e5e8-91aa-4ff0-8271-755c7fe93639",
+      "id": "0781e5e8-91aa-4ff0-8271-755c7fe93639",
       "title": "The Appalachian Trail",
       "publishDate": "2023/11/17",
       "image": null,
@@ -831,9 +840,11 @@
             },
             {
               "text": "Flagg Mountain in Alabama"
-            },    {
+            },
+            {
               "text": "Big Creek in the Great Smoky Mountains National Park"
-            },    {
+            },
+            {
               "text": "Mount Oglethorpe in Georgia"
             }
           ],
@@ -852,9 +863,11 @@
             },
             {
               "text": "Thomas Jefferson"
-            },    {
+            },
+            {
               "text": "Abraham Lincoln"
-            },    {
+            },
+            {
               "text": "Calvin Coolidge"
             }
           ],
@@ -873,9 +886,11 @@
             },
             {
               "text": "Connecticut"
-            },    {
+            },
+            {
               "text": "West Virginia"
-            },    {
+            },
+            {
               "text": "New York"
             }
           ],
@@ -894,9 +909,11 @@
             },
             {
               "text": "West Virginia"
-            },    {
+            },
+            {
               "text": "Pennsylvania"
-            },    {
+            },
+            {
               "text": "Connecticut"
             }
           ],
@@ -915,9 +932,11 @@
             },
             {
               "text": "The Triple Crown"
-            },    {
+            },
+            {
               "text": "The Virginian Views"
-            },    {
+            },
+            {
               "text": "The Virginian Dominions"
             }
           ],
@@ -929,7 +948,7 @@
       ]
     },
     {
-      "id": "8181e5e8-91aa-4ff0-8271-755c7fe93639",
+      "id": "0881e5e8-91aa-4ff0-8271-755c7fe93639",
       "title": "The AT in VT",
       "publishDate": "2023/11/24",
       "image": null,
@@ -945,9 +964,11 @@
             },
             {
               "text": "95 miles"
-            },    {
+            },
+            {
               "text": "105 miles"
-            },    {
+            },
+            {
               "text": "120 miles"
             }
           ],
@@ -966,9 +987,11 @@
             },
             {
               "text": "American Discovery Trail"
-            },    {
+            },
+            {
               "text": "TAM Trail"
-            },    {
+            },
+            {
               "text": "North Country Trail"
             }
           ],
@@ -977,7 +1000,6 @@
           "answerImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/North_Country_National_Scenic_Trail_-_Maplewood_State_Park%2C_Minnesota_%2837124196363%29.jpg/640px-North_Country_National_Scenic_Trail_-_Maplewood_State_Park%2C_Minnesota_%2837124196363%29.jpg\n",
           "answerImageCaption": "North Country Trail Blaze"
         },
-
         {
           "id": "39345678-91aa-4ff0-8271-755c7fe93673",
           "tags": [],
@@ -988,9 +1010,11 @@
             },
             {
               "text": "White"
-            },    {
+            },
+            {
               "text": "Yellow"
-            },    {
+            },
+            {
               "text": "Pink"
             }
           ],
@@ -1009,9 +1033,11 @@
             },
             {
               "text": "Upper Valley Ottauquechee Section"
-            },    {
+            },
+            {
               "text": "Worcester Section"
-            },    {
+            },
+            {
               "text": "No one"
             }
           ],
@@ -1030,9 +1056,11 @@
             },
             {
               "text": "Luce’s Lookout"
-            },    {
+            },
+            {
               "text": "Cloudland Shelter"
-            },    {
+            },
+            {
               "text": "Woodstock Cabin"
             }
           ],
@@ -1040,6 +1068,130 @@
           "answerText": "Often simply referred to as “The Lookout”, this private, rustic cabin north of Woodstock lies a short hike from the Appalachian Trail, and features a rooftop platform providing commanding views of the White Mountains.  The cabin and short access trail are both privately maintained, but are open to hikers.\nThe 2.5 mile out-and-back hike from the trailhead on Green Gate Road to Luce’s Lookout is a popular day hike.",
           "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/05/The-Lookout-2023-2048x1536.webp",
           "answerImageCaption": "Inu at Luce's Lookout"
+        }
+      ]
+    },
+    {
+      "id": "0981e5e8-91aa-4ff0-8271-755c7fe93639",
+      "title": "Other Vermont Trails",
+      "publishDate": "2023/10/01",
+      "image": null,
+      "author": "John Need",
+      "questions": [
+        {
+          "id": "09015678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": " “TAM” is the acronym for a 20-mile loop trail.  What does “TAM” stand for?",
+          "choices": [
+            {
+              "text": "Trail Around Middlebury"
+            },
+            {
+              "text": "Thetford And Morey Trail"
+            },
+            {
+              "text": "Twilight Agricultural Museum Trail"
+            },
+            {
+              "text": "Theodore Augustus Mead Trail"
+            }
+          ],
+          "correctAnswerIndex": 0,
+          "answerText": "The Trail Around Middlebury is a 20-mile loop around the town of Middlebury, Vermont.    The TAM stitches together smaller trails that take hikers through the Middlebury College campus, the Otter Creek Gorge Preserve, Wright Park , Chipman Hill,  Battell & Means Woods , and the Jeffrey Murdock Nature Preserve.\nLying at a lower elevation than the Long Trail, the TAM is the perfect trail for early and late season hiking.   Although long, it is mostly flat, and can be completed in a day by enthusiastic early-risers.",
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/10/tam-trail.png\n",
+          "answerImageCaption": "TAM Trail marker"
+        },
+        {
+          "id": "09025678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "What is longest trail that passes through Vermont",
+          "choices": [
+            {
+              "text": "The Long Trail"
+            },
+            {
+              "text": "The Appalachian Trail"
+            },
+            {
+              "text": "The American Discovery Trail"
+            },
+            {
+              "text": "The North Country Trail"
+            }
+          ],
+          "correctAnswerIndex": 3,
+          "answerText": "The North Country Trail (NCT)  is a 4,500 mile trail that starts in North Dakota and ends at Maine Junction in Vermont, where it meets the AT.  The NCT beats the AT’s length by about 2310 miles.",
+          "answerImage": "https://upload.wikimedia.org/wikipedia/commons/6/68/North_Country_National_Scenic_Trail_-_Maplewood_State_Park%2C_Minnesota_%2837124196363%29.jpg",
+          "answerImageCaption": "North Country National Scenic Trail marker"
+        },
+        {
+          "id": "09035678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "Which of these trails passes through New York, Vermont, Quebec, New Hampshire, and Maine?",
+          "choices": [
+            {
+              "text": "The North Country Trail"
+            },
+            {
+              "text": "The Appalachian Trail"
+            },
+            {
+              "text": "The Northern Forest Canoe Trail"
+            },
+            {
+              "text": "The East Coast Greenway"
+            }
+          ],
+          "correctAnswerIndex": 2,
+          "answerText": "The Northern Forest Canoe Trail is a 740 mile paddling route extending from Old Forge, New York to Fort Kent, Maine.   It passes through Vermont twice.  It enters Vermont from Lake Champlain and travels up the Missisquoi River to Quebec.  It re-enters Vermont from Lake Memphremagog and then travels to New Hampshire via a series of ponds and rivers.\nIn total, the trail traverses: 2 countries, 4 states,  23 rivers and streams, 59 lakes and ponds, and 45 communities.  There are a total of 65 portages totaling 70 miles.",
+          "answerImage": "https://upload.wikimedia.org/wikipedia/commons/5/52/Northern_Forest_Canoe_Trail_sign_in_Enosburg_Falls.JPG\n",
+          "answerImageCaption": "Northern Forest Canoe Trail sign"
+        },
+        {
+          "id": "09045678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "What is the name of the longest, continuous bike trail in New England?",
+          "choices": [
+            {
+              "text": "The East Coast Greenway"
+            },
+            {
+              "text": "The Lamoille Valley Rail Trail"
+            },
+            {
+              "text": "Ammonoosuc Recreational Rail Trail"
+            },
+            {
+              "text": "Island Line Trail"
+            }
+          ],
+          "correctAnswerIndex": 1,
+          "answerText": "At 93 miles, the Lamoille Valley Rail Trail is currently the longest, continuous rail trail  in New England. It runs from St. Johnsbury to Swanton, Vermont.\nIt was completed in 2023, but was destroyed a few months later by catastrophic floods.    While large sections have reopened, a few bridges will not be replaced until 2024.",
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2022/04/20220423_143530-1-scaled.jpg",
+          "answerImageCaption": "A good place to stop on the LVRT"
+        },
+        {
+          "id": "09015678-91aa-4ff0-8271-755c7fe93673",
+          "tags": [],
+          "questionText": "The Long Trail isn’t the only trail that runs from Massachusetts to Canada.  What other famous trail runs from the bottom to the top of Vermont?",
+          "choices": [
+            {
+              "text": "The Green Mountain Trail"
+            },
+            {
+              "text": "The Appalachian Trail"
+            },
+            {
+              "text": "The North Country Trail"
+            },
+            {
+              "text": "The Catamount Trail"
+            }
+          ],
+          "correctAnswerIndex": 3,
+          "answerText": "The Catamount Trail is a 300+ mile backcountry, ski trail running from the MA border near Readsboro to the Quebec border near Troy, Vermont.\nThe trail began in 1982 when three Vermonters decided to ski from Massachusetts  to Quebec. It was completed in 2007 and is maintained by the Catamount Trail Association",
+          "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/02/pexels-simon-berger-877864-scaled.jpg",
+          "answerImageCaption": "Backcountry skiing"
         }
       ]
     }
