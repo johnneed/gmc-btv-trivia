@@ -292,7 +292,7 @@
           "questionText": "Every hiker knows the Long Trail starts at the Massachusetts border and ends at the Canadian border.  What geographical feature is approximately halfway?",
           "choices": [
             {
-              "text": "Breadloaf Mountain"
+              "text": "Bread Loaf Mountain"
             },
             {
               "text": "Winooski River"
@@ -307,7 +307,7 @@
           "correctAnswerIndex": 0,
           "answerText": "The halfway mark changes every year due to trail re-locations but Bread Loaf Mountain is considered to be the unofficial halfway point.",
           "answerImage": "https://gmcburlington.org/wp-content/uploads/2023/10/breadloaf-mountain-jpeg.webp",
-          "answerImageCaption": "Postcard of the Breadloaf campus with a view of Breadloaf Mountain"
+          "answerImageCaption": "Postcard of the Bread Loaf campus with a view of Bread Loaf Mountain"
         },
         {
           "id": "2281e5e8-91aa-4ff0-8271-755c7fe93671",
