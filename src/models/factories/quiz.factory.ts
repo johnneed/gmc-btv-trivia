@@ -6,6 +6,7 @@ import { dateFactory } from "../../libs/date-helpers";
 const quizFactory = (data: any): Quiz => ({
     id: typeof data?.id === "string" ? data?.id : uuidv4(),
     title: typeof data?.title === "string" ? data?.title : "",
+    subtitle: typeof data?.subtitle === "string" ? data?.subtitle : "",
     author: typeof data?.author === "string" ? data?.author : "",
     publishDate: (dateFactory(data?.publishDate, true) as Date).getTime(),
     image: typeof data?.image === "string" ? data?.image : "",

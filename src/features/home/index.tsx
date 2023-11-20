@@ -29,6 +29,7 @@ const HomeScreen = () => {
                 </div>
                 <p className={styles.message}>{"A new trivia challenge every Friday"}</p>
                 <p className={styles.quiz_title}>{latestQuiz?.title || ""}</p>
+                <p className={styles.quiz_title}>{latestQuiz?.subtitle || ""}</p>
                 <div className={styles.latest_quiz}>
                     <button onClick={handleClick} className={styles.play_button}>
                         <span>{"Play"}</span>

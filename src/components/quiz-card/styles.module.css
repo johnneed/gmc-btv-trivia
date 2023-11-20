@@ -69,10 +69,16 @@ a:active {
 
 
 .quiz_card_title {
+    display: inline-block;
     font-size: 1rem;
     font-weight: bold;
 }
-
+.quiz_card_subtitle {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
 .quiz_card_date {
     font-size: 0.9rem;
     display: block;

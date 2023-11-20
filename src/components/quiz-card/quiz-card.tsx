@@ -18,7 +18,11 @@ const QuizCard = ({ children, quiz  }: QuizCardProps) => {
     });
     return (
         <Link onClick={scrollTop} className={styles.quiz_card} to={`/quiz/${quiz.id}`}>
-            <span className={styles.quiz_card_title}>{quiz.title}</span>
+            <span className={styles.quiz_card_title}>{quiz.title}
+            <br/>
+                <span className={styles.quiz_card_subtitle}>{quiz.subtitle || ""}</span>
+            </span>
+
             <span className={styles.quiz_card_image}>
                 {children}
             </span>
