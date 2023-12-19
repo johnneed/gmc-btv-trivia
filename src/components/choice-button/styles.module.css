@@ -1,63 +1,50 @@
 .choice {
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-content: stretch;
-    align-items: flex-start;
-}
-
-
-.choice > div:nth-child(1) {
-    order: 0;
-    flex: 0 0 auto;
-    align-self: center;
-}
-
-.choice > div:nth-child(2) {
-    order: 0;
-    flex: 1 1 auto;
-    align-self: center;
-}
-
-.choice button {
-    background-color: transparent;
-    font-size: 2rem;
+    margin: 0.5rem 0;
+    display: block;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: left;
     transition: all 0.5s;
-    padding: 1rem;
+    padding-left: 0;
+    box-sizing: border-box;
+}
+
+.choice.ahh_too_bad {
+    padding-left: 4.5rem;
+}
+
+.choice .button_container {
+    background-color: white;
+    height: 4rem;
+    width: 100%;
+    margin-left: 0;
+}
+
+.choice .button_container button{
+    font-size: 1.1rem;
+    width: 100%;
+    box-sizing: border-box;
+    height: 100%;
+    padding: 0 0.5rem;
+    background-color: transparent;
     border: solid 1px #DDD;
     cursor: pointer;
-    width: calc(100% - 3rem);
     text-align: left;
 }
+
+
+
+
+.choice button > span {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    justify-items: start;
+}
+
 
 .choice button:hover {
     background-color: #DDD;
 }
 
-.choice button > span {
 
-}
-
-.choice svg {
-    height: 3rem;
-    width: 3rem;
-    transition: all 0.5s;
-    margin-right: 1rem;
-    margin-top: 0.7rem;
-}
-
-
-@media only screen and (max-width: 600px) {
-    .choice button {
-        font-size: 1.1rem;
-        width: calc(100% - 1rem);
-    }
-
-    .choice svg {
-        /*height: 1.5rem;*/
-        /*width: 1.5rem;*/
-        margin: 0 0.2rem;
-    }
-}

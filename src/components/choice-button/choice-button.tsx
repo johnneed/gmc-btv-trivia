@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import type { Choice } from "../../models/types";
 import styles from "./styles.module.css";
-import { RightAnswer } from "../../assets/images/right-answer";
-import { WrongAnswer } from "../../assets/images/wrong-answer";
-import { NotAnswered } from "../../assets/images/not-answered";
-
-import * as R from "ramda";
+import wrongAnswer from "./answer-icons/wrong-answer.svg";
 
 interface ChoiceProps {
     choice: Choice,
@@ -13,13 +9,11 @@ interface ChoiceProps {
     isCorrect: boolean
 }
 
+
 const ChoiceButton = ({ choice, onClick, isCorrect }: ChoiceProps) => {
 
     const [hasBeenSelected, setHasBeenSelected] = useState(false);
-    const icon = R.cond([
-        [() => hasBeenSelected && isCorrect, R.always(<RightAnswer/>)],
-        [() => hasBeenSelected && !isCorrect, R.always(<WrongAnswer/>)],
-        [R.T, R.always(<NotAnswered/>)]])();
+
 
     const handleClick = () => {
         onClick(isCorrect);
@@ -29,14 +23,13 @@ const ChoiceButton = ({ choice, onClick, isCorrect }: ChoiceProps) => {
     };
 
     return (
-        <div className={styles.choice}>
-            <div>{icon}</div>
-            <div>
-                <button disabled={hasBeenSelected}
-                    className={hasBeenSelected && isCorrect ? styles.huzzah : styles.waiting_for_clicks}
+        <div className={`${styles.choice} ${hasBeenSelected ? styles.ahh_too_bad : styles.pick_me}`} style={{ backgroundImage: `url(${wrongAnswer})` }}>
+            <div className={styles.button_container}>
+                <button
+                    disabled={hasBeenSelected}
                     onClick={handleClick}>
-                <span>{choice.text}</span>
-            </button>
+                    <span><span>{choice.text}</span></span>
+                </button>
             </div>
         </div>
     );

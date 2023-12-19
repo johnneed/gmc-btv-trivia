@@ -1,0 +1,1 @@
+REACT_APP_API_URL=https://gmcburlington.org/wp-content/data/ npm run build

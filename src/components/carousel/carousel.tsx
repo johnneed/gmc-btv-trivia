@@ -26,9 +26,11 @@ interface QuestionBoxProps {
 const QuestionComponent = ({ question, handleSelect }: QuestionBoxProps) => (
     <article className={styles.question_box}>
         <div className={styles.question_text}>{question.questionText}</div>
+        <div className={styles.choices_container}>
         {question.choices.map((c, index) => (
             <ChoiceButton key={index} choice={c} isCorrect={index === question.correctAnswerIndex}
                           onClick={handleSelect}/>))}
+        </div>
     </article>
 );
 
