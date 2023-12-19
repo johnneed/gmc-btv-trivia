@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import type { Choice } from "../../models/types";
 import styles from "./styles.module.css";
-import wrongAnswer from "./answer-icons/wrong-answer.svg";
+import wrongAnswer from "../../assets/images/wrong-answer.svg";
 
 interface ChoiceProps {
     choice: Choice,
