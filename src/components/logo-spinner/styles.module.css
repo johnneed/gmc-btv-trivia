@@ -1,0 +1,60 @@
+.logo_spinner{
+
+}
+.logo_spinner {
+    margin: 0 auto;
+    height: 40vmin;
+    width: 40vmin;
+    pointer-events: none;
+    position: relative;
+}
+
+.logo_spinner > span {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 40vmin;
+    width: 40vmin;
+}
+
+.logo_spinner > span > svg {
+    height: 40vmin;
+    width: 40vmin;
+    pointer-events: none;
+    display: block;
+}
+
+.logo_spinner > span:last-child {
+    animation: logo-spin infinite 20s linear;
+}
+
+@keyframes logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+@media only screen and (min-width: 900px) {
+    .logo_spinner {
+        height: 20vmin;
+        width: 20vmin;
+    }
+    .logo_spinner > span {
+        height: 20vmin;
+        width: 20vmin;
+    }
+    .logo_spinner > span > svg {
+        height: 20vmin;
+        width: 20vmin;
+    }
+
+}
+

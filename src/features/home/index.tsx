@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./styles.module.css";
-import { LogoSansCompass } from "../../assets/images/logo-sans-compass";
-import { LogoCompassOnly } from "../../assets/images/logo-compass-only";
+import { LogoSpinner } from "../../components/logo-spinner";
 import { useAppSelector } from "../../app/hooks";
 import { selectLatestQuiz, selectQuizzes } from "../loader/loader-slice";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,34 +12,33 @@ const HomeScreen = () => {
 
     const latestQuiz = useAppSelector(selectLatestQuiz);
     const quizzes = useAppSelector(selectQuizzes);
-    const handleClick = () => {
-        navigate("/quiz/" + latestQuiz?.id);
-    };
+
 
     return (
         <>
             <div className={styles.home_screen}>
-                <div className={styles.home_screen_logo}>
-                    <span><LogoCompassOnly/></span>
-                    <span><LogoSansCompass/></span>
-                </div>
+                <p className={styles.message}>{"A new trivia challenge every Friday"}</p>
                 <div className={styles.home_screen_header}>
                     <h1>Trail Trivia</h1>
+                    <LogoSpinner/>
                 </div>
-                <p className={styles.message}>{"A new trivia challenge every Friday"}</p>
                 <p className={styles.quiz_title}>{latestQuiz?.title || ""}</p>
-                <p className={styles.quiz_title}>{latestQuiz?.subtitle || ""}</p>
+                <p className={styles.quiz_subtitle}>{latestQuiz?.subtitle || ""}</p>
                 <div className={styles.latest_quiz}>
-                    <button onClick={handleClick} className={styles.play_button}>
-                        <span>{"Play"}</span>
-                    </button>
+                    <Link className={styles.play_button} to={`/quiz/${latestQuiz?.id}`}>{"Play"}</Link>
+                    {quizzes.length > 1 &&
+                        <Link onClick={scrollTop} className={styles.quiz_list_button} to={"/quiz-list"}>More Trivia!</Link>}
                 </div>
+
+
+
+
                 <div>
                     <p>{date2String(latestQuiz?.publishDate)}</p>
                     {latestQuiz?.author && <p>This week's quiz master is: <br/>{latestQuiz?.author}</p>}
                 </div>
             </div>
-            {quizzes.length > 1 && <Link onClick={scrollTop} className={styles.quiz_list} to={"/quiz-list"}>More Trivia!</Link>}
+
         </>
     );
 };

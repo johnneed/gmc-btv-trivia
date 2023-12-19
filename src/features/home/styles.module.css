@@ -3,59 +3,16 @@
     margin: 0 auto;
 }
 
-.quiz_list {
-    text-align: right;
-    position: absolute;
-    top: 1rem;
-    left: calc(50% + 26rem);
-    border: solid 1px blue;
-    padding: 0.5rem 1rem;
-    margin: 0 ;
-    transition: all 0.2s;
-    font-size: 1.6rem;
-    font-family: "Henny Penny", sans-serif;
-    color: blue !important;
-    border-radius: 3px;
-    display: block;
-}
-
-.quiz_list:hover {
-    background-color: #EEE;
+.home_screen_header {
+    margin-bottom: 3rem;
 }
 
 .home_screen_header > h1 {
     font-family: "Henny Penny", sans-serif;
-    font-size: 4rem;
+    font-size: 2rem;
     text-shadow: 0 2px 2px #AAA;
     color: indianred;
     margin: 1rem 0 0 0;
-}
-
-.home_screen_logo {
-    margin: 1rem auto 0 auto;
-    height: 40vmin;
-    width: 40vmin;
-    pointer-events: none;
-    position: relative;
-}
-
-.home_screen_logo > span {
-    display: block;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    height: 40vmin;
-    width: 40vmin;
-}
-
-.home_screen_logo > span > svg {
-    height: 40vmin;
-    width: 40vmin;
-    pointer-events: none;
-    display: block;
 }
 
 .message {
@@ -70,57 +27,77 @@
     margin: 0 auto;
 }
 
+.quiz_subtitle {
+    font-family: "Tilt Neon", sans-serif;
+    font-size: 1rem;
+    color: slateblue;
+    text-shadow: 1px 1px 1px #DDD;
+    margin: 0 auto;
+}
+
 .latest_quiz {
-    margin-top: 1rem;
+    margin: 1rem auto 3rem auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
+    max-width: 16rem;
 }
+
+.latest_quiz > * {
+    flex: 1 1 auto;
+    align-self: stretch;
+}
+
 
 .play_button {
     color: floralwhite;
+    font-family: "Tilt Neon", sans-serif;
     margin: 0 0 1rem 0;
     padding: 0.5rem 3rem;
-    border: 1px solid #DDD;
-    font-size: 2rem;
+    font-size: 1.4rem;
     cursor: pointer;
     border-radius: 2rem;
     background: black;
     transition: all 0.3s;
     box-shadow: 0 2px 1px #EEE;
-    text-transform: uppercase;
-    font-family: Verdana, sans-serif;
+    border: solid 2px black;
+
 }
 
 .play_button:hover {
     background-color: #444;
 }
 
-.home_screen_logo > span:last-child {
-    animation: logo-spin infinite 20s linear;
+.quiz_list_button {
+    color: black;
+    font-family: "Tilt Neon", sans-serif;
+    padding: 0.5rem 3rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-radius: 2rem;
+    background: white;
+    transition: all 0.3s;
+    box-shadow: 0 2px 1px #EEE;
+    border: solid 2px black;
 }
 
+.quiz_list_button:hover {
+    background-color: floralwhite;
+}
 
 @media only screen and (max-width: 600px) {
-    .quiz_title {font-size: 2.3rem;}
-    .home_screen_header > h1 {font-size: 3.5rem;}
-    .quiz_list{
-        left: unset;
-        top: unset;
-        position: relative;
-        display: inline-block;
-        margin-top: 1.2rem;
-        font-size: 1.2rem;
+    .quiz_title {
+        font-size: 2.3rem;
     }
+
+    .home_screen_header > h1 {
+        font-size: 3.5rem;
+    }
+
+
 }
 
-@keyframes logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
 

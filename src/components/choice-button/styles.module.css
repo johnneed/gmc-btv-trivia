@@ -20,7 +20,7 @@
     margin-left: 0;
 }
 
-.choice .button_container button{
+.choice .button_container button {
     font-size: 1.1rem;
     width: 100%;
     box-sizing: border-box;
@@ -31,9 +31,6 @@
     cursor: pointer;
     text-align: left;
 }
-
-
-
 
 .choice button > span {
     display: grid;
