@@ -12,10 +12,10 @@
     border: solid 2px #DDD;
     border-radius: 1rem;
     cursor: pointer;
-    height: 20rem;
+    height: 24rem;
     text-align: left;
     box-shadow: 0 0 13px -4px rgba(0, 0, 0, 0.2);
-    max-width: 10rem;
+    max-width: 12rem;
 }
 
 a:link {
@@ -71,13 +71,13 @@ a:active {
 
 .quiz_card_title {
     display: inline-block;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-family: "Tilt Neon", sans-serif;
 }
 
 .quiz_card_subtitle {
     display: inline-block;
-    font-size: 0.8rem;
+    font-size: 1rem;
     margin-top: 0.5rem;
     font-family: "Tilt Neon", sans-serif;
 }
