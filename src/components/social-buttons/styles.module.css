@@ -1,0 +1,22 @@
+.social_buttons{}
+
+.button_container{
+    text-align: center;
+    margin-top: 20px;
+}
+
+.button_container > *{
+    margin: 0 0.25rem;
+    display: inline-block;
+}
+
+.share_your_score{
+    font-family: "Tilt Neon", sans-serif;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 1px #DDD;
+    margin: 0 auto;
+}
+
+@media only screen and (min-width: 900px) {
+
+}

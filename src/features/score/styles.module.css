@@ -4,12 +4,7 @@
     width: 100%;
 }
 
-.quiz_list{
-    text-align: right;
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-}
+
 .score_screen_header > h1 {
     font-family: "Henny Penny", sans-serif;
     font-size: 4rem;
@@ -22,7 +17,8 @@
 .message {
     font-family: "Tilt Neon", sans-serif;
     font-size: 2rem;
-    margin: 1rem 0
+    margin: 1rem;
+    color: slateblue;
 }
 
 .quiz_title {
@@ -33,27 +29,53 @@
     margin: 0 auto;
 }
 
-
-
-.back_button > a {
-    display: inline-block;
-    font-family: "Tilt Neon", sans-serif;
-    font-size: 1.5rem;
-    color: #555;
-    text-align: right;
-    padding: 1rem 2rem;
-    cursor: pointer;
-    border: solid 1px #AAA;
-    transition: all 0.2s;
-    margin-top: 5rem;
-    text-decoration: none;
+.score_screen_share_buttons {
+    text-align: center;
+    margin-top: 2rem;
 }
 
+.nav_buttons{
+    max-width: 20rem;
+    margin: 2rem auto;
+}
 
+.quiz_list_button{
+    display: block;
 
-.back_button > a:hover {
-    background-color: slateblue;
-    color: white;
+    color: floralwhite;
+    font-family: "Tilt Neon", sans-serif;
+    margin: 0 0 1rem 0;
+    padding: 0.5rem 3rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-radius: 2rem;
+    background: black;
+    transition: all 0.3s;
+    box-shadow: 0 2px 1px #EEE;
+    border: solid 2px black;
+}
+
+.quiz_list_button:hover {
+    background-color: #444;
+}
+
+.back_button {
+
+    display: block;
+    color: black;
+    font-family: "Tilt Neon", sans-serif;
+    padding: 0.5rem 3rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-radius: 2rem;
+    background: white;
+    transition: all 0.3s;
+    box-shadow: 0 2px 1px #EEE;
+    border: solid 2px black;
+}
+
+.back_button:hover {
+    background-color: floralwhite;
 }
 
 @media only screen and (max-width: 600px) {

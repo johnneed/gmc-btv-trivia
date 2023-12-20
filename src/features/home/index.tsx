@@ -29,16 +29,11 @@ const HomeScreen = () => {
                     {quizzes.length > 1 &&
                         <Link onClick={scrollTop} className={styles.quiz_list_button} to={"/quiz-list"}>More Trivia!</Link>}
                 </div>
-
-
-
-
                 <div>
                     <p>{date2String(latestQuiz?.publishDate)}</p>
                     {latestQuiz?.author && <p>This week's quiz master is: <br/>{latestQuiz?.author}</p>}
                 </div>
             </div>
-
         </>
     );
 };
