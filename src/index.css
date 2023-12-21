@@ -17,13 +17,13 @@ code {
 
 #root {
     background-color: white;
-    /*min-height: 87.4rem;*/
-    /*margin-bottom: 29rem;*/
+    min-height: 87.4rem;
+    margin-bottom: 29rem;
 }
 
 @media only screen and (max-width: 700px) {
     #root {
-        /*min-height: 100vh;*/
-        /*margin-bottom: 3rem;*/
+        min-height: 100vh;
+        margin-bottom: 3rem;
     }
 }

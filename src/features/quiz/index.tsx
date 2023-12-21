@@ -12,11 +12,12 @@ const QuizScreen = () => {
     const { qid, questionIndex   } = useParams();
     const quiz = R.compose(R.find((q: Quiz) => q.id === qid), useAppSelector)(selectQuizzes);
     const dispatch = useAppDispatch();
+    const qIndex =  isNaN(Number(questionIndex)) ? 0 : Number(questionIndex);
     useEffect(() => {
-        if (quiz?.id) {
-            dispatch(setScore({ quizId: quiz.id, score: 0 }));
+        if (!qIndex && qid) {
+            dispatch(setScore({ quizId: qid, score: 0 }));
         }
-    }, [quiz]);
+    }, [dispatch, qid, qIndex]);
 
     if (!quiz) {
         return (<div className={styles.quiz_screen}>
@@ -25,7 +26,7 @@ const QuizScreen = () => {
         </div>);
     }
 
-    const qIndex =  isNaN(Number(questionIndex)) ? 0 : Number(questionIndex);
+
     return (
         <div className={styles.quiz_screen}>
             <h3>{quiz.title}<span>{quiz.author && ` by ${quiz.author}`}</span></h3>
