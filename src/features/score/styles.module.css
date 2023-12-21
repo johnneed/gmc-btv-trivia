@@ -35,50 +35,19 @@
 }
 
 .nav_buttons{
-    max-width: 20rem;
+    max-width: 13rem;
     margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.quiz_list_button{
-    display: block;
-
-    color: floralwhite;
-    font-family: "Tilt Neon", sans-serif;
-    margin: 0 0 1rem 0;
-    padding: 0.5rem 3rem;
-    font-size: 1.4rem;
-    cursor: pointer;
-    border-radius: 2rem;
-    background: black;
-    transition: all 0.3s;
-    box-shadow: 0 2px 1px #EEE;
-    border: solid 2px black;
+.nav_buttons > a {
+    width: 100%
 }
 
-.quiz_list_button:hover {
-    background-color: #444;
-}
-
-.back_button {
-
-    display: block;
-    color: black;
-    font-family: "Tilt Neon", sans-serif;
-    padding: 0.5rem 3rem;
-    font-size: 1.4rem;
-    cursor: pointer;
-    border-radius: 2rem;
-    background: white;
-    transition: all 0.3s;
-    box-shadow: 0 2px 1px #EEE;
-    border: solid 2px black;
-}
-
-.back_button:hover {
-    background-color: floralwhite;
-}
-
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
     .score_screen_header > h1 {
         font-size: 3rem;
         margin-top: 5rem;

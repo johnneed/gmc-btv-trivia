@@ -11,6 +11,7 @@ import { MapleLeaf } from "../../assets/images/maple-leaf";
 import { Backpack } from "../../assets/images/backpack";
 import { Link } from "react-router-dom";
 import { scrollTop } from "../../libs/window-helpers";
+import { ActionButton } from "../../components/action-button";
 
 const assignGraphic = (index: number) => {
     switch (0) {
@@ -35,7 +36,7 @@ const QuizListScreen = () => {
         <>
             <div className={styles.home_screen}>
                 <div className={styles.home_screen_header}>
-                    <h1><Link to="/">Trail Trivia</Link></h1>
+                    <h1><Link to="/">Trail Trivia Archives</Link></h1>
                     <div className={styles.quiz_cards}>
                         {quizzes.map((q, i) => (
                             <div className={styles.quiz_card_container}>
@@ -46,7 +47,7 @@ const QuizListScreen = () => {
                     </div>
                 </div>
             </div>
-            <Link onClick={scrollTop} className={styles.go_home} to={"/"}><span></span> Go Back!</Link>
+            <ActionButton onClick={scrollTop} variant={"light"} to={"/"} text={"\u25C1 Back to Trail Trivia"}/>
         </>
     );
 };

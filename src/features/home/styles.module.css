@@ -17,6 +17,8 @@
 
 .message {
     margin: 0 auto 2rem auto;
+    font-family: "Tilt Neon", sans-serif;
+    font-size: 1.2rem;
 }
 
 .quiz_title {
@@ -52,42 +54,7 @@
 }
 
 
-.play_button {
-    color: floralwhite;
-    font-family: "Tilt Neon", sans-serif;
-    margin: 0 0 1rem 0;
-    padding: 0.5rem 3rem;
-    font-size: 1.4rem;
-    cursor: pointer;
-    border-radius: 2rem;
-    background: black;
-    transition: all 0.3s;
-    box-shadow: 0 2px 1px #EEE;
-    border: solid 2px black;
-}
-
-.play_button:hover {
-    background-color: #444;
-}
-
-.quiz_list_button {
-    color: black;
-    font-family: "Tilt Neon", sans-serif;
-    padding: 0.5rem 3rem;
-    font-size: 1.4rem;
-    cursor: pointer;
-    border-radius: 2rem;
-    background: white;
-    transition: all 0.3s;
-    box-shadow: 0 2px 1px #EEE;
-    border: solid 2px black;
-}
-
-.quiz_list_button:hover {
-    background-color: floralwhite;
-}
-
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
     .quiz_title {
         font-size: 2.3rem;
     }
@@ -95,8 +62,6 @@
     .home_screen_header > h1 {
         font-size: 3.5rem;
     }
-
-
 }
 
 

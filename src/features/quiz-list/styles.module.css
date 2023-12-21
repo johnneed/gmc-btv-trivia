@@ -28,9 +28,9 @@ h1 > a:hover {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-content: stretch;
-    align-items: baseline;
+    align-items: flex-start;
     margin: 2rem;
 }
 
@@ -41,46 +41,35 @@ h1 > a:hover {
 }
 
 
-.go_home {
-    text-align: right;
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    border: solid 1px blue;
-    padding: 0.5rem 1rem;
-    margin: 0 1rem 0 0;
-    transition: all 0.2s;
-    font-size: 1.6rem;
+.go_home_button {
+    color: black;
     font-family: "Tilt Neon", sans-serif;
-    color: blue !important;
-    border-radius: 3px;
+    padding: 0.5rem 3rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-radius: 2rem;
+    background: white;
+    transition: all 0.3s;
+    box-shadow: 0 2px 1px #EEE;
+    border: solid 2px black;
 }
 
-.go_home > span{
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-right: 20px solid blue;
-    border-bottom: 10px solid transparent;
-    display: inline-block;
-}
-
-.go_home:hover {
-    background-color: #EEE;
+.go_home_button:hover {
+    background-color: floralwhite;
 }
 
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
     .home_screen_header {
         font-size: 2.3rem;
         margin: 0;
     }
 
     h1 {
-    margin: 0 auto;
+        margin: 0 auto;
     }
     h1 > a {
-        font-size: 3.5rem;
+        font-size: 2rem;
     }
 
     .quiz_cards {

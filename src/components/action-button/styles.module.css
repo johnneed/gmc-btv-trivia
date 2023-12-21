@@ -1,0 +1,31 @@
+.action_button {
+    font-family: "Tilt Neon", sans-serif;
+    margin: 0 0 1rem 0;
+    padding: 0.5rem 3rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-radius: 2rem;
+    transition: all 0.3s;
+    box-shadow: 0 2px 1px #EEE;
+}
+
+
+.dark_button {
+    color: floralwhite;
+    background: black;
+    border: solid 2px black;
+}
+
+.dark_button :hover {
+    background-color: #444;
+}
+
+.light_button {
+    color: black;
+    background: white;
+    border: solid 2px black;
+}
+
+.light_button :hover {
+    background-color: floralwhite;
+}

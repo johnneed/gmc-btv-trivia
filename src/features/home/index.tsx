@@ -3,9 +3,10 @@ import styles from "./styles.module.css";
 import { LogoSpinner } from "../../components/logo-spinner";
 import { useAppSelector } from "../../app/hooks";
 import { selectLatestQuiz, selectQuizzes } from "../loader/loader-slice";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { date2String } from "../../libs/date-helpers";
 import { scrollTop } from "../../libs/window-helpers";
+import { ActionButton } from "../../components/action-button";
 
 const HomeScreen = () => {
     const navigate = useNavigate();
@@ -25,9 +26,11 @@ const HomeScreen = () => {
                 <p className={styles.quiz_title}>{latestQuiz?.title || ""}</p>
                 <p className={styles.quiz_subtitle}>{latestQuiz?.subtitle || ""}</p>
                 <div className={styles.latest_quiz}>
-                    <Link className={styles.play_button} to={`/quiz/${latestQuiz?.id}`}>{"Play"}</Link>
+                    <ActionButton text={"Play"} to={`/quiz/${latestQuiz?.id}`} variant={"dark"}/>
+
                     {quizzes.length > 1 &&
-                        <Link onClick={scrollTop} className={styles.quiz_list_button} to={"/quiz-list"}>More Trivia!</Link>}
+                        <ActionButton onClick={scrollTop} text={"Past Games"} to={"/quiz-list"}
+                                      variant={"light"}/>}
                 </div>
                 <div>
                     <p>{date2String(latestQuiz?.publishDate)}</p>

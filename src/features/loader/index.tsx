@@ -1,20 +1,20 @@
 import React, { useEffect } from "react";
 
 
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import {   fetchQuizzes, selectQuizzes, selectStatus  } from "./loader-slice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { fetchQuizzes, selectQuizzes, selectStatus } from "./loader-slice";
 import "./styles.css";
 
- const Loader = () => {
+const Loader = () => {
     const quizzes = useAppSelector(selectQuizzes);
-     const fetchStatus = useAppSelector(selectStatus);
+    const fetchStatus = useAppSelector(selectStatus);
     const dispatch = useAppDispatch();
 
-    useEffect(()=>{
-        if((quizzes || []).length === 0 && fetchStatus === "idle"){
+    useEffect(() => {
+        if ((quizzes || []).length === 0 && fetchStatus === "idle") {
             dispatch(fetchQuizzes());
         }
-    },[]);
+    }, []);
     return (<></>);
 };
 

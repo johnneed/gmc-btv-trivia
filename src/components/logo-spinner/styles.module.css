@@ -42,7 +42,7 @@
 }
 
 
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 700px) {
     .logo_spinner {
         height: 20vmin;
         width: 20vmin;

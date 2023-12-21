@@ -2,10 +2,11 @@ import React from "react";
 import styles from "./styles.module.css";
 import { useAppSelector } from "../../app/hooks";
 import { selectScores } from "./score-slice";
-import { Link, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { selectQuizzes } from "../loader/loader-slice";
 import { scrollTop } from "../../libs/window-helpers";
 import { SocialButtons } from "../../components/social-buttons";
+import { ActionButton } from "../../components/action-button";
 
 const ScoreScreen = () => {
 
@@ -32,13 +33,8 @@ const ScoreScreen = () => {
                     <SocialButtons/>
                 </div>
                 <div className={styles.nav_buttons}>
-
-                    <Link onClick={scrollTop} className={styles.quiz_list_button} to={"/quiz-list"}>
-                        Previous Games
-                    </Link>
-
-                    <Link className={styles.back_button} to={"/"}>Back to Trail Trivia</Link>
-
+                    <ActionButton  onClick={scrollTop} text="Past Games" variant="dark" to={"/quiz-list"}/>
+                    <ActionButton  variant={"light"} to={"/"} text={"Back to Trail Trivia"}/>
                 </div>
             </div>
 
