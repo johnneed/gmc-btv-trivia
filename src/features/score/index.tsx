@@ -2,11 +2,12 @@ import React from "react";
 import styles from "./styles.module.css";
 import { useAppSelector } from "../../app/hooks";
 import { selectScores } from "./score-slice";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { selectQuizzes } from "../loader/loader-slice";
 import { scrollTop } from "../../libs/window-helpers";
 import { SocialButtons } from "../../components/social-buttons";
 import { ActionButton } from "../../components/action-button";
+import { motion } from "framer-motion";
 
 const ScoreScreen = () => {
 
@@ -16,7 +17,7 @@ const ScoreScreen = () => {
     const quiz = quizzes.find((q) => q.id === qid);
 
     return (
-        <>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div className={styles.score_screen}>
                 <div className={styles.score_screen_header}>
                     <h1>Trail Trivia</h1>
@@ -33,12 +34,12 @@ const ScoreScreen = () => {
                     <SocialButtons/>
                 </div>
                 <div className={styles.nav_buttons}>
-                    <ActionButton  onClick={scrollTop} text="Past Games" variant="dark" to={"/quiz-list"}/>
-                    <ActionButton  variant={"light"} to={"/"} text={"Back to Trail Trivia"}/>
+                    <ActionButton onClick={scrollTop} text="Past Games" variant="dark" to={"/quiz-list"}/>
+                    <ActionButton variant={"light"} to={"/"} text={"Back to Trail Trivia"}/>
                 </div>
             </div>
 
-        </>
+        </motion.div>
     );
 };
 

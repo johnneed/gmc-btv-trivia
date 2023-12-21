@@ -3,20 +3,20 @@ import styles from "./styles.module.css";
 import { LogoSpinner } from "../../components/logo-spinner";
 import { useAppSelector } from "../../app/hooks";
 import { selectLatestQuiz, selectQuizzes } from "../loader/loader-slice";
-import { useNavigate } from "react-router-dom";
 import { date2String } from "../../libs/date-helpers";
 import { scrollTop } from "../../libs/window-helpers";
 import { ActionButton } from "../../components/action-button";
+import { motion } from "framer-motion";
 
 const HomeScreen = () => {
-    const navigate = useNavigate();
 
     const latestQuiz = useAppSelector(selectLatestQuiz);
     const quizzes = useAppSelector(selectQuizzes);
 
 
+
     return (
-        <>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div className={styles.home_screen}>
                 <p className={styles.message}>{"A new trivia challenge every Friday"}</p>
                 <div className={styles.home_screen_header}>
@@ -37,7 +37,7 @@ const HomeScreen = () => {
                     {latestQuiz?.author && <p>This week's quiz master is: <br/>{latestQuiz?.author}</p>}
                 </div>
             </div>
-        </>
+        </motion.div>
     );
 };
 

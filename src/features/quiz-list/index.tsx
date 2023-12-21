@@ -12,6 +12,7 @@ import { Backpack } from "../../assets/images/backpack";
 import { Link } from "react-router-dom";
 import { scrollTop } from "../../libs/window-helpers";
 import { ActionButton } from "../../components/action-button";
+import { motion } from "framer-motion";
 
 const assignGraphic = (index: number) => {
     switch (0) {
@@ -33,7 +34,7 @@ const assignGraphic = (index: number) => {
 const QuizListScreen = () => {
     const quizzes = useAppSelector(selectQuizzes);
     return (
-        <>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div className={styles.home_screen}>
                 <div className={styles.home_screen_header}>
                     <h1><Link to="/">Trail Trivia Archives</Link></h1>
@@ -48,7 +49,7 @@ const QuizListScreen = () => {
                 </div>
             </div>
             <ActionButton onClick={scrollTop} variant={"light"} to={"/"} text={"\u25C1 Back to Trail Trivia"}/>
-        </>
+        </motion.div>
     );
 };
 

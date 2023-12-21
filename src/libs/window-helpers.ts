@@ -1,9 +1,4 @@
 
 export const scrollTop = () => {
-    setTimeout(function () {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-    }, 0);
+    window.scrollTo(0, 0);
 };
