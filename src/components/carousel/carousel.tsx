@@ -5,9 +5,11 @@ import styles from "./styles.module.css";
 import { Link } from "react-router-dom";
 import { splitOnCarriageReturn } from "../../libs/string-helpers";
 import { scrollTop } from "../../libs/window-helpers";
+import { motion } from "framer-motion";
 
 interface CarouselProps {
     quiz: Quiz;
+    questionIndex?: number;
     incrementScore: () => void;
 }
 
@@ -27,9 +29,9 @@ const QuestionComponent = ({ question, handleSelect }: QuestionBoxProps) => (
     <article className={styles.question_box}>
         <div className={styles.question_text}>{question.questionText}</div>
         <div className={styles.choices_container}>
-        {question.choices.map((c, index) => (
-            <ChoiceButton key={index} choice={c} isCorrect={index === question.correctAnswerIndex}
-                          onClick={handleSelect}/>))}
+            {question.choices.map((c, index) => (
+                <ChoiceButton key={index} choice={c} isCorrect={index === question.correctAnswerIndex}
+                              onClick={handleSelect}/>))}
         </div>
     </article>
 );
@@ -63,9 +65,8 @@ const AnswerComponent = ({ question }: AnswerBoxProps) => (
 );
 
 
-const Carousel = ({ quiz, incrementScore }: CarouselProps) => {
+const Carousel = ({ quiz, incrementScore, questionIndex = 0 }: CarouselProps) => {
 
-    const [questionIndex, setQuestionIndex] = useState(0);
     const [isCurrentQuestionAnswered, setIsCurrentQuestionAnswered] = useState(false);
     const [isFirstTry, setIsFirstTry] = useState(true);
 
@@ -83,29 +84,29 @@ const Carousel = ({ quiz, incrementScore }: CarouselProps) => {
 
 
     const nextQuestion = () => {
-        setQuestionIndex(questionIndex + 1);
         setIsCurrentQuestionAnswered(false);
         setIsFirstTry(true);
         scrollTop();
     };
 
     return (
-        <div className={styles.carousel}>
-            {
-                isCurrentQuestionAnswered
-                    ? (
-                        <>
-                            <AnswerComponent isLast={questionIndex === quiz.questions.length}
-                                             handleNext={nextQuestion}
-                                             question={quiz.questions[questionIndex]}/>
-                            <div>
-                                {
-                                    questionIndex >= quiz.questions.length - 1
-                                        ? (
-                                            <div className={styles.congratulations}>
-                                                <div>
-                                                    <span>{"🎉"}</span>
-                                                    <span>
+        <motion.div initial={{ translateX: "101vw" }} animate={{ translateX: "0vw" }}>
+            <div className={styles.carousel}>
+                {
+                    isCurrentQuestionAnswered
+                        ? (
+                            <>
+                                <AnswerComponent isLast={questionIndex === quiz.questions.length}
+                                                 handleNext={nextQuestion}
+                                                 question={quiz.questions[questionIndex]}/>
+                                <div>
+                                    {
+                                        questionIndex >= quiz.questions.length - 1
+                                            ? (
+                                                <div className={styles.congratulations}>
+                                                    <div>
+                                                        <span>{"🎉"}</span>
+                                                        <span>
                                                     <Link onClick={scrollTop} className={styles.congrats_text}
                                                           to={`/score/${quiz.id}`}>
                                                         Congratulations!<br/>
@@ -113,26 +114,28 @@ const Carousel = ({ quiz, incrementScore }: CarouselProps) => {
                                                         Checkout your score.
                                                     </Link>
                                                     </span>
-                                                    <span>{"🎉"}</span>
+                                                        <span>{"🎉"}</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )
-                                        : (
-                                            <button className={styles.next_question} onClick={() => nextQuestion()}>
-                                                Next Question <span>{"\u2192"}</span>
-                                            </button>
-                                        )
-                                }
-                            </div>
-                        </>
-                    )
+                                            )
+                                            : (
+                                                <Link to={`/quiz/${quiz.id}/${questionIndex + 1}`}
+                                                      className={styles.next_question} onClick={() => nextQuestion()}>
+                                                    Next Question <span>{"\u2192"}</span>
+                                                </Link>
+                                            )
+                                    }
+                                </div>
+                            </>
+                        )
 
-                    : (
-                        <QuestionComponent handleSelect={handleSelect}
-                                           question={quiz.questions[questionIndex]}/>
-                    )
-            }
-        </div>
+                        : (
+                            <QuestionComponent handleSelect={handleSelect}
+                                               question={quiz.questions[questionIndex]}/>
+                        )
+                }
+            </div>
+        </motion.div>
     );
 };
 
