@@ -1,7 +1,7 @@
 .App {
     text-align: center;
-    position: relative;
     max-width: 80rem;
     margin: 0 auto;
+    padding: 1rem 0;
 }
 
