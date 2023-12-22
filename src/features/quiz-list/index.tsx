@@ -10,7 +10,6 @@ import { Mountain } from "../../assets/images/mountain";
 import { MapleLeaf } from "../../assets/images/maple-leaf";
 import { Backpack } from "../../assets/images/backpack";
 import { Link } from "react-router-dom";
-import { scrollTop } from "../../libs/window-helpers";
 import { ActionButton } from "../../components/action-button";
 import { motion } from "framer-motion";
 
@@ -35,20 +34,21 @@ const QuizListScreen = () => {
     const quizzes = useAppSelector(selectQuizzes);
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <div className={styles.home_screen}>
-                <div className={styles.home_screen_header}>
+            <div className={styles.quiz_list}>
+                <div className={styles.quiz_list_header}>
                     <h1><Link to="/">Trail Trivia Archives</Link></h1>
-                    <div className={styles.quiz_cards}>
-                        {quizzes.map((q, i) => (
-                            <div className={styles.quiz_card_container}>
-                                <QuizCard key={q.id} quiz={q}>
-                                    {assignGraphic(i)}
-                                </QuizCard>
-                            </div>))}
-                    </div>
                 </div>
+                <div className={styles.quiz_cards}>
+                    {quizzes.map((q, i) => (
+                        <div className={styles.quiz_card_container}>
+                            <QuizCard key={q.id} quiz={q}>
+                                {assignGraphic(i)}
+                            </QuizCard>
+                        </div>))}
+                </div>
+                <ActionButton variant={"light"} to={"/"} text={"\u25C1 Back to Trail Trivia"}/>
             </div>
-            <ActionButton variant={"light"} to={"/"} text={"\u25C1 Back to Trail Trivia"}/>
+
         </motion.div>
     );
 };

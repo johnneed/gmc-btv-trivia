@@ -1,12 +1,16 @@
 
-.quiz_list_screen {
+.quiz_list {
     margin: 0 auto;
-    position: absolute;
+}
+
+h1 {
+    margin: 0 auto;
 }
 
 h1 > a {
+    font-size: 2rem;
     font-family: "Henny Penny", sans-serif;
-    font-size: 4rem;
+
     text-shadow: 0 2px 2px #999;
     color: indianred;
     margin: 1rem 0 0 0;
@@ -26,75 +30,42 @@ h1 > a:hover {
 
 .quiz_cards {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
     align-content: stretch;
     align-items: flex-start;
-    margin: 2rem;
+    margin: 1rem;
 }
 
 .quiz_card_container {
-    order: 0;
+    order: 1;
     flex: 0 1 auto;
     align-self: stretch;
 }
 
 
-.go_home_button {
-    color: black;
-    font-family: "Tilt Neon", sans-serif;
-    padding: 0.5rem 3rem;
-    font-size: 1.4rem;
-    cursor: pointer;
-    border-radius: 2rem;
-    background: white;
-    transition: all 0.3s;
-    box-shadow: 0 2px 1px #EEE;
-    border: solid 2px black;
+.quiz_list_header {
+    font-size: 2.3rem;
+    margin: 0;
 }
 
-.go_home_button:hover {
-    background-color: floralwhite;
-}
+@media only screen and (min-width: 700px) {
 
-
-@media only screen and (max-width: 700px) {
-    .home_screen_header {
-        font-size: 2.3rem;
-        margin: 0;
-    }
-
-    h1 {
-        margin: 0 auto;
-    }
     h1 > a {
-        font-size: 2rem;
+        font-size: 4rem;
     }
 
     .quiz_cards {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        align-content: stretch;
-        align-items: flex-start;
-        margin: 1rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 2rem;
     }
 
     .quiz_card_container {
-        order: 1;
-        flex: 0 1 auto;
-        align-self: stretch;
+        order: 0;
     }
 
-    .go_home{
-        left: unset;
-        top: unset;
-        position: relative;
-        display: inline-block;
-        margin: 1.2rem 0 0 0;
-        font-size: 1.2rem;
-    }
 
 }
