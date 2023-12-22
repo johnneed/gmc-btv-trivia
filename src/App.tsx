@@ -38,7 +38,6 @@ function App() {
                 <HashRouter>
                     <TriviaRoutes/>
                 </HashRouter>
-
             </div>
         </Provider>
     )

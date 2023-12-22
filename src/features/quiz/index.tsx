@@ -29,7 +29,6 @@ const QuizScreen = () => {
 
     return (
         <div className={styles.quiz_screen}>
-            <h3>{quiz.title}<span>{quiz.author && ` by ${quiz.author}`}</span></h3>
             <div className={styles.quiz_box}>
                 <div className={styles.quiz_box_content}>
                     <Carousel incrementScore={() => dispatch(incrementScore(quiz.id))} quiz={quiz} questionIndex={qIndex}/>

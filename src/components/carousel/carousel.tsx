@@ -109,8 +109,7 @@ const Carousel = ({ quiz, incrementScore, questionIndex = 0 }: CarouselProps) =>
                                                         <span>
                                                     <Link onClick={scrollTop} className={styles.congrats_text}
                                                           to={`/score/${quiz.id}`}>
-                                                        Congratulations!<br/>
-                                                        You survived the quiz.<br/>
+                                                        You survived the quiz!<br/>
                                                         Checkout your score.
                                                     </Link>
                                                     </span>
@@ -121,7 +120,7 @@ const Carousel = ({ quiz, incrementScore, questionIndex = 0 }: CarouselProps) =>
                                             : (
                                                 <Link to={`/quiz/${quiz.id}/${questionIndex + 1}`}
                                                       className={styles.next_question} onClick={() => nextQuestion()}>
-                                                    Next Question <span>{"\u2192"}</span>
+                                                    Next Question <span>{"\u25B7"}</span>
                                                 </Link>
                                             )
                                     }

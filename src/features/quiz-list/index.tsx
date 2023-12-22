@@ -48,7 +48,7 @@ const QuizListScreen = () => {
                     </div>
                 </div>
             </div>
-            <ActionButton onClick={scrollTop} variant={"light"} to={"/"} text={"\u25C1 Back to Trail Trivia"}/>
+            <ActionButton variant={"light"} to={"/"} text={"\u25C1 Back to Trail Trivia"}/>
         </motion.div>
     );
 };

@@ -35,7 +35,7 @@ const ScoreScreen = () => {
                 </div>
                 <div className={styles.nav_buttons}>
                     <ActionButton onClick={scrollTop} text="Past Games" variant="dark" to={"/quiz-list"}/>
-                    <ActionButton variant={"light"} to={"/"} text={"Back to Trail Trivia"}/>
+                    <ActionButton variant={"light"} to={"/"} text={"\u25C1 Back to Trail Trivia"}/>
                 </div>
             </div>
 
