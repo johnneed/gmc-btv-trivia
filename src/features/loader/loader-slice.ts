@@ -28,15 +28,13 @@ const initialState: LoaderState = {
 export const fetchQuizzes = createAsyncThunk(
     "loader/loadQuizzes",
     async () => {
-        const response = await fetchTrivia();
-        return response;
+        return await fetchTrivia();
     }
 );
 
 export const loaderSlice = createSlice({
     name: "loader",
     initialState,
-    // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
         loadQuizzes: (state, action: PayloadAction<Quiz[]>) => {
             const extractQuizTags = R.compose(Array.from, (t: string[]) => new Set(t), R.flatten, R.map((q: Quiz) => q.tags));
@@ -114,15 +112,5 @@ export const selectQuizTags = (state: RootState) => state.loader.quizTags;
 export const selectQuestionTags = (state: RootState) => state.loader.questionTags;
 export const selectStatus = (state: RootState) => state.loader.status;
 
-// We can also write thunks by hand, which may contain both sync and async logic.
-// Here's an example of conditionally dispatching actions based on current state.
-// export const incrementIfOdd =
-//     (amount: number): AppThunk =>
-//         (dispatch, getState) => {
-//             const currentValue = selectCount(getState());
-//             if (currentValue % 2 === 1) {
-//                 dispatch(incrementByAmount(amount));
-//             }
-//         };
 
 export default loaderSlice.reducer;
