@@ -25,9 +25,9 @@ description: "Task list for Phase 0 — Monorepo Scaffold & Domain Finalization"
 
 **Purpose**: Monorepo structure + test runner in place. Blocks everything else.
 
-- [ ] T001 `git mv gmc-btv-trivia react-app` at repo root — verify gmc-btv-trivia/ absent, react-app/ present
-- [ ] T002 In `react-app/package.json` add `vitest` to devDependencies; run `npm install`
-- [ ] T003 Create `react-app/vitest.config.ts` — minimal config, include `src/domain/**/*.test.ts` only
+- [x] T001 `git mv gmc-btv-trivia react-app` at repo root — verify gmc-btv-trivia/ absent, react-app/ present
+- [x] T002 In `react-app/package.json` add `vitest` to devDependencies; run `npm install`
+- [x] T003 Create `react-app/vitest.config.ts` — minimal config, include `src/domain/**/*.test.ts` only
 
 ```typescript
 // react-app/vitest.config.ts
@@ -45,8 +45,8 @@ export default defineConfig({ test: { include: ['src/domain/**/*.test.ts'] } });
 
 ⚠️ CRITICAL: T004 must complete before any type files are created.
 
-- [ ] T004 Update `react-app/tsconfig.json` in place — add `"strict": true`, set `"include": ["src"]`, remove CRA-only options (`react-app/jsconfig.json` shims, injected types); do NOT add Vite path aliases (Phase 1)
-- [ ] T005 Create `react-app/src/domain/types/index.ts` — empty barrel file (populated in US1)
+- [x] T004 Update `react-app/tsconfig.json` in place — add `"strict": true`, set `"include": ["src"]`, remove CRA-only options (`react-app/jsconfig.json` shims, injected types); do NOT add Vite path aliases (Phase 1)
+- [x] T005 Create `react-app/src/domain/types/index.ts` — empty barrel file (populated in US1)
 
 **Checkpoint**: `cd react-app && npx tsc --noEmit` exits 0 (on empty domain dir).
 
@@ -60,13 +60,13 @@ export default defineConfig({ test: { include: ['src/domain/**/*.test.ts'] } });
 
 *T006–T010 are fully parallel — different files, no deps between them.*
 
-- [ ] T006 [P] [US1] Create `react-app/src/domain/types/choice.type.ts` — `id: string`, `text: string`; no extra fields
-- [ ] T007 [P] [US1] Create `react-app/src/domain/types/question.type.ts` — fields: `id`, `questionText`, `choices: Choice[]`, `correctAnswerIndex: number`, `answerText: string`, `answerImage?`, `answerImageAlt?`, `answerImageCaption?`; NO `tags` field
-- [ ] T008 [P] [US1] Create `react-app/src/domain/types/quiz.type.ts` — fields: `id`, `title`, `subtitle?`, `author`, `authorId: number`, `publishDate: number`, `status: 'draft'|'published'`, `questions: Question[]`, `tags: string[]`; NO `image` field
-- [ ] T009 [P] [US1] Create `react-app/src/domain/types/app-user.type.ts` — `WPRole` union type + `AppUser`: `id: number`, `displayName: string`, `roles: WPRole[]`, `isTriviaSmith: boolean`
-- [ ] T010 [P] [US1] Create `react-app/src/domain/types/plugin-settings.type.ts` — two types: `PluginSettings { gamesPerPage: number }` and `PluginInfo { version: string; wpMinimum: string; phpMinimum: string }`
-- [ ] T011 [US1] Fill `react-app/src/domain/types/index.ts` — export `Choice`, `Question`, `Quiz`, `WPRole`, `AppUser`, `PluginSettings`, `PluginInfo`
-- [ ] T012 [US1] Run `cd react-app && npx tsc --noEmit` — confirm exit 0 (US1 gate ✓)
+- [x] T006 [P] [US1] Create `react-app/src/domain/types/choice.type.ts` — `id: string`, `text: string`; no extra fields
+- [x] T007 [P] [US1] Create `react-app/src/domain/types/question.type.ts` — fields: `id`, `questionText`, `choices: Choice[]`, `correctAnswerIndex: number`, `answerText: string`, `answerImage?`, `answerImageAlt?`, `answerImageCaption?`; NO `tags` field
+- [x] T008 [P] [US1] Create `react-app/src/domain/types/quiz.type.ts` — fields: `id`, `title`, `subtitle?`, `author`, `authorId: number`, `publishDate: number`, `status: 'draft'|'published'`, `questions: Question[]`, `tags: string[]`; NO `image` field
+- [x] T009 [P] [US1] Create `react-app/src/domain/types/app-user.type.ts` — `WPRole` union type + `AppUser`: `id: number`, `displayName: string`, `roles: WPRole[]`, `isTriviaSmith: boolean`
+- [x] T010 [P] [US1] Create `react-app/src/domain/types/plugin-settings.type.ts` — two types: `PluginSettings { gamesPerPage: number }` and `PluginInfo { version: string; wpMinimum: string; phpMinimum: string }`
+- [x] T011 [US1] Fill `react-app/src/domain/types/index.ts` — export `Choice`, `Question`, `Quiz`, `WPRole`, `AppUser`, `PluginSettings`, `PluginInfo`
+- [x] T012 [US1] Run `cd react-app && npx tsc --noEmit` — confirm exit 0 (US1 gate ✓)
 
 **Checkpoint**: T012 exits 0. US1 independently complete.
 
@@ -84,19 +84,19 @@ export default defineConfig({ test: { include: ['src/domain/**/*.test.ts'] } });
 
 *T013–T016 are parallel — different test files.*
 
-- [ ] T013 [P] [US2] [test] Write `react-app/src/domain/factories/choice.factory.test.ts` — 5 cases from `contracts/factory-signatures.ts`; run `npx vitest run src/domain/factories/choice.factory.test.ts`; confirm ALL FAIL (red)
-- [ ] T014 [P] [US2] [test] Write `react-app/src/domain/factories/question.factory.test.ts` — 8 cases from contracts; run; confirm ALL FAIL (red)
-- [ ] T015 [P] [US2] [test] Write `react-app/src/domain/factories/quiz.factory.test.ts` — 8 cases from contracts including "has no `image` field" case; run; confirm ALL FAIL (red)
-- [ ] T016 [P] [US2] [test] Write `react-app/src/domain/transforms/quiz.transforms.test.ts` — 5 cases from contracts; run; confirm ALL FAIL (red)
+- [x] T013 [P] [US2] [test] Write `react-app/src/domain/factories/choice.factory.test.ts` — 5 cases from `contracts/factory-signatures.ts`; run `npx vitest run src/domain/factories/choice.factory.test.ts`; confirm ALL FAIL (red)
+- [x] T014 [P] [US2] [test] Write `react-app/src/domain/factories/question.factory.test.ts` — 8 cases from contracts; run; confirm ALL FAIL (red)
+- [x] T015 [P] [US2] [test] Write `react-app/src/domain/factories/quiz.factory.test.ts` — 8 cases from contracts including "has no `image` field" case; run; confirm ALL FAIL (red)
+- [x] T016 [P] [US2] [test] Write `react-app/src/domain/transforms/quiz.transforms.test.ts` — 5 cases from contracts; run; confirm ALL FAIL (red)
 
 ### Implementation (after observing red)
 
-- [ ] T017 [P] [US2] Implement `react-app/src/domain/factories/choice.factory.ts` — `createChoice(overrides?)` using `v4` from `uuid`; run T013 tests; confirm ALL PASS (green)
-- [ ] T018 [P] [US2] Implement `react-app/src/domain/factories/question.factory.ts` — `createQuestion(overrides?)` always produces exactly 4 choices via `createChoice`; run T014 tests; confirm ALL PASS (green)
-- [ ] T019 [P] [US2] Implement `react-app/src/domain/factories/quiz.factory.ts` — `createQuiz(overrides?)` default `questions:[]`, `status:'draft'`; run T015 tests including no-`image` assertion; confirm ALL PASS (green)
-- [ ] T020 [US2] Implement `react-app/src/domain/transforms/quiz.transforms.ts` — `sortByDateDesc` via `R.sort(R.descend(R.prop('publishDate')))`; run T016 tests; confirm ALL PASS (green)
-- [ ] T021 [US2] Create `react-app/src/domain/factories/index.ts` — re-export `createChoice`, `createQuestion`, `createQuiz`
-- [ ] T022 [US2] [coverage] Run `cd react-app && npx vitest run --coverage src/domain/` — confirm lines ≥ 90%, branches ≥ 90%
+- [x] T017 [P] [US2] Implement `react-app/src/domain/factories/choice.factory.ts` — `createChoice(overrides?)` using `v4` from `uuid`; run T013 tests; confirm ALL PASS (green)
+- [x] T018 [P] [US2] Implement `react-app/src/domain/factories/question.factory.ts` — `createQuestion(overrides?)` always produces exactly 4 choices via `createChoice`; run T014 tests; confirm ALL PASS (green)
+- [x] T019 [P] [US2] Implement `react-app/src/domain/factories/quiz.factory.ts` — `createQuiz(overrides?)` default `questions:[]`, `status:'draft'`; run T015 tests including no-`image` assertion; confirm ALL PASS (green)
+- [x] T020 [US2] Implement `react-app/src/domain/transforms/quiz.transforms.ts` — `sortByDateDesc` via `R.sort(R.descend(R.prop('publishDate')))`; run T016 tests; confirm ALL PASS (green)
+- [x] T021 [US2] Create `react-app/src/domain/factories/index.ts` — re-export `createChoice`, `createQuestion`, `createQuiz`
+- [x] T022 [US2] [coverage] Run `cd react-app && npx vitest run --coverage src/domain/` — confirm lines ≥ 90%, branches ≥ 90%
 
 **Checkpoint**: T022 passes. US2 independently complete.
 
@@ -110,8 +110,8 @@ export default defineConfig({ test: { include: ['src/domain/**/*.test.ts'] } });
 
 *T023–T025 are parallel — different files in wp-plugin/.*
 
-- [ ] T023 [P] [US3] Create `wp-plugin/trail-trivia/uninstall.php` — ABSPATH guard + empty body
-- [ ] T024 [P] [US3] Create 7 PHP stub classes in `wp-plugin/trail-trivia/includes/`:
+- [x] T023 [P] [US3] Create `wp-plugin/trail-trivia/uninstall.php` — ABSPATH guard + empty body
+- [x] T024 [P] [US3] Create 7 PHP stub classes in `wp-plugin/trail-trivia/includes/`:
   - `class-post-type.php` → `Trail_Trivia_Post_Type`
   - `class-rest-api.php` → `Trail_Trivia_REST_API`
   - `class-capabilities.php` → `Trail_Trivia_Capabilities`
@@ -122,8 +122,8 @@ export default defineConfig({ test: { include: ['src/domain/**/*.test.ts'] } });
 
   Each: ABSPATH guard + empty class body. No constructor, no methods.
 
-- [ ] T025 [P] [US3] Create `wp-plugin/trail-trivia/trail-trivia.php` — valid WP plugin header (Plugin Name, Description, Version: 1.0.0, Requires at least: 6.4, Requires PHP: 8.0, Author) + `require_once` for each of the 7 stub files
-- [ ] T026 [US3] Run `find wp-plugin -name "*.php" | xargs php -l` — confirm no output (all syntax clean)
+- [x] T025 [P] [US3] Create `wp-plugin/trail-trivia/trail-trivia.php` — valid WP plugin header (Plugin Name, Description, Version: 1.0.0, Requires at least: 6.4, Requires PHP: 8.0, Author) + `require_once` for each of the 7 stub files
+- [x] T026 [US3] Run `find wp-plugin -name "*.php" | xargs php -l` — confirm no output (all syntax clean)
 - [ ] T027 [US3] Run `wp plugin activate trail-trivia --allow-root`; deactivate; re-activate — confirm exit 0 both times and 0 new debug.log entries
 
 **Checkpoint**: T027 passes. US3 independently complete.
