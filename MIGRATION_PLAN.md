@@ -4,7 +4,7 @@
 > deterministic shell tests, and is ordered strictly by dependency. No phase should
 > begin until its predecessor's tests pass.
 >
-> **Last updated:** 2026-06-26
+> **Last updated:** 2026-06-26 (reconciled with prototype UI)
 
 ---
 
@@ -51,13 +51,13 @@ type Choice = {
 type Question = {
   id: string;
   questionText: string;
-  choices: Choice[];          // always exactly 4
+  choices: Choice[];          // always exactly 4 — enforced by editor and factory
   correctAnswerIndex: number; // 0–3
   answerText: string;
   answerImage?: string;       // absolute URL or empty string
   answerImageAlt?: string;
   answerImageCaption?: string;
-  tags: string[];
+  // NOTE: no per-question tags — the editor exposes no tag UI at the question level
 };
 ```
 
@@ -73,9 +73,9 @@ type Quiz = {
   authorId: number;           // WP user ID
   publishDate: number;        // Unix ms timestamp
   status: 'draft' | 'published';
-  image?: string;             // featured image URL
-  questions: Question[];
-  tags: string[];
+  // NOTE: no featured image — the editor does not expose an image picker for the game itself
+  questions: Question[];      // always exactly 5 — enforced by editor, factory, and publish gate
+  tags: string[];             // quiz-level tags, managed via editor Tags metabox
 };
 ```
 
@@ -89,7 +89,7 @@ type AppUser = {
   id: number;
   displayName: string;
   roles: WPRole[];
-  isTriviaSsmith: boolean;    // has manage_trail_trivia cap
+  isTriviaSmith: boolean;     // has manage_trail_trivia cap
 };
 ```
 
@@ -98,8 +98,16 @@ type AppUser = {
 ```typescript
 // plugin-settings.type.ts
 type PluginSettings = {
-  version: string;
-  gamesPerPage: number;       // admin list pagination
+  gamesPerPage: number;       // admin list pagination — the only user-editable setting
+  // NOTE: plugin version is displayed read-only in the Settings > About panel;
+  // it is not user-editable and is not included in PUT /settings request bodies.
+};
+
+// Separate read-only metadata returned by GET /settings alongside PluginSettings:
+type PluginInfo = {
+  version: string;            // from plugin header, read-only
+  wpMinimum: string;          // "6.4"
+  phpMinimum: string;         // "8.0"
 };
 ```
 
@@ -115,9 +123,8 @@ drafts, revisions, authors, and publish-date management for free.
 | `post_title`     | `Quiz.title`         |                                          |
 | `post_excerpt`   | `Quiz.subtitle`      |                                          |
 | `post_author`    | `Quiz.authorId`      | WP user ID                               |
-| `post_status`    | `Quiz.status`        | `publish` → `published`, `draft` → `draft` |
+| `post_status`    | `Quiz.status`        | `publish` → `published`, `draft` → `draft`, `trash` → soft delete (recoverable) |
 | `post_date`      | `Quiz.publishDate`   | Stored as WP datetime; served as Unix ms |
-| Featured image   | `Quiz.image`         | Via `_thumbnail_id` post meta            |
 
 #### Post Meta (per game)
 
@@ -133,7 +140,11 @@ drafts, revisions, authors, and publish-date management for free.
 - Attached to `trail_trivia_game`
 - Hierarchical: `false`
 - Not shown in WP tag cloud or nav menus
-- Enables WP-native filtered queries via `tax_query`
+- **Primary store for quiz-level tags** — enables WP-native `tax_query` filtering
+- The `_trivia_tags` post meta (JSON array) is a denormalized copy kept in sync with
+  the taxonomy terms on every save. The REST API reads from `_trivia_tags` for response
+  speed; writes sync both the meta and the taxonomy terms.
+- Per-question tags are **not** implemented — `Question` has no `tags` field.
 
 #### User Capability
 
@@ -158,7 +169,6 @@ The React app deserializes it directly; no client-side transformation of field n
   "authorId": 1,
   "publishDate": 1703822400000,
   "status": "published",
-  "image": null,
   "questions": [
     {
       "id": "6f1edeb2-...",
@@ -173,13 +183,17 @@ The React app deserializes it directly; no client-side transformation of field n
       "answerText": "The Continental Divide Trail is about 3,028 miles...",
       "answerImage": "https://...",
       "answerImageAlt": "Map of the Continental Divide Trail",
-      "answerImageCaption": "Map of the Continental Divide Trail",
-      "tags": []
+      "answerImageCaption": "Map of the Continental Divide Trail"
     }
   ],
   "tags": []
 }
 ```
+
+> **Constraints reflected in shape:**
+> - `questions` always contains exactly 5 items (the editor enforces this; the publish gate blocks publishing with < 5 complete questions)
+> - No `image` field on `Quiz` — no featured image for games
+> - No `tags` array on `Question` — per-question tags are not implemented
 
 ---
 
@@ -289,7 +303,7 @@ trail-trivia/
 | `POST`   | `/wp-json/trail-trivia/v1/games`       | `manage_trail_trivia`    | Create game                    |
 | `PUT`    | `/wp-json/trail-trivia/v1/games/{id}`  | `manage_trail_trivia`    | Full update                    |
 | `PATCH`  | `/wp-json/trail-trivia/v1/games/{id}`  | `manage_trail_trivia`    | Partial update (status, title) |
-| `DELETE` | `/wp-json/trail-trivia/v1/games/{id}`  | `manage_trail_trivia`    | Delete                         |
+| `DELETE` | `/wp-json/trail-trivia/v1/games/{id}`  | `manage_trail_trivia`    | Move to Trash (`post_status = 'trash'`) — recoverable via WP admin |
 | `GET`    | `/wp-json/trail-trivia/v1/settings`    | `manage_options`         | Get plugin settings            |
 | `PUT`    | `/wp-json/trail-trivia/v1/settings`    | `manage_options`         | Update plugin settings         |
 
@@ -318,22 +332,30 @@ plugin directory, verify it activates in WordPress without errors.
 
 #### Deliverables
 
-- [ ] Monorepo root: `/react-app/` and `/wp-plugin/trail-trivia/`
+- [ ] `gmc-btv-trivia/` renamed to `react-app/` via `git mv` (preserves per-file git history)
+- [ ] `wp-plugin/trail-trivia/` directory created at repo root
 - [ ] `react-app/src/domain/types/` — all 5 types (Choice, Question, Quiz, AppUser, PluginSettings)
 - [ ] `react-app/src/domain/factories/` — createChoice, createQuestion, createQuiz factories
-- [ ] `react-app/src/domain/transforms/` — quiz.transforms.ts with sort/filter functions
+- [ ] `react-app/src/domain/transforms/quiz.transforms.ts` — exports `sortByDateDesc` only
+- [ ] `react-app/tsconfig.json` updated in place: `strict: true` added, `include` paths corrected, CRA-only options removed (full Vite/path-alias overhaul deferred to Phase 1)
 - [ ] `wp-plugin/trail-trivia/trail-trivia.php` — valid plugin header, activates cleanly
 - [ ] All includes stubbed with empty class bodies
 
+> **Out of scope for Phase 0:** `question.transforms.ts`, `src/domain/transforms/index.ts` barrel — deferred to Phase 2.
+
 #### Acceptance Criteria
 
-1. `Quiz` type includes `status: 'draft' | 'published'` and `authorId: number`
-2. `Choice` type includes `id: string`
-3. `Question` type includes `answerImageAlt?: string`
-4. All factory functions produce structurally valid domain objects
-5. `tsc --noEmit` passes on the types directory
-6. Plugin appears in WP Plugins list, activates and deactivates without PHP notices/warnings
-7. WP debug log is empty after activation
+1. `Quiz` type includes `status: 'draft' | 'published'` and `authorId: number`; has no `image` field
+2. `Quiz.questions` type is `Question[]` with a runtime length invariant of exactly 5
+3. `Choice` type includes `id: string`
+4. `Question` type includes `answerImageAlt?: string`; has no `tags` field
+5. `AppUser` type uses `isTriviaSmith: boolean` (single S)
+6. `PluginSettings` type has only `gamesPerPage: number` (no `version`)
+7. All factory functions produce structurally valid domain objects
+8. `createQuestion()` produces exactly 4 choices
+9. `tsc --noEmit` passes across all of `react-app/src/`
+10. Plugin appears in WP Plugins list, activates and deactivates without PHP notices/warnings
+11. WP debug log is empty after activation
 
 #### Deterministic Tests
 
@@ -435,6 +457,8 @@ test coverage, achieve WCAG 2.1 AA.
 #### Deliverables
 
 - [ ] All `let`/`var` removed from non-reducer source files
+- [ ] `react-app/src/domain/transforms/question.transforms.ts` created (Ramda-based question transforms)
+- [ ] `react-app/src/domain/transforms/index.ts` barrel exporting all transforms
 - [ ] All data transforms in `src/domain/transforms/` using Ramda
 - [ ] All side effects isolated to `src/data/` and Redux thunks
 - [ ] Smart components only in `src/features/`, Dumb only in `src/components/`
@@ -651,41 +675,89 @@ inside WP admin) lets TriviaSmiths manage games end-to-end.
 
 #### Deliverables
 
-- [ ] Admins can grant/revoke `manage_trail_trivia` via the Users screen
-- [ ] "Trail Trivia" menu item in WP admin — visible only with `manage_trail_trivia` cap
-- [ ] Admin UI: game list with search/filter by title and status
-- [ ] Admin UI: game editor — all fields from `Quiz`, `Question[]`, `Choice[]`
-- [ ] Auto-save draft every 60 s while editor is open; shows "Draft saved [time]" toast
-- [ ] Publish / Unpublish toggle with confirmation
-- [ ] Delete with confirmation dialog
-- [ ] Settings page (Admins only): `gamesPerPage` setting
-- [ ] Admin UI axe-core clean
+**Game List**
+- [ ] "Trail Trivia" → "All Games" menu item — visible only to users with `manage_trail_trivia` cap
+- [ ] Game list table: Title (+ subtitle), Status badge, Question count, Author, Date
+- [ ] Status filter tabs: All / Published / Draft
+- [ ] Title search box
+- [ ] Row actions on hover: Edit, Trash
+- [ ] "Add New Game" button navigates to blank editor
+
+**Game Editor**
+- [ ] Title input (large display type) + Subtitle input
+- [ ] Questions accordion: always exactly 5 question cards (no add/remove)
+  - Each card collapsed: shows question text preview + correct answer preview
+  - Each card expanded: Question text, 4 choice inputs with correct-answer radio,
+    Answer explanation, Answer image URL with live 160×120px thumbnail preview,
+    Image alt text, Image caption
+  - Clicking thumbnail opens fullscreen image lightbox (close: click outside / Escape / ×)
+- [ ] Drag-to-reorder questions via six-dot grip handle; cards auto-renumber 01–05 on drop
+- [ ] Publish sidebar metabox: Status indicator, Publish date, Author (read-only display),
+    Save Draft button, Publish/Update button, Move to Trash icon button
+- [ ] Publish/Update button **disabled** until all 5 questions have non-empty `questionText`
+    and all 4 choices filled; descriptive `title` tooltip explains gate when disabled
+- [ ] Unpublish: clicking "Change" next to status immediately toggles draft/published —
+    **no confirmation dialog** (unpublish is low-risk; undo via re-publish)
+- [ ] Move to Trash: icon button (trash SVG, red border) opens confirmation dialog;
+    confirmed → `DELETE` endpoint sets `post_status = 'trash'` (recoverable from WP Trash)
+- [ ] Tags sidebar metabox: chip input to add/remove quiz-level tags
+- [ ] Preview Game button (sidebar, above Publish box): opens full-screen player modal
+    populated from the editor's live form state; shows game exactly as players see it
+    (Henny Penny / Tilt Neon fonts, choice buttons, Huzzah! reveal, score screen)
+- [ ] Auto-save draft every 60 s while editor is open; autosave indicator in toolbar
+- [ ] "← All Games" back link in toolbar
+
+**Settings Page** (Admins only — requires `manage_options`)
+- [ ] Settings menu item hidden for users without `manage_options`
+- [ ] General panel: `gamesPerPage` number input + Save Changes button
+- [ ] TriviaSmith Access panel: table of current TriviaSmiths (role badge, Revoke button);
+    "Grant access to" free-text username input validated server-side against `get_users()`;
+    Administrators shown as always-active (cannot revoke)
+- [ ] About panel: read-only display of plugin name, version, WP minimum, PHP minimum,
+    data storage strategy
+
+**General**
+- [ ] Admin UI axe-core clean (0 critical/serious violations)
 
 #### User Stories
 
-| As a...                     | I want to...                                   |
-|-----------------------------|------------------------------------------------|
-| TriviaSmith                 | See all games (draft + published) in a list    |
-| TriviaSmith                 | Search games by title                          |
-| TriviaSmith                 | Create a new game, save as draft               |
-| TriviaSmith                 | Publish / unpublish a game                     |
-| TriviaSmith                 | Edit any game (mine or others')                |
-| TriviaSmith                 | Delete a game with confirmation                |
-| Admin                       | Grant TriviaSmith access to any user           |
-| Admin                       | Revoke TriviaSmith access from any user        |
-| Admin                       | Configure plugin settings                      |
-| Non-TriviaSmith WP user     | Not see "Trail Trivia" in the WP admin menu    |
+| As a...                     | I want to...                                                         |
+|-----------------------------|----------------------------------------------------------------------|
+| TriviaSmith                 | See all games (draft + published) in a filterable, searchable list   |
+| TriviaSmith                 | Create a new game and save it as a draft                             |
+| TriviaSmith                 | Edit the title, subtitle, tags, and all 5 questions of any game      |
+| TriviaSmith                 | Reorder questions by dragging the grip handle                        |
+| TriviaSmith                 | See a live image preview when I paste an answer image URL            |
+| TriviaSmith                 | Click an image preview thumbnail to see it full-screen               |
+| TriviaSmith                 | Preview the game exactly as players will see it before publishing     |
+| TriviaSmith                 | Know when Publish is available (gate clears when all 5 Qs complete)  |
+| TriviaSmith                 | Publish or unpublish a game with a single click (no confirmation)    |
+| TriviaSmith                 | Move a game to Trash with a confirmation dialog (recoverable)        |
+| Admin                       | Grant TriviaSmith access to any WP user via the Settings page        |
+| Admin                       | Revoke TriviaSmith access from any user via the Settings page        |
+| Admin                       | Configure `gamesPerPage` and view plugin About info on Settings page |
+| Non-TriviaSmith WP user     | Not see "Trail Trivia" anywhere in the WP admin menu                 |
 
 #### Acceptance Criteria
 
-1. User without `manage_trail_trivia`: no Trail Trivia admin menu item
-2. User with `manage_trail_trivia`: menu visible; full CRUD works
+1. User without `manage_trail_trivia`: no Trail Trivia admin menu item visible
+2. User with `manage_trail_trivia`: menu visible; full CRUD of games works
 3. Contributor without cap: REST `POST` returns 403
-4. Author + `manage_trail_trivia`: can create, edit, and delete any game
-5. Auto-save fires exactly once per 60 s idle period; "Draft saved" toast appears
-6. Delete flow: confirmation required; game absent from list and REST after confirm
-7. Settings page: HTTP 403 for any non-administrator
-8. Admin UI axe-core: 0 critical/serious violations on game list + game editor pages
+4. Author + `manage_trail_trivia`: can create, edit, and move to trash any game
+5. Game editor always shows exactly 5 question cards; no add/remove controls present
+6. Publish/Update button is `disabled` with descriptive `title` when any question has
+   empty `questionText` or any choice input is empty; enables when all 5 are complete
+7. Unpublish: clicking "Change" → "Draft" in the Publish metabox requires no confirmation
+8. Move to Trash: confirmation dialog required; after confirm, `GET /games` omits the game;
+   game is recoverable from WP Trash (not permanently deleted)
+9. Drag-to-reorder: dropping a question card renumbers all cards 01–05 correctly
+10. Live image preview appears within one `input` event of pasting a valid URL
+11. Clicking a visible image thumbnail opens a fullscreen lightbox; Escape closes it
+12. Preview Game modal opens with live editor data (unsaved changes visible in preview)
+13. Auto-save fires once per 60 s idle; autosave indicator updates in editor toolbar
+14. Settings page: HTTP 403 for any user without `manage_options`; Settings nav item hidden
+15. TriviaSmith Access: grant/revoke updates `manage_trail_trivia` cap on the WP user object
+16. Admin UI axe-core: 0 critical/serious violations on game list, editor, and settings pages
 
 #### Deterministic Tests
 
@@ -708,19 +780,59 @@ wp user remove-cap $AUTHOR manage_trail_trivia
 wp user list-caps $AUTHOR | grep manage_trail_trivia | wc -l
 # Expected: 0
 
-# Settings page returns 302 (redirect to login) for unauthenticated
-HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
-  "http://localhost/wp-admin/admin.php?page=trail-trivia-settings")
-echo "Settings unauthed: $HTTP_CODE"    # 302
+# Move to Trash via REST (not hard delete)
+GAME_ID=$(wp post create --post_type=trail_trivia_game --post_title="Test" --post_status=publish --porcelain)
+# DELETE endpoint should set post_status=trash, not force-delete
+curl -s -X DELETE "http://localhost/wp-json/trail-trivia/v1/games/$GAME_ID" \
+  -H "X-WP-Nonce: $ADMIN_NONCE" ...
+wp post get $GAME_ID --field=post_status
+# Expected: "trash" (not 404 — post still exists in trash)
+curl -s http://localhost/wp-json/trail-trivia/v1/games | jq 'map(select(.id == "'$GAME_ID'")) | length'
+# Expected: 0 (trashed game absent from public list)
 
-# axe on admin UI pages (requires authenticated session cookie — use Playwright or puppeteer)
-# Minimal check via CLI after login:
-npx axe http://localhost/wp-admin/admin.php?page=trail-trivia --exit
-# Expected: 0 violations
+# Settings page: 403 for non-admin (via REST)
+HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+  http://localhost/wp-json/trail-trivia/v1/settings \
+  -H "X-WP-Nonce: $AUTHOR_NONCE")
+echo "Author GET settings: $HTTP_CODE"    # must be 403
+
+# Settings page: admin can read and write
+HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+  http://localhost/wp-json/trail-trivia/v1/settings \
+  -H "X-WP-Nonce: $ADMIN_NONCE")
+echo "Admin GET settings: $HTTP_CODE"     # must be 200
+
+curl -s -X PUT http://localhost/wp-json/trail-trivia/v1/settings \
+  -H "Content-Type: application/json" \
+  -H "X-WP-Nonce: $ADMIN_NONCE" \
+  -d '{"gamesPerPage": 20}' | jq '.gamesPerPage'
+# Expected: 20
+
+# PUT /settings must reject version field (read-only)
+HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+  -X PUT http://localhost/wp-json/trail-trivia/v1/settings \
+  -H "Content-Type: application/json" \
+  -H "X-WP-Nonce: $ADMIN_NONCE" \
+  -d '{"gamesPerPage": 10, "version": "9.9.9"}')
+# Expected: 400 (version is not an accepted settings field)
+
+# Questions constraint: REST rejects game with != 5 questions
+HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+  http://localhost/wp-json/trail-trivia/v1/games \
+  -H "Content-Type: application/json" \
+  -H "X-WP-Nonce: $ADMIN_NONCE" \
+  -d '{"title":"Bad","status":"draft","questions":[]}')
+echo "Zero questions POST: $HTTP_CODE"    # must be 400
+
+# axe on admin UI pages
+npx axe "http://localhost/wp-admin/admin.php?page=trail-trivia" --exit
+npx axe "http://localhost/wp-admin/admin.php?page=trail-trivia-settings" --exit
+# Expected: 0 violations each
 
 # Cleanup
 wp user delete $CONTRIB --yes
 wp user delete $AUTHOR --yes
+wp post delete $GAME_ID --force 2>/dev/null || true
 ```
 
 ---
