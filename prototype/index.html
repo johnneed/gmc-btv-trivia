@@ -3,1209 +3,2324 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trail Trivia — Green Mountain Club Burlington</title>
+  <title>Trail Trivia — Plugin Admin Prototype</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Henny+Penny&family=Tilt+Neon&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --canopy:        #1B3A24;
-      --canopy-light:  #2C5A3A;
-      --trail:         #C85212;
-      --trail-light:   #E86830;
-      --summit:        #F3EFE6;
-      --summit-dark:   #E2DAD0;
-      --rock:          #5C6358;
-      --night:         #0E1910;
-      --white:         #FFFFFF;
-      --correct:       #2A6E42;
-      --wrong:         #B83228;
-      --sky:           #3A6D8F;
-
-      --font-display:  'Fraunces', Georgia, serif;
-      --font-body:     'DM Sans', system-ui, -apple-system, sans-serif;
-
-      --r-sm: 6px;
-      --r-md: 12px;
-      --r-lg: 20px;
-      --r-xl: 28px;
-
-      --shadow-card:   0 1px 4px rgba(14,25,16,.06), 0 4px 16px rgba(14,25,16,.07);
-      --shadow-raise:  0 4px 12px rgba(14,25,16,.10), 0 12px 36px rgba(14,25,16,.12);
-      --ease:          cubic-bezier(.4,0,.2,1);
-    }
-
+    /* ─── Reset ─── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :focus-visible { outline: 2px solid #2271b1; outline-offset: 2px; border-radius: 2px; }
 
-    :focus-visible {
-      outline: 3px solid var(--trail);
-      outline-offset: 3px;
-      border-radius: 4px;
+    /* ─── Tokens ─── */
+    :root {
+      --wp-bg:        #f0f0f1;
+      --wp-white:     #ffffff;
+      --wp-border:    #c3c4c7;
+      --wp-border-lt: #e2e4e7;
+      --wp-menu:      #1d2327;
+      --wp-menu-sub:  #2c3338;
+      --wp-menu-txt:  #a7aaad;
+      --wp-text:      #3c434a;
+      --wp-muted:     #646970;
+      --wp-blue:      #2271b1;
+      --wp-blue-dk:   #135e96;
+      --wp-red:       #b32d2e;
+      --wp-green:     #00a32a;
+
+      --tt-green:     #1B3A24;
+      --tt-green-lt:  #2C5A3A;
+      --tt-orange:    #C85212;
+      --tt-orange-lt: #E86830;
+      --tt-cream:     #F3EFE6;
+      --tt-cream-dk:  #E5DFD3;
+
+      --font-ui:      'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Fraunces', Georgia, serif;
+
+      --radius:       3px;
+      --shadow-panel: 0 1px 3px rgba(0,0,0,.08);
     }
 
+    /* ─── Shell ─── */
+    html, body { height: 100%; }
     body {
-      font-family: var(--font-body);
-      background: var(--summit);
-      color: var(--night);
-      line-height: 1.5;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: var(--wp-text);
+      background: var(--wp-bg);
+      display: grid;
+      grid-template-rows: 32px 1fr;
+      grid-template-columns: 160px 1fr;
       min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
     }
 
-    /* ──────────────────────────────────────
-       SCREEN SYSTEM
-    ────────────────────────────────────── */
-    .screen { display: none; min-height: 100svh; }
-    .screen.active {
-      display: block;
-      animation: rise 280ms var(--ease) both;
-    }
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ──────────────────────────────────────
-       HOME SCREEN
-    ────────────────────────────────────── */
-    .home-hero {
-      background: var(--canopy);
-      position: relative;
-      overflow: hidden;
-      padding: clamp(2rem, 6vw, 4rem) clamp(1.25rem, 5vw, 3rem) clamp(4rem, 10vw, 7rem);
-    }
-
-    /* Topographic contour lines — signature element */
-    .topo {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .topo svg {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* Mountain horizon silhouette */
-    .horizon {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 45%;
-      pointer-events: none;
-    }
-
-    /* Logo bar */
-    .home-logo {
+    /* ─── Admin Bar ─── */
+    .adminbar {
+      grid-column: 1 / -1;
+      background: var(--wp-menu);
       display: flex;
       align-items: center;
-      gap: .875rem;
-      margin-bottom: clamp(2rem, 6vw, 3.5rem);
-      position: relative;
-      z-index: 1;
+      padding: 0 8px;
+      gap: 2px;
     }
-    .logo-compass {
-      width: 44px;
-      height: 44px;
+    .adminbar-item {
+      color: var(--wp-menu-txt);
+      font-size: 12px;
+      padding: 0 8px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    .adminbar-item.site { color: #fff; font-weight: 600; }
+    .adminbar-item.howdy { margin-left: auto; }
+
+    /* ─── Sidebar ─── */
+    .sidebar {
+      background: var(--wp-menu);
+      overflow-y: auto;
+      padding: 4px 0 20px;
+    }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 12px;
+      color: var(--wp-menu-txt);
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 100ms, color 100ms;
+      text-decoration: none;
+      user-select: none;
+    }
+    .menu-item:hover { background: var(--wp-menu-sub); color: #fff; }
+    .menu-item.current { background: var(--wp-blue); color: #fff; }
+    .menu-item.sub { padding-left: 26px; font-size: 12px; }
+    .menu-sep { height: 1px; background: rgba(255,255,255,.06); margin: 5px 0; }
+    .menu-icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+
+    /* Trail Trivia brand mark in sidebar */
+    .tt-brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 12px 5px;
+    }
+    .tt-brand-badge {
+      width: 22px; height: 22px;
+      background: var(--tt-orange);
+      border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 900;
+      color: #fff;
       flex-shrink: 0;
     }
-    .logo-wordmark {
-      display: flex;
-      flex-direction: column;
-      gap: .1rem;
-    }
-    .logo-org {
-      font-size: .65rem;
-      font-weight: 500;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.5);
-    }
-    .logo-name {
-      font-size: 1rem;
+    .tt-brand-text {
+      font-size: 12px;
       font-weight: 600;
-      color: rgba(255,255,255,.88);
+      color: #fff;
+      line-height: 1.2;
       letter-spacing: .01em;
     }
+    .tt-brand-sub { font-size: 10px; color: var(--wp-menu-txt); font-weight: 400; }
 
-    /* Hero copy */
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 520px;
-    }
-    .hero-headline {
-      font-family: var(--font-display);
-      font-size: clamp(3.25rem, 10vw, 6.5rem);
-      font-weight: 900;
-      line-height: .92;
-      letter-spacing: -.03em;
-      color: var(--white);
-      margin-bottom: 1.25rem;
-    }
-    .hero-headline em {
-      font-style: italic;
-      color: var(--trail-light);
-    }
-    .hero-body {
-      font-size: clamp(.9rem, 2vw, 1.05rem);
-      color: rgba(255,255,255,.6);
-      max-width: 34ch;
-      margin-bottom: 2.25rem;
-      line-height: 1.6;
-    }
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      background: var(--trail);
-      color: var(--white);
-      font-family: var(--font-body);
-      font-size: .95rem;
-      font-weight: 600;
-      padding: .875rem 1.75rem;
-      border-radius: 100px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 4px 20px rgba(200,82,18,.45);
-      transition: background 180ms var(--ease), transform 180ms var(--ease), box-shadow 180ms var(--ease);
-    }
-    .hero-cta:hover {
-      background: var(--trail-light);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 28px rgba(200,82,18,.55);
-    }
-    .hero-cta svg { flex-shrink: 0; }
-
-    /* Latest banner */
-    .latest-banner {
-      position: relative;
-      z-index: 1;
-      margin-top: 2rem;
-      display: inline-flex;
-      align-items: center;
-      gap: .625rem;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 100px;
-      padding: .4rem .875rem .4rem .5rem;
-      cursor: pointer;
-      transition: background 180ms var(--ease);
-    }
-    .latest-banner:hover { background: rgba(255,255,255,.13); }
-    .latest-pip {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--trail-light);
-      animation: pulse 2.4s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%,100% { opacity: 1; }
-      50%      { opacity: .4; }
-    }
-    .latest-text {
-      font-size: .72rem;
-      color: rgba(255,255,255,.65);
-      font-weight: 500;
-    }
-    .latest-title {
-      font-size: .72rem;
-      color: rgba(255,255,255,.88);
-      font-weight: 600;
+    /* ─── Main ─── */
+    .main {
+      overflow-y: auto;
+      padding: 20px 20px 60px;
     }
 
-    /* Quiz grid section */
-    .list-section {
-      padding: clamp(2rem, 5vw, 3rem) clamp(1.25rem, 5vw, 3rem) clamp(3rem, 6vw, 5rem);
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    .section-eyebrow {
-      font-size: .68rem;
-      font-weight: 600;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: var(--rock);
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: .75rem;
-    }
-    .section-eyebrow::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--summit-dark);
-    }
+    /* ─── Screens ─── */
+    .screen { display: none; }
+    .screen.active { display: block; animation: fadein 180ms ease; }
+    @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-    .quiz-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-      gap: .875rem;
-    }
-
-    .quiz-card {
-      background: var(--white);
-      border-radius: var(--r-md);
-      padding: 1.375rem 1.375rem 1.125rem;
-      box-shadow: var(--shadow-card);
-      border: 1.5px solid transparent;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: .625rem;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 180ms var(--ease),
-                  box-shadow 180ms var(--ease),
-                  transform 180ms var(--ease);
-    }
-    .quiz-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 4px; height: 100%;
-      background: var(--canopy);
-      transition: width 180ms var(--ease);
-    }
-    .quiz-card:hover,
-    .quiz-card:focus-visible {
-      border-color: var(--canopy);
-      box-shadow: var(--shadow-raise);
-      transform: translateY(-3px);
-      outline: none;
-    }
-    .quiz-card:hover::before { width: 6px; }
-
-    .card-icon {
-      font-size: 1.5rem;
-      line-height: 1;
-      margin-bottom: .125rem;
-    }
-    .card-title {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--night);
-      line-height: 1.2;
-    }
-    .card-meta {
-      font-size: .72rem;
-      color: var(--rock);
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-      flex-wrap: wrap;
-    }
-    .card-meta .sep {
-      width: 3px; height: 3px;
-      border-radius: 50%;
-      background: var(--summit-dark);
-      flex-shrink: 0;
-    }
-    .card-play {
-      margin-top: auto;
-      display: flex;
-      align-items: center;
-      gap: .3rem;
-      font-size: .75rem;
-      font-weight: 600;
-      color: var(--canopy);
-      padding-top: .375rem;
-      border-top: 1px solid var(--summit-dark);
-    }
-
-    /* ──────────────────────────────────────
-       SHARED QUIZ HEADER
-    ────────────────────────────────────── */
-    .quiz-header {
-      background: var(--canopy);
-      padding: .875rem 1.25rem;
+    /* ─── Shared: Notice ─── */
+    .notice {
+      border-left: 4px solid;
+      padding: 9px 12px;
+      margin-bottom: 16px;
+      background: var(--wp-white);
+      font-size: 13px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
     }
-    .back-btn {
+    .notice.success { border-color: var(--wp-green); }
+    .notice.info { border-color: var(--wp-blue); }
+    .notice.hidden { display: none; }
+    .notice-dismiss { background: none; border: none; color: var(--wp-muted); cursor: pointer; font-size: 18px; line-height: 1; padding: 0 2px; }
+    .notice-dismiss:hover { color: var(--wp-text); }
+
+    /* ─── Shared: Buttons ─── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 5px 14px;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      cursor: pointer;
+      line-height: 1.6;
+      text-decoration: none;
+      transition: background 120ms, border-color 120ms, color 120ms;
+      white-space: nowrap;
+    }
+    .btn-primary { background: var(--wp-blue); border-color: var(--wp-blue-dk); color: #fff; }
+    .btn-primary:hover { background: var(--wp-blue-dk); }
+    .btn-secondary { background: var(--wp-white); border-color: var(--wp-border); color: var(--wp-text); }
+    .btn-secondary:hover { border-color: #8c8f94; color: #000; }
+    .btn-publish { background: var(--tt-green); border-color: #0f2718; color: #fff; }
+    .btn-publish:hover:not(:disabled) { background: var(--tt-green-lt); }
+    .btn-publish:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-danger-link { background: none; border: none; color: var(--wp-red); cursor: pointer; font-family: var(--font-ui); font-size: 13px; text-decoration: underline; padding: 0; }
+    .btn-danger-link:hover { color: #8b1a1a; }
+    .btn-sm { font-size: 11px; padding: 3px 8px; }
+    .btn-icon { padding: 5px 8px; }
+
+    /* ─── PAGE 1: GAME LIST ─── */
+    .list-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .list-header h1 {
+      font-family: var(--font-display);
+      font-size: 23px;
+      font-weight: 700;
+      color: var(--wp-text);
+      line-height: 1;
+    }
+
+    /* WP filter tabs */
+    .subsubsub {
+      display: flex;
+      gap: 0;
+      margin-bottom: 10px;
+      font-size: 13px;
+      flex-wrap: wrap;
+    }
+    .subsubsub button {
       background: none;
       border: none;
-      color: rgba(255,255,255,.65);
-      font-family: var(--font-body);
-      font-size: .825rem;
-      font-weight: 500;
+      color: var(--wp-blue);
       cursor: pointer;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      padding: 2px 0;
+    }
+    .subsubsub button:hover { text-decoration: underline; }
+    .subsubsub button.current { color: var(--wp-text); font-weight: 500; cursor: default; text-decoration: none; }
+    .subsubsub .pipe { color: var(--wp-muted); margin: 0 5px; }
+
+    /* Search + actions bar */
+    .tablenav {
       display: flex;
       align-items: center;
-      gap: .375rem;
-      padding: .375rem .625rem;
-      border-radius: var(--r-sm);
-      transition: color 150ms, background 150ms;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
-    .back-btn:hover {
-      color: var(--white);
-      background: rgba(255,255,255,.1);
+    .search-form { display: flex; gap: 4px; }
+    .search-form input {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: var(--wp-text);
+      border: 1px solid var(--wp-border);
+      border-radius: var(--radius);
+      padding: 4px 9px;
+      background: var(--wp-white);
+      width: 180px;
     }
-    .quiz-title-small {
-      font-family: var(--font-display);
-      font-size: .8rem;
+    .search-form input:focus { border-color: var(--wp-blue); outline: none; box-shadow: 0 0 0 1px var(--wp-blue); }
+
+    /* Games table */
+    .widefat {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--wp-white);
+      border: 1px solid var(--wp-border);
+      box-shadow: var(--shadow-panel);
+    }
+    .widefat th {
+      text-align: left;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--wp-text);
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--wp-border);
+      white-space: nowrap;
+    }
+    .widefat td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--wp-border-lt);
+      vertical-align: middle;
+      font-size: 13px;
+    }
+    .widefat tr:last-child td { border-bottom: none; }
+    .widefat tr:hover td { background: #f6f7f7; }
+
+    .col-title { min-width: 220px; }
+    .col-status { width: 110px; }
+    .col-qs { width: 60px; text-align: center; }
+    .col-author { width: 100px; }
+    .col-date { width: 110px; }
+
+    .row-title-wrap { display: flex; flex-direction: column; gap: 2px; }
+    .row-title {
+      font-weight: 600;
+      color: var(--wp-text);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline;
+    }
+    .row-title:hover { color: var(--wp-blue); }
+    .row-subtitle { font-size: 12px; color: var(--wp-muted); font-style: italic; }
+    .row-actions {
+      display: none;
+      gap: 8px;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+    tr:hover .row-actions { display: flex; }
+    .row-actions button {
+      background: none;
+      border: none;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: none;
+    }
+    .row-actions .edit-link { color: var(--wp-blue); }
+    .row-actions .edit-link:hover { text-decoration: underline; }
+    .row-actions .trash-link { color: var(--wp-red); }
+    .row-actions .trash-link:hover { text-decoration: underline; }
+    .row-actions .sep { color: var(--wp-muted); cursor: default; }
+
+    /* Status badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+      letter-spacing: .02em;
+      white-space: nowrap;
+    }
+    .badge-pub { background: #ecf9ef; color: #006b1e; }
+    .badge-draft { background: #f0f0f1; color: var(--wp-muted); }
+    .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+    .qs-count { font-weight: 600; text-align: center; }
+
+    /* ─── PAGE 2: GAME EDITOR ─── */
+    .editor-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--wp-blue);
+      font-size: 13px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: var(--font-ui);
+      padding: 0;
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+    .autosave {
+      font-size: 12px;
+      color: var(--wp-muted);
       font-style: italic;
-      color: rgba(255,255,255,.5);
-      text-align: right;
-      max-width: 180px;
+    }
+    .editor-actions { display: flex; gap: 6px; align-items: center; }
+
+    /* Two-column layout */
+    .editor-layout {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    /* Title box */
+    .title-box {
+      background: var(--wp-white);
+      border: 1px solid var(--wp-border);
+      box-shadow: var(--shadow-panel);
+      margin-bottom: 14px;
+    }
+    #game-title {
+      width: 100%;
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--wp-text);
+      border: none;
+      padding: 11px 14px;
+      background: transparent;
+      display: block;
+    }
+    #game-title::placeholder { color: #b4b9be; font-style: italic; font-weight: 400; }
+    #game-title:focus { outline: none; }
+    #game-subtitle {
+      width: 100%;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: var(--wp-muted);
+      border: none;
+      border-top: 1px solid var(--wp-border-lt);
+      padding: 7px 14px;
+      background: transparent;
+      display: block;
+    }
+    #game-subtitle::placeholder { color: #c3c4c7; }
+    #game-subtitle:focus { outline: none; }
+
+    /* Metabox */
+    .metabox {
+      background: var(--wp-white);
+      border: 1px solid var(--wp-border);
+      box-shadow: var(--shadow-panel);
+      margin-bottom: 14px;
+    }
+    .metabox-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--wp-border-lt);
+      cursor: pointer;
+      user-select: none;
+    }
+    .metabox-head h2 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--wp-text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .metabox-toggle { color: var(--wp-muted); font-size: 10px; }
+    .metabox-body { padding: 12px 14px; }
+
+    /* Questions metabox */
+    .questions-box {
+      background: var(--wp-white);
+      border: 1px solid var(--wp-border);
+      box-shadow: var(--shadow-panel);
+      margin-bottom: 14px;
+    }
+    .questions-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--wp-border);
+    }
+    .questions-head h2 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--wp-text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .q-total-badge {
+      background: var(--tt-green);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 9px;
+      padding: 1px 7px;
+      font-family: var(--font-ui);
+    }
+
+    /* Question card — signature element: Fraunces ghost numeral */
+    .q-card { border-bottom: 1px solid var(--wp-border-lt); }
+    .q-card:last-child { border-bottom: none; }
+
+    .q-card-head {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 0 14px 0 0;
+      cursor: pointer;
+      transition: background 100ms;
+    }
+    .q-card-head:hover { background: #f8f9f9; }
+
+    /* The signature: large Fraunces numeral */
+    .q-num {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--wp-border);
+      line-height: 1;
+      width: 56px;
+      text-align: center;
+      padding: 12px 6px 12px 14px;
+      flex-shrink: 0;
+      transition: color 120ms;
+      user-select: none;
+    }
+    .q-card-head:hover .q-num { color: #b4b9be; }
+    .q-card.open .q-num { color: var(--tt-green); opacity: 0.4; }
+
+    /* Drag handle */
+    .drag-handle {
+      padding: 0 6px 0 10px;
+      cursor: grab;
+      flex-shrink: 0;
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      color: var(--wp-border);
+      transition: color 120ms;
+    }
+    .q-card-head:hover .drag-handle { color: var(--wp-muted); }
+    .drag-handle:active { cursor: grabbing; }
+    .q-card.dragging { opacity: 0.35; }
+    .q-card.drag-over { box-shadow: inset 0 2px 0 var(--wp-blue); background: rgba(34,113,177,.03); }
+
+    .q-card-preview {
+      flex: 1;
+      padding: 14px 10px;
+      overflow: hidden;
+    }
+    .q-preview-text {
+      font-size: 13px;
+      color: var(--wp-text);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
-    /* Elevation-profile progress bar */
-    .elevation-bar {
-      height: 5px;
-      background: rgba(255,255,255,.1);
-      position: relative;
-    }
-    .elevation-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--trail) 0%, var(--trail-light) 100%);
-      border-radius: 0 3px 3px 0;
-      transition: width 550ms var(--ease);
-    }
-
-    /* ──────────────────────────────────────
-       QUIZ QUESTION SCREEN
-    ────────────────────────────────────── */
-    .quiz-body {
-      max-width: 640px;
-      margin: 0 auto;
-      padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1.25rem, 5vw, 2rem) 3rem;
-    }
-
-    /* Large ghost question number — the editorial risk */
-    .q-ghost-num {
-      font-family: var(--font-display);
-      font-size: clamp(5rem, 16vw, 9rem);
-      font-weight: 900;
-      line-height: .85;
-      color: var(--summit-dark);
-      letter-spacing: -.05em;
-      margin-bottom: -.75rem;
-      user-select: none;
-    }
-
-    .q-progress-line {
-      font-size: .7rem;
-      color: var(--rock);
+    .q-preview-text.empty { color: var(--wp-muted); font-style: italic; }
+    .q-preview-correct {
+      font-size: 11px;
+      color: var(--tt-green);
+      margin-top: 2px;
       font-weight: 500;
-      letter-spacing: .06em;
-      margin-bottom: .875rem;
     }
 
-    .q-text {
-      font-family: var(--font-display);
-      font-size: clamp(1.05rem, 3.2vw, 1.45rem);
-      font-weight: 700;
-      color: var(--night);
-      line-height: 1.3;
-      margin-bottom: 1.75rem;
+    .q-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .q-expand-icon {
+      color: var(--wp-muted);
+      font-size: 11px;
+      transition: transform 150ms;
+    }
+    .q-card.open .q-expand-icon { transform: rotate(180deg); }
+
+    /* Expanded question form */
+    .q-card-body {
+      padding: 14px 14px 20px;
+      border-top: 1px solid var(--wp-border-lt);
+      background: #fafafa;
+      display: none;
+    }
+    .q-card.open .q-card-body { display: block; animation: fadein 150ms ease; }
+
+    /* Form fields */
+    .field { margin-bottom: 14px; }
+    .field:last-child { margin-bottom: 0; }
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--wp-muted);
+      margin-bottom: 5px;
+    }
+    .field label .opt { font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11px; }
+    .field input[type="text"],
+    .field input[type="url"],
+    .field textarea {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: var(--wp-text);
+      border: 1px solid var(--wp-border);
+      border-radius: var(--radius);
+      padding: 6px 9px;
+      background: var(--wp-white);
+      width: 100%;
+      transition: border-color 100ms, box-shadow 100ms;
+    }
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--wp-blue);
+      outline: none;
+      box-shadow: 0 0 0 1px var(--wp-blue);
+    }
+    .field textarea { resize: vertical; min-height: 72px; }
+
+    /* Image layout: preview left, fields right */
+    .img-layout {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .img-preview {
+      flex-shrink: 0;
+      width: 160px;
+      height: 120px;
+      border: 1px solid var(--wp-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--wp-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-in;
+    }
+    .img-preview.hidden { display: none; }
+    .img-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* Full-screen image modal */
+    .img-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.88);
+      z-index: 400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+      animation: fadein 160ms ease;
+    }
+    .img-modal.hidden { display: none; }
+    .img-modal img {
+      max-width: 92vw;
+      max-height: 92vh;
+      object-fit: contain;
+      border-radius: var(--radius);
+      box-shadow: 0 12px 60px rgba(0,0,0,.6);
+      cursor: default;
+      pointer-events: auto;
+    }
+    .img-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.2);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 120ms;
+    }
+    .img-modal-close:hover { background: rgba(255,255,255,.28); }
+    .img-modal-caption {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,.65);
+      font-size: 12px;
+      font-style: italic;
+      white-space: nowrap;
+      max-width: 90vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .img-fields {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .img-fields .field { margin-bottom: 0; }
+
+    /* Mobile: preview stacks above fields */
+    @media (max-width: 540px) {
+      .img-layout { flex-direction: column; }
+      .img-preview { width: 100%; height: 160px; }
+    }
+
+    /* Two-col image fields */
+    .field-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
     /* Choices */
-    .choices {
-      display: flex;
-      flex-direction: column;
-      gap: .5rem;
+    .choices-legend {
+      font-size: 11px;
+      color: var(--wp-muted);
+      margin-bottom: 8px;
     }
-    .choice {
+    .choices-legend strong { color: var(--tt-green); }
+    .choice-row {
       display: flex;
       align-items: center;
-      gap: .875rem;
-      background: var(--white);
-      border: 1.5px solid var(--summit-dark);
-      border-radius: var(--r-md);
-      padding: .875rem 1.125rem;
-      cursor: pointer;
-      font-family: var(--font-body);
-      font-size: .875rem;
-      font-weight: 400;
-      color: var(--night);
-      text-align: left;
-      width: 100%;
-      box-shadow: var(--shadow-card);
-      transition: border-color 150ms var(--ease),
-                  background 150ms var(--ease),
-                  transform 150ms var(--ease);
+      gap: 8px;
+      margin-bottom: 7px;
     }
-    .choice:hover:not(:disabled) {
-      border-color: var(--canopy);
-      background: rgba(27,58,36,.03);
-      transform: translateX(4px);
-    }
-    .choice:disabled { cursor: not-allowed; }
+    .choice-row:last-child { margin-bottom: 0; }
 
-    .choice-badge {
-      width: 26px; height: 26px;
+    .choice-letter {
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
-      background: var(--summit);
-      border: 1.5px solid var(--summit-dark);
-      display: flex; align-items: center; justify-content: center;
-      font-size: .65rem;
+      background: var(--wp-bg);
+      border: 1.5px solid var(--wp-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
       font-weight: 700;
-      color: var(--rock);
+      color: var(--wp-muted);
       flex-shrink: 0;
-      transition: background 180ms, border-color 180ms, color 180ms;
+      transition: background 120ms, border-color 120ms, color 120ms;
+      pointer-events: none;
     }
-
-    .choice.is-correct {
-      background: rgba(42,110,66,.06);
-      border-color: var(--correct);
+    input[type="radio"] { accent-color: var(--tt-green); cursor: pointer; flex-shrink: 0; }
+    .choice-row.correct .choice-letter {
+      background: var(--tt-green);
+      border-color: var(--tt-green);
+      color: #fff;
     }
-    .choice.is-correct .choice-badge {
-      background: var(--correct);
-      border-color: var(--correct);
-      color: var(--white);
+    .choice-row input[type="text"] {
+      flex: 1;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: var(--wp-text);
+      border: 1px solid var(--wp-border);
+      border-radius: var(--radius);
+      padding: 5px 8px;
+      background: var(--wp-white);
     }
-    .choice.is-wrong {
-      background: rgba(184,50,40,.04);
-      border-color: var(--wrong);
+    .choice-row input[type="text"]:focus {
+      border-color: var(--wp-blue);
+      outline: none;
+      box-shadow: 0 0 0 1px var(--wp-blue);
     }
-    .choice.is-wrong .choice-badge {
-      background: var(--wrong);
-      border-color: var(--wrong);
-      color: var(--white);
-    }
-    .choice.is-correct, .choice.is-wrong { opacity: 1 !important; }
-    .choice:disabled:not(.is-correct):not(.is-wrong) { opacity: .55; }
-
-    /* Answer reveal panel */
-    .reveal {
-      margin-top: 1.25rem;
-      border-radius: var(--r-md);
-      overflow: hidden;
-      animation: rise 300ms var(--ease);
-    }
-    .reveal-banner {
-      padding: .625rem 1.125rem;
-      font-size: .7rem;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--white);
-    }
-    .reveal-banner.correct-bg { background: var(--correct); }
-    .reveal-banner.wrong-bg   { background: var(--wrong); }
-
-    .reveal-body {
-      background: var(--white);
-      border: 1.5px solid var(--summit-dark);
-      border-top: none;
-      border-radius: 0 0 var(--r-md) var(--r-md);
-      padding: 1.125rem;
-    }
-    .reveal-text {
-      font-size: .875rem;
-      color: var(--rock);
-      line-height: 1.65;
-      margin-bottom: .875rem;
-    }
-    .reveal-img {
-      width: 100%;
-      border-radius: var(--r-sm);
-      max-height: 190px;
-      object-fit: cover;
-      margin-bottom: .5rem;
-      display: block;
-    }
-    .reveal-caption {
-      font-size: .68rem;
-      color: var(--rock);
-      text-align: center;
-      font-style: italic;
-    }
-
-    .next-btn {
-      margin-top: 1.25rem;
-      width: 100%;
-      background: var(--canopy);
-      color: var(--white);
-      font-family: var(--font-body);
-      font-size: .9rem;
+    .correct-label {
+      font-size: 11px;
+      color: var(--tt-green);
       font-weight: 600;
-      padding: .9rem 1.5rem;
-      border-radius: var(--r-md);
-      border: none;
-      cursor: pointer;
-      transition: background 150ms var(--ease), transform 150ms var(--ease);
+      width: 46px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+
+    /* ─── SETTINGS SCREEN ─── */
+    .settings-wrap { max-width: 760px; }
+    .settings-panel {
+      background: var(--wp-white);
+      border: 1px solid var(--wp-border);
+      box-shadow: var(--shadow-panel);
+      margin-bottom: 20px;
+    }
+    .settings-panel-head {
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--wp-border-lt);
+    }
+    .settings-panel-head h2 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--wp-text);
+    }
+    .settings-panel-head p {
+      font-size: 12px;
+      color: var(--wp-muted);
+      margin-top: 3px;
+    }
+    .form-table { width: 100%; border-collapse: collapse; }
+    .form-table th {
+      text-align: left;
+      padding: 12px 16px;
+      width: 200px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--wp-text);
+      vertical-align: top;
+      white-space: nowrap;
+    }
+    .form-table td { padding: 10px 16px; }
+    .form-table input[type="number"],
+    .form-table input[type="text"] {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: var(--wp-text);
+      border: 1px solid var(--wp-border);
+      border-radius: var(--radius);
+      padding: 5px 8px;
+      background: var(--wp-white);
+    }
+    .form-table input[type="number"] { width: 72px; }
+    .form-table input[type="number"]:focus,
+    .form-table input[type="text"]:focus {
+      border-color: var(--wp-blue);
+      outline: none;
+      box-shadow: 0 0 0 1px var(--wp-blue);
+    }
+    .field-desc {
+      font-size: 12px;
+      color: var(--wp-muted);
+      margin-top: 4px;
+    }
+    .settings-footer {
+      padding: 10px 16px;
+      border-top: 1px solid var(--wp-border-lt);
+      background: #f9f9f9;
+    }
+
+    /* TriviaSmith user table */
+    .ts-table { width: 100%; border-collapse: collapse; }
+    .ts-table th {
+      text-align: left;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--wp-muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      padding: 8px 16px;
+      border-bottom: 1px solid var(--wp-border-lt);
+    }
+    .ts-table td {
+      padding: 9px 16px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--wp-border-lt);
+      vertical-align: middle;
+    }
+    .ts-table tr:last-child td { border-bottom: none; }
+    .ts-table tr:hover td { background: #f8f8f8; }
+    .ts-role-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--wp-muted);
+      background: var(--wp-bg);
+      border-radius: 10px;
+      padding: 1px 8px;
+    }
+    .ts-admin-note { font-size: 11px; color: var(--wp-muted); font-style: italic; }
+
+    .grant-row {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--wp-border-lt);
+      align-items: center;
+    }
+    .grant-row input { flex: 1; max-width: 260px; }
+    .grant-row label { font-size: 13px; color: var(--wp-text); white-space: nowrap; }
+
+    /* About panel */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 0;
+    }
+    .about-row {
+      display: contents;
+    }
+    .about-row > * {
+      padding: 10px 16px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--wp-border-lt);
+    }
+    .about-row:last-child > * { border-bottom: none; }
+    .about-label { color: var(--wp-muted); font-weight: 500; }
+    .about-value { color: var(--wp-text); }
+
+    /* ─── SIDEBAR metaboxes ─── */
+    .publish-misc {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--wp-border-lt);
+    }
+    .pub-row {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: .5rem;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 7px;
     }
-    .next-btn:hover {
-      background: var(--canopy-light);
-      transform: translateY(-1px);
+    .pub-row:last-child { margin-bottom: 0; }
+    .pub-label { color: var(--wp-muted); }
+    .pub-value { font-weight: 500; display: flex; align-items: center; gap: 5px; }
+    .pub-change {
+      background: none;
+      border: none;
+      color: var(--wp-blue);
+      cursor: pointer;
+      font-family: var(--font-ui);
+      font-size: 11px;
+      padding: 0;
+      margin-left: 4px;
     }
-    .next-btn svg { flex-shrink: 0; }
+    .pub-change:hover { text-decoration: underline; }
 
-    /* ──────────────────────────────────────
-       SCORE SCREEN
-    ────────────────────────────────────── */
-    .score-wrap {
-      max-width: 480px;
-      margin: 0 auto;
-      padding: clamp(2.5rem, 8vw, 4rem) 1.5rem;
-      text-align: center;
-    }
+    .status-pub { color: var(--wp-green); }
+    .status-draft-text { color: var(--wp-muted); }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; display: inline-block; }
 
-    .score-ring {
-      width: 128px; height: 128px;
-      border-radius: 50%;
-      background: var(--canopy);
+    .publish-actions {
+      padding: 10px 14px;
       display: flex;
       flex-direction: column;
+      gap: 8px;
+    }
+    .publish-actions .btn { width: 100%; }
+    .publish-actions-row {
+      display: flex;
       align-items: center;
-      justify-content: center;
-      margin: 0 auto 1.5rem;
-      box-shadow: 0 8px 32px rgba(27,58,36,.3);
-    }
-    .score-num {
-      font-family: var(--font-display);
-      font-size: 2.4rem;
-      font-weight: 900;
-      color: var(--white);
-      line-height: 1;
-    }
-    .score-of {
-      font-size: .62rem;
-      color: rgba(255,255,255,.55);
-      letter-spacing: .08em;
-      text-transform: uppercase;
+      justify-content: space-between;
     }
 
-    .trail-badge {
+    /* Tags */
+    .tag-input-row { display: flex; gap: 5px; margin-bottom: 8px; }
+    .tag-input-row input {
+      flex: 1;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      border: 1px solid var(--wp-border);
+      border-radius: var(--radius);
+      padding: 5px 8px;
+      background: var(--wp-white);
+    }
+    .tag-input-row input:focus { border-color: var(--wp-blue); outline: none; box-shadow: 0 0 0 1px var(--wp-blue); }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag-chip {
       display: inline-flex;
       align-items: center;
-      gap: .4rem;
-      background: var(--summit-dark);
-      color: var(--canopy);
-      font-size: .72rem;
-      font-weight: 700;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-      border-radius: 100px;
-      padding: .3rem .875rem;
-      margin-bottom: 1.25rem;
+      gap: 4px;
+      background: var(--tt-cream);
+      border: 1px solid var(--tt-cream-dk);
+      color: var(--wp-text);
+      font-size: 11px;
+      padding: 2px 7px 2px 9px;
+      border-radius: 10px;
     }
-
-    .score-title {
-      font-family: var(--font-display);
-      font-size: clamp(1.75rem, 6vw, 2.5rem);
-      font-weight: 900;
-      color: var(--night);
-      line-height: 1.1;
-      margin-bottom: .5rem;
-    }
-    .score-sub {
-      font-size: .9rem;
-      color: var(--rock);
-      margin-bottom: 2rem;
-      max-width: 30ch;
-      margin-left: auto; margin-right: auto;
-    }
-
-    .score-actions {
-      display: flex;
-      flex-direction: column;
-      gap: .625rem;
-    }
-    .btn-primary {
-      background: var(--trail);
-      color: var(--white);
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: .9rem;
-      padding: .875rem 1.5rem;
-      border-radius: var(--r-md);
+    .tag-chip button {
+      background: none;
       border: none;
+      color: var(--wp-muted);
       cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      padding: 0;
+    }
+    .tag-chip button:hover { color: var(--wp-red); }
+
+    /* ─── Preview Game Modal (matches actual React app) ─── */
+    .preview-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: white;
+      overflow-y: auto;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      animation: fadein 220ms ease;
+    }
+    .preview-modal.hidden { display: none; }
+
+    /* Fixed close button */
+    .pv-close-btn {
+      position: fixed; top: 10px; right: 10px; z-index: 10;
+      background: rgba(0,0,0,.55); border: none; color: white;
+      width: 36px; height: 36px; border-radius: 50%;
+      font-size: 20px; cursor: pointer; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pv-close-btn:hover { background: rgba(0,0,0,.75); }
+
+    /* App container — mirrors React .App */
+    .pv-app {
+      text-align: center; max-width: 80rem;
+      margin: 0 auto; padding: 1rem 0; width: 100%;
+    }
+
+    /* Screen toggle */
+    .pv-screen { display: none; }
+    .pv-screen.active { display: block; }
+
+    /* Home */
+    .pv-home { margin: 0 auto; }
+    .pv-message { font-family: 'Tilt Neon', sans-serif; font-size: 1.2rem; margin: 0 auto; }
+    .pv-home-header { margin-bottom: 2rem; }
+    .pv-h1 {
+      font-size: 3.5rem; font-family: 'Henny Penny', sans-serif;
+      text-shadow: 0 2px 2px #AAA; color: indianred; margin: 1rem 0 0 0;
+    }
+    .pv-quiz-title {
+      font-size: 2.3rem; font-family: 'Tilt Neon', sans-serif;
+      color: slateblue; text-shadow: 1px 1px 1px #DDD; margin: 0 auto;
+    }
+    .pv-quiz-subtitle {
+      font-family: 'Tilt Neon', sans-serif; font-size: 1rem;
+      color: slateblue; text-shadow: 1px 1px 1px #DDD; margin: 0 auto;
+    }
+    .pv-btn-wrap {
+      margin: 1rem auto 0; display: flex; flex-direction: column;
+      max-width: 16rem;
+    }
+    .pv-btn-wrap > * { flex: 1 1 auto; align-self: stretch; }
+    .pv-action-btn {
+      font-family: 'Tilt Neon', sans-serif; margin: 0 0 1rem 0;
+      padding: .5rem 3rem; font-size: 1.4rem; cursor: pointer;
+      border-radius: 2rem; transition: all .3s; box-shadow: 0 2px 1px #EEE;
+      display: block; text-align: center; width: 100%;
+    }
+    .pv-btn-dark { color: floralwhite; background: black; border: solid 2px black; }
+    .pv-btn-dark:hover { background: #444; }
+    .pv-btn-light { color: black; background: white; border: solid 2px black; }
+    .pv-btn-light:hover { background: floralwhite; }
+    .pv-author { margin-top: 1rem; font-size: .9rem; }
+
+    /* Logo spinner */
+    .pv-logo {
+      margin: 0 auto; height: 40vmin; width: 40vmin;
+      pointer-events: none; position: relative;
+    }
+    .pv-logo > span {
+      display: block; position: absolute; inset: 0; margin: auto;
+      height: 40vmin; width: 40vmin;
+    }
+    .pv-logo > span > svg { height: 40vmin; width: 40vmin; display: block; }
+    .pv-logo > span:last-child { animation: pv-spin 20s linear infinite; }
+    @keyframes pv-spin { to { transform: rotate(360deg); } }
+
+    /* Question */
+    .pv-question-box {
+      margin-top: 2rem; padding: 1rem; box-sizing: border-box;
+      width: 100vw; text-align: left; display: inline-block; max-width: 60rem;
+    }
+    .pv-question-text { font-size: 1.4rem; margin-bottom: 2rem; }
+    .pv-choices-container { width: 100%; }
+
+    /* Choice buttons */
+    .pv-choice {
+      margin: .5rem 0; display: block;
+      background-repeat: no-repeat; background-size: contain; background-position: left;
+      transition: all .5s; padding-left: 0; box-sizing: border-box;
+    }
+    .pv-choice.wrong {
+      padding-left: 4.5rem;
+      background-image: url('../gmc-btv-trivia/src/assets/images/wrong-answer.svg');
+    }
+    .pv-choice-inner { background-color: white; height: 4rem; width: 100%; }
+    .pv-choice-inner button {
+      font-size: 1.1rem; width: 100%; box-sizing: border-box; height: 100%;
+      padding: 0 .5rem; background-color: transparent;
+      border: solid 1px #DDD; cursor: pointer; text-align: left; display: block;
+    }
+    .pv-choice-inner button:hover:not(:disabled) { background-color: #FFE; }
+    .pv-choice-inner button:disabled { cursor: not-allowed; }
+
+    /* Answer reveal */
+    .pv-answer { margin: 0 .5rem; }
+    .pv-huzzah {
+      font-size: 3rem; font-family: 'Henny Penny', sans-serif;
+      margin: 0; color: tomato; text-shadow: 1px 1px 1px rgba(0,0,0,.25);
+    }
+    .pv-answer-box {
+      display: flex; flex-direction: column; flex-wrap: nowrap;
+      justify-content: flex-start; align-content: stretch; align-items: flex-start;
+      border: solid 1px #AAA; margin: 0 auto 2rem auto; max-width: 80rem;
+    }
+    .pv-answer-no-img { border: solid 1px #AAA; margin: 0 auto 2rem auto; max-width: 60rem; }
+    .pv-answer-no-img > div { padding: 2rem; text-align: left; }
+    .pv-answer-pic { order: 1; flex: 0 1 auto; align-self: stretch; flex-basis: 50%; }
+    .pv-answer-pic > figure { max-width: calc(100% - 3.5rem); margin: 1.5rem 0 1rem 1rem; padding: 0; }
+    .pv-answer-pic > figure > img {
+      max-width: 100%; border: solid .7rem white;
+      box-shadow: 0 0 10px 2px rgba(0,0,0,.5); border-radius: .1rem;
+      margin: 0; max-height: 50vh; object-fit: contain;
+    }
+    .pv-answer-pic > figure > figcaption { text-align: center; margin: .5rem 0 0 0; }
+    .pv-answer-text { order: 0; flex: 0 1 auto; align-self: stretch; text-align: left; padding: .25rem 1rem .25rem 1.25rem; }
+    .pv-answer-text > p { font-size: 1.2rem; line-height: normal; }
+
+    /* Next Question link */
+    .pv-next-q {
+      font-family: 'Tilt Neon', sans-serif; font-size: 1.5rem;
+      color: #000; text-align: right; padding: 1rem 2rem;
+      display: inline-block; cursor: pointer;
+      border: solid 1px #AAA; transition: all .2s; background: transparent;
+    }
+    .pv-next-q:hover { background-color: slateblue; color: white; }
+
+    /* Congratulations (last question) */
+    .pv-congrats { display: inline-block; margin-bottom: 1rem; }
+    .pv-congrats > div {
+      display: flex; flex-direction: row; flex-wrap: nowrap;
+      justify-content: center; align-content: center; align-items: center;
+    }
+    .pv-congrats-emoji { font-size: 4rem; }
+    .pv-congrats-text {
+      max-width: 45vw; padding: 1rem; font-size: 1rem;
+      font-family: 'Tilt Neon', sans-serif; color: #111; text-align: center;
+      display: inline-block; cursor: pointer;
+      border: solid 1px #AAA; transition: all .2s; background: transparent;
+    }
+    .pv-congrats-text:hover { color: white; background: slateblue; }
+
+    /* Score screen */
+    .pv-score-screen { margin: 0 auto; width: 100%; }
+    .pv-score-msg {
+      font-family: 'Tilt Neon', sans-serif; font-size: 2rem;
+      margin: 1rem; color: slateblue;
+    }
+    .pv-score-nav { max-width: 19rem; margin: 2rem auto; display: flex; flex-direction: column; }
+    .pv-score-nav > * { flex: 1 1 auto; }
+
+    /* Desktop breakpoints matching the React app */
+    @media only screen and (min-width: 700px) {
+      .pv-h1 { font-size: 2rem; }
+      .pv-logo, .pv-logo > span, .pv-logo > span > svg { height: 20vmin; width: 20vmin; }
+      .pv-quiz-title { font-size: 3rem; }
+      .pv-question-box { margin-top: 6rem; padding: 0 2rem; max-width: 50rem; }
+      .pv-question-text { font-size: 1.8rem; }
+      .pv-answer-box { flex-direction: row; }
+      .pv-answer-pic { order: 0; }
+      .pv-answer-pic > figure { max-width: 100%; }
+      .pv-answer-pic > figure > img { max-width: 40vw; }
+      .pv-answer-text { order: 1; }
+      .pv-answer-text > p { line-height: 2rem; font-size: 1.5rem; }
+      .pv-huzzah { font-size: 5rem; }
+      .pv-congrats-text { padding: 1rem 2rem; font-size: 1.5rem; }
+    }
+
+    /* Sidebar Preview Game button — keep but update colours */
+    /* Preview button in editor sidebar */
+    .preview-game-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
       width: 100%;
-      transition: background 150ms var(--ease), transform 150ms var(--ease);
-    }
-    .btn-primary:hover {
-      background: var(--trail-light);
-      transform: translateY(-1px);
-    }
-    .btn-ghost {
+      padding: 9px 14px;
       background: transparent;
-      color: var(--canopy);
-      font-family: var(--font-body);
+      border: 1.5px solid var(--tt-green);
+      border-radius: var(--radius);
+      color: var(--tt-green);
+      font-family: var(--font-ui);
+      font-size: 13px;
       font-weight: 600;
-      font-size: .9rem;
-      padding: .875rem 1.5rem;
-      border-radius: var(--r-md);
-      border: 1.5px solid var(--summit-dark);
       cursor: pointer;
-      width: 100%;
-      transition: border-color 150ms, background 150ms;
+      margin-bottom: 14px;
+      transition: background 150ms, color 150ms;
     }
-    .btn-ghost:hover {
-      border-color: var(--canopy);
-      background: rgba(27,58,36,.03);
-    }
+    .preview-game-btn:hover { background: var(--tt-green); color: #fff; }
 
-    /* ──────────────────────────────────────
-       REDUCED MOTION
-    ────────────────────────────────────── */
+    /* ─── Delete confirmation dialog ─── */
+    .dialog-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .dialog-backdrop.hidden { display: none; }
+    .dialog {
+      background: var(--wp-white);
+      border-radius: 4px;
+      padding: 24px;
+      width: 380px;
+      max-width: 92vw;
+      box-shadow: 0 8px 40px rgba(0,0,0,.3);
+    }
+    .dialog h3 { font-size: 16px; margin-bottom: 8px; color: var(--wp-text); }
+    .dialog p { font-size: 13px; color: var(--wp-muted); margin-bottom: 20px; line-height: 1.5; }
+    .dialog-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+    /* ─── Empty state ─── */
+    .empty-questions {
+      padding: 32px 20px;
+      text-align: center;
+      color: var(--wp-muted);
+      font-size: 13px;
+    }
+    .empty-questions .empty-icon { font-size: 32px; display: block; margin-bottom: 8px; }
+    .empty-questions p { margin-bottom: 12px; }
+
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-      }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
     }
-
-    /* ──────────────────────────────────────
-       RESPONSIVE
-    ────────────────────────────────────── */
-    @media (max-width: 420px) {
-      .quiz-grid { grid-template-columns: 1fr; }
-      .latest-banner { display: none; }
+    @media (max-width: 700px) {
+      body { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .editor-layout { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<!-- ======================================================
-     SCREEN 1 — HOME
-====================================================== -->
-<div id="screen-home" class="screen active">
+<!-- ═══ WP Admin Bar ═══ -->
+<div class="adminbar" role="banner">
+  <div class="adminbar-item">🔷</div>
+  <div class="adminbar-item site">GMC Burlington</div>
+  <div class="adminbar-item">+ New</div>
+  <div class="adminbar-item howdy">Howdy, John Need</div>
+</div>
 
-  <div class="home-hero" role="banner">
+<!-- ═══ Sidebar ═══ -->
+<nav class="sidebar" aria-label="WordPress admin menu">
+  <div class="menu-item"><span class="menu-icon">🏠</span> Dashboard</div>
+  <div class="menu-sep"></div>
+  <div class="menu-item"><span class="menu-icon">📝</span> Posts</div>
+  <div class="menu-item"><span class="menu-icon">📄</span> Pages</div>
+  <div class="menu-item"><span class="menu-icon">💬</span> Comments</div>
+  <div class="menu-sep"></div>
+  <!-- Trail Trivia plugin -->
+  <div class="tt-brand">
+    <div class="tt-brand-badge">TT</div>
+    <div>
+      <div class="tt-brand-text">Trail Trivia</div>
+      <div class="tt-brand-sub">Plugin</div>
+    </div>
+  </div>
+  <div class="menu-item sub current" id="nav-all-games" onclick="showGames()" style="cursor:pointer">All Games</div>
+  <div class="menu-item sub" id="nav-add-new" onclick="showNewGame()" style="cursor:pointer">Add New</div>
+  <div class="menu-item sub" id="nav-settings" onclick="showSettings()" style="cursor:pointer">Settings</div>
+  <div class="menu-sep"></div>
+  <div class="menu-item"><span class="menu-icon">⚙️</span> Settings</div>
+</nav>
 
-    <!-- Topo contour background (signature element) -->
-    <div class="topo" aria-hidden="true">
-      <svg viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid slice"
-           fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g stroke="rgba(255,255,255,0.07)" stroke-width="1.5" fill="none">
-          <path d="M-80,380 C50,260 150,320 280,240 S420,100 560,180 S720,300 900,160 S1050,80 1120,140"/>
-          <path d="M-80,410 C50,290 150,350 280,270 S420,130 560,210 S720,330 900,190 S1050,110 1120,170"/>
-          <path d="M-80,440 C50,320 150,380 280,300 S420,160 560,240 S720,360 900,220 S1050,140 1120,200"/>
-          <path d="M-80,350 C50,230 150,290 280,210 S420,70  560,150 S720,270 900,130 S1050,50  1120,110"/>
-          <path d="M-80,320 C50,200 150,260 280,180 S420,40  560,120 S720,240 900,100 S1050,20  1120,80"/>
-          <path d="M-80,290 C50,170 150,230 280,150 S420,10  560,90  S720,210 900,70  S1050,-10 1120,50"/>
-          <path d="M-80,260 C50,140 150,200 280,120 S420,-20 560,60  S720,180 900,40  S1050,-40 1120,20"/>
-        </g>
-      </svg>
+<!-- ═══ Main Content ═══ -->
+<main class="main" id="main">
+
+  <!-- ── Notice (shared, hidden by default) ── -->
+  <div class="notice success hidden" id="global-notice" role="status" aria-live="polite">
+    <span id="notice-msg">Game saved.</span>
+    <button class="notice-dismiss" onclick="hideNotice()" aria-label="Dismiss notice">×</button>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCREEN 1: GAME LIST
+  ════════════════════════════════════════ -->
+  <div class="screen active" id="list-screen">
+
+    <div class="list-header">
+      <h1>Trail Trivia</h1>
+      <button class="btn btn-primary" onclick="showNewGame()">+ Add New Game</button>
     </div>
 
-    <!-- Mountain horizon -->
-    <svg class="horizon" aria-hidden="true" viewBox="0 0 1200 220"
-         preserveAspectRatio="xMidYMax meet" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,220 L0,155 L80,90 L150,130 L270,50 L400,110 L500,55 L620,140 L740,48
-               L860,95 L960,30 L1060,75 L1140,40 L1200,60 L1200,220 Z"
-            fill="rgba(255,255,255,0.055)"/>
-      <path d="M0,220 L0,175 L100,120 L190,155 L310,90 L440,140 L540,95 L660,165 L780,90
-               L880,125 L990,70 L1090,105 L1170,75 L1200,88 L1200,220 Z"
-            fill="rgba(255,255,255,0.04)"/>
-    </svg>
+    <!-- Filter tabs -->
+    <div class="subsubsub" role="tablist" aria-label="Filter games by status">
+      <button class="current" role="tab" aria-selected="true">All <span style="color:var(--wp-muted)">(6)</span></button>
+      <span class="pipe">|</span>
+      <button role="tab" aria-selected="false">Published <span style="color:var(--wp-muted)">(4)</span></button>
+      <span class="pipe">|</span>
+      <button role="tab" aria-selected="false">Draft <span style="color:var(--wp-muted)">(2)</span></button>
+    </div>
 
-    <!-- Logo -->
-    <div class="home-logo">
-      <svg class="logo-compass" viewBox="0 0 44 44" fill="none"
-           xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <circle cx="22" cy="22" r="21" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
-        <path d="M22 6L35 28H9L22 6Z" stroke="rgba(255,255,255,0.55)" stroke-width="1.5"
-              stroke-linejoin="round" fill="none"/>
-        <path d="M15 28L22 18L29 28" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"
-              stroke-linejoin="round" fill="none"/>
-        <circle cx="22" cy="22" r="3" fill="rgba(200,82,18,0.9)"/>
-        <line x1="22" y1="6" x2="22" y2="3" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-        <line x1="22" y1="41" x2="22" y2="38" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-        <line x1="6" y1="22" x2="3" y2="22" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-        <line x1="41" y1="22" x2="38" y2="22" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-      </svg>
-      <div class="logo-wordmark">
-        <span class="logo-org">Green Mountain Club Burlington</span>
-        <span class="logo-name">Trail Trivia</span>
+    <!-- Search -->
+    <div class="tablenav">
+      <form class="search-form" role="search" onsubmit="return false">
+        <label for="game-search" class="screen-reader-text" style="position:absolute;left:-9999px">Search games</label>
+        <input type="text" id="game-search" placeholder="Search games…" aria-label="Search games">
+        <button class="btn btn-secondary btn-sm" type="submit">Search</button>
+      </form>
+      <span style="font-size:12px; color:var(--wp-muted)">6 games</span>
+    </div>
+
+    <!-- Table -->
+    <table class="widefat" aria-label="Trail Trivia games">
+      <thead>
+        <tr>
+          <th class="col-title" scope="col">Title</th>
+          <th class="col-status" scope="col">Status</th>
+          <th class="col-qs" scope="col">Questions</th>
+          <th class="col-author" scope="col">Author</th>
+          <th class="col-date" scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="row-title-wrap">
+              <a class="row-title" onclick="showEditGame('cdt')" href="#" aria-label="Edit The Continental Divide Trail">The Continental Divide Trail</a>
+              <span class="row-subtitle">The Third Jewel in the Triple Crown</span>
+              <div class="row-actions" role="group" aria-label="Actions for The Continental Divide Trail">
+                <button class="edit-link" onclick="showEditGame('cdt')">Edit</button>
+                <span class="sep" aria-hidden="true">|</span>
+                <button class="trash-link" onclick="showDeleteDialog('The Continental Divide Trail')">Trash</button>
+              </div>
+            </div>
+          </td>
+          <td><span class="badge badge-pub"><span class="badge-dot" aria-hidden="true"></span>Published</span></td>
+          <td class="qs-count">5</td>
+          <td>John Need</td>
+          <td>Dec 29, 2023</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="row-title-wrap">
+              <a class="row-title" onclick="showEditGame('at-me')" href="#" aria-label="Edit The AT in Maine">The AT in Maine</a>
+              <div class="row-actions" role="group" aria-label="Actions for The AT in Maine">
+                <button class="edit-link" onclick="showEditGame('at-me')">Edit</button>
+                <span class="sep" aria-hidden="true">|</span>
+                <button class="trash-link" onclick="showDeleteDialog('The AT in Maine')">Trash</button>
+              </div>
+            </div>
+          </td>
+          <td><span class="badge badge-pub"><span class="badge-dot" aria-hidden="true"></span>Published</span></td>
+          <td class="qs-count">5</td>
+          <td>John Need</td>
+          <td>Mar 29, 2024</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="row-title-wrap">
+              <a class="row-title" onclick="showEditGame('at-nh')" href="#" aria-label="Edit The AT in New Hampshire">The AT in New Hampshire</a>
+              <div class="row-actions" role="group" aria-label="Actions for The AT in New Hampshire">
+                <button class="edit-link" onclick="showEditGame('at-nh')">Edit</button>
+                <span class="sep" aria-hidden="true">|</span>
+                <button class="trash-link" onclick="showDeleteDialog('The AT in New Hampshire')">Trash</button>
+              </div>
+            </div>
+          </td>
+          <td><span class="badge badge-pub"><span class="badge-dot" aria-hidden="true"></span>Published</span></td>
+          <td class="qs-count">5</td>
+          <td>John Need</td>
+          <td>Mar 15, 2024</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="row-title-wrap">
+              <a class="row-title" onclick="showEditGame('at-ma')" href="#" aria-label="Edit The AT in Massachusetts">The AT in Massachusetts</a>
+              <div class="row-actions" role="group" aria-label="Actions for The AT in Massachusetts">
+                <button class="edit-link" onclick="showEditGame('at-ma')">Edit</button>
+                <span class="sep" aria-hidden="true">|</span>
+                <button class="trash-link" onclick="showDeleteDialog('The AT in Massachusetts')">Trash</button>
+              </div>
+            </div>
+          </td>
+          <td><span class="badge badge-pub"><span class="badge-dot" aria-hidden="true"></span>Published</span></td>
+          <td class="qs-count">5</td>
+          <td>John Need</td>
+          <td>Mar 15, 2024</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="row-title-wrap">
+              <a class="row-title" onclick="showEditGame('draft1')" href="#" aria-label="Edit Appalachian Trail Overview — draft">Appalachian Trail Overview</a>
+              <div class="row-actions" role="group" aria-label="Actions for Appalachian Trail Overview">
+                <button class="edit-link" onclick="showEditGame('draft1')">Edit</button>
+                <span class="sep" aria-hidden="true">|</span>
+                <button class="trash-link" onclick="showDeleteDialog('Appalachian Trail Overview')">Trash</button>
+              </div>
+            </div>
+          </td>
+          <td><span class="badge badge-draft"><span class="badge-dot" aria-hidden="true"></span>Draft</span></td>
+          <td class="qs-count" style="color:var(--wp-muted)">2</td>
+          <td>John Need</td>
+          <td>Jun 26, 2026</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="row-title-wrap">
+              <a class="row-title" onclick="showNewGame()" href="#" aria-label="Edit Pacific Crest Trail Basics — draft">Pacific Crest Trail Basics</a>
+              <div class="row-actions" role="group" aria-label="Actions for Pacific Crest Trail Basics">
+                <button class="edit-link" onclick="showNewGame()">Edit</button>
+                <span class="sep" aria-hidden="true">|</span>
+                <button class="trash-link" onclick="showDeleteDialog('Pacific Crest Trail Basics')">Trash</button>
+              </div>
+            </div>
+          </td>
+          <td><span class="badge badge-draft"><span class="badge-dot" aria-hidden="true"></span>Draft</span></td>
+          <td class="qs-count" style="color:var(--wp-muted)">0</td>
+          <td>John Need</td>
+          <td>Jun 26, 2026</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div><!-- /list-screen -->
+
+
+  <!-- ════════════════════════════════════════
+       SCREEN 3: SETTINGS
+  ════════════════════════════════════════ -->
+  <div class="screen" id="settings-screen" role="main" aria-label="Plugin settings">
+    <div class="settings-wrap">
+
+      <div class="list-header" style="margin-bottom:20px">
+        <h1 style="font-family:var(--font-display);font-size:23px;font-weight:700">Settings</h1>
+      </div>
+
+      <!-- General -->
+      <div class="settings-panel">
+        <div class="settings-panel-head">
+          <h2>General</h2>
+        </div>
+        <table class="form-table" aria-label="General settings">
+          <tr>
+            <th scope="row"><label for="setting-per-page">Games per page</label></th>
+            <td>
+              <input type="number" id="setting-per-page" value="10" min="1" max="100" aria-describedby="per-page-desc">
+              <p class="field-desc" id="per-page-desc">Number of games shown per page in the TriviaSmith game list.</p>
+            </td>
+          </tr>
+        </table>
+        <div class="settings-footer">
+          <button class="btn btn-primary" onclick="saveSettings()">Save Changes</button>
+        </div>
+      </div>
+
+      <!-- TriviaSmith Access -->
+      <div class="settings-panel">
+        <div class="settings-panel-head">
+          <h2>TriviaSmith Access</h2>
+          <p>TriviaSmiths can create, edit, and publish Trail Trivia games. Administrators always have full access and do not need to be granted permission.</p>
+        </div>
+
+        <table class="ts-table" aria-label="Users with TriviaSmith access">
+          <thead>
+            <tr>
+              <th scope="col">User</th>
+              <th scope="col">WordPress Role</th>
+              <th scope="col">Access</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody id="ts-user-list">
+            <tr>
+              <td><strong>John Need</strong> <span style="color:var(--wp-muted);font-size:12px">johnneed</span></td>
+              <td><span class="ts-role-badge">Administrator</span></td>
+              <td><span class="badge badge-pub"><span class="badge-dot" aria-hidden="true"></span>Always active</span></td>
+              <td><span class="ts-admin-note">Cannot revoke</span></td>
+            </tr>
+            <tr>
+              <td><strong>Sarah Kowalski</strong> <span style="color:var(--wp-muted);font-size:12px">skowalski</span></td>
+              <td><span class="ts-role-badge">Editor</span></td>
+              <td><span class="badge badge-pub"><span class="badge-dot" aria-hidden="true"></span>TriviaSmith</span></td>
+              <td><button class="btn btn-secondary btn-sm" onclick="revokeAccess(this, 'Sarah Kowalski')">Revoke</button></td>
+            </tr>
+            <tr>
+              <td><strong>Mike Thompson</strong> <span style="color:var(--wp-muted);font-size:12px">mikethompson</span></td>
+              <td><span class="ts-role-badge">Author</span></td>
+              <td><span class="badge badge-pub"><span class="badge-dot" aria-hidden="true"></span>TriviaSmith</span></td>
+              <td><button class="btn btn-secondary btn-sm" onclick="revokeAccess(this, 'Mike Thompson')">Revoke</button></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="grant-row">
+          <label for="grant-user">Grant access to:</label>
+          <input type="text" id="grant-user" placeholder="Username or display name…" aria-label="WordPress username to grant TriviaSmith access">
+          <button class="btn btn-primary" onclick="grantAccess()">Grant Access</button>
+        </div>
+      </div>
+
+      <!-- About -->
+      <div class="settings-panel">
+        <div class="settings-panel-head">
+          <h2>About</h2>
+        </div>
+        <div class="about-grid">
+          <div class="about-row">
+            <div class="about-label">Plugin</div>
+            <div class="about-value">Trail Trivia for GMC Burlington</div>
+          </div>
+          <div class="about-row">
+            <div class="about-label">Version</div>
+            <div class="about-value">1.0.0</div>
+          </div>
+          <div class="about-row">
+            <div class="about-label">WordPress</div>
+            <div class="about-value">Requires 6.4 or higher</div>
+          </div>
+          <div class="about-row">
+            <div class="about-label">PHP</div>
+            <div class="about-value">Requires 8.0 or higher</div>
+          </div>
+          <div class="about-row">
+            <div class="about-label">Data storage</div>
+            <div class="about-value">Custom post type — no custom database tables</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /settings-screen -->
+
+
+  <!-- ════════════════════════════════════════
+       SCREEN 2: GAME EDITOR
+  ════════════════════════════════════════ -->
+  <div class="screen" id="editor-screen">
+
+    <!-- Toolbar -->
+    <div class="editor-bar">
+      <button class="back-link" onclick="showGames()" aria-label="Return to All Games">← All Games</button>
+      <span class="autosave" role="status" aria-live="polite" id="autosave-msg">Draft saved 2 minutes ago</span>
+    </div>
+
+    <div class="editor-layout">
+
+      <!-- ── Left column ── -->
+      <div>
+
+        <!-- Title -->
+        <div class="title-box" role="group" aria-label="Game title and subtitle">
+          <label for="game-title" style="position:absolute;left:-9999px">Game title</label>
+          <input type="text" id="game-title" placeholder="Add game title…" aria-required="true">
+          <label for="game-subtitle" style="position:absolute;left:-9999px">Game subtitle (optional)</label>
+          <input type="text" id="game-subtitle" placeholder="Subtitle (optional)">
+        </div>
+
+        <!-- Questions -->
+        <div class="questions-box" role="region" aria-label="Questions">
+          <div class="questions-head">
+            <h2>Questions <span class="q-total-badge" id="q-badge">5</span></h2>
+          </div>
+
+          <div id="questions-list">
+            <!-- Q1 — pre-expanded with real CDT data -->
+            <div class="q-card open" id="q-1">
+              <div class="q-card-head" onclick="toggleQ('q-1')" role="button" aria-expanded="true" aria-controls="q-1-body" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleQ('q-1')">
+                <div class="q-num" aria-hidden="true">01</div>
+                <div class="q-card-preview">
+                  <div class="q-preview-text" id="q-1-preview">Which US states does the Continental Divide Trail pass through?</div>
+                  <div class="q-preview-correct" id="q-1-correct">✓ Montana, Idaho, Wyoming, Colorado, and New Mexico</div>
+                </div>
+                <div class="q-card-meta">
+                  <span class="q-expand-icon" aria-hidden="true">▲</span>
+                </div>
+              </div>
+              <div class="q-card-body" id="q-1-body">
+
+                <div class="field">
+                  <label for="q1-text">Question</label>
+                  <textarea id="q1-text" rows="2" onchange="updatePreview('q-1', this.value)">Which US states does the Continental Divide Trail pass through?</textarea>
+                </div>
+
+                <div class="field">
+                  <label>Choices <span class="opt">(select the correct answer)</span></label>
+                  <p class="choices-legend">Click the radio button next to the <strong>correct answer</strong>.</p>
+
+                  <div class="choice-row" id="q1-c0">
+                    <input type="radio" name="q1-correct" value="0" id="q1-r0" aria-label="Mark choice A as correct" onchange="markCorrect('q-1',0,'Nebraska, Idaho, Wyoming, Colorado, and New Mexico')">
+                    <div class="choice-letter" aria-hidden="true">A</div>
+                    <input type="text" value="Nebraska, Idaho, Wyoming, Colorado, and New Mexico" aria-label="Choice A text">
+                    <span class="correct-label"></span>
+                  </div>
+                  <div class="choice-row correct" id="q1-c1">
+                    <input type="radio" name="q1-correct" value="1" id="q1-r1" checked aria-label="Mark choice B as correct" onchange="markCorrect('q-1',1,'Montana, Idaho, Wyoming, Colorado, and New Mexico')">
+                    <div class="choice-letter" aria-hidden="true">B</div>
+                    <input type="text" value="Montana, Idaho, Wyoming, Colorado, and New Mexico" aria-label="Choice B text">
+                    <span class="correct-label">Correct</span>
+                  </div>
+                  <div class="choice-row" id="q1-c2">
+                    <input type="radio" name="q1-correct" value="2" id="q1-r2" aria-label="Mark choice C as correct" onchange="markCorrect('q-1',2,'Montana, Idaho, Wyoming, Utah, Colorado, and New Mexico')">
+                    <div class="choice-letter" aria-hidden="true">C</div>
+                    <input type="text" value="Montana, Idaho, Wyoming, Utah, Colorado, and New Mexico" aria-label="Choice C text">
+                    <span class="correct-label"></span>
+                  </div>
+                  <div class="choice-row" id="q1-c3">
+                    <input type="radio" name="q1-correct" value="3" id="q1-r3" aria-label="Mark choice D as correct" onchange="markCorrect('q-1',3,'Montana, Idaho, Wyoming, Colorado, and Arizona')">
+                    <div class="choice-letter" aria-hidden="true">D</div>
+                    <input type="text" value="Montana, Idaho, Wyoming, Colorado, and Arizona" aria-label="Choice D text">
+                    <span class="correct-label"></span>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="q1-answer">Answer explanation</label>
+                  <textarea id="q1-answer" rows="3">The Continental Divide Trail is about 3,028 miles running from the U.S. border with Mexico to the border with Canada. It passes through Montana, Idaho, Wyoming, Colorado, and New Mexico.</textarea>
+                </div>
+
+                <div class="img-layout">
+                  <div class="img-preview" id="q1-img-preview">
+                    <img src="https://www.fs.usda.gov/sites/default/files/styles/width_848px/public/2019-07/cdt_overview_map_2.jpg" alt="Map of the Continental Divide Trail" onerror="this.closest('.img-preview').classList.add('hidden')">
+                  </div>
+                  <div class="img-fields">
+                    <div class="field">
+                      <label for="q1-img">Answer image URL <span class="opt">(optional)</span></label>
+                      <input type="url" id="q1-img" value="https://www.fs.usda.gov/sites/default/files/styles/width_848px/public/2019-07/cdt_overview_map_2.jpg" oninput="updateImgPreview(this,'q1-img-preview')">
+                    </div>
+                    <div class="field">
+                      <label for="q1-alt">Image alt text</label>
+                      <input type="text" id="q1-alt" value="Map of the Continental Divide Trail">
+                    </div>
+                    <div class="field">
+                      <label for="q1-cap">Image caption <span class="opt">(optional)</span></label>
+                      <input type="text" id="q1-cap" value="Map of the Continental Divide Trail">
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Q2 collapsed -->
+            <div class="q-card" id="q-2">
+              <div class="q-card-head" onclick="toggleQ('q-2')" role="button" aria-expanded="false" aria-controls="q-2-body" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleQ('q-2')">
+                <div class="q-num" aria-hidden="true">02</div>
+                <div class="q-card-preview">
+                  <div class="q-preview-text">What's the lowest point on the CDT?</div>
+                  <div class="q-preview-correct">✓ Lordsburg, New Mexico</div>
+                </div>
+                <div class="q-card-meta">
+                  <span class="q-expand-icon" aria-hidden="true">▼</span>
+                </div>
+              </div>
+              <div class="q-card-body" id="q-2-body">
+                <div class="field">
+                  <label for="q2-text">Question</label>
+                  <textarea id="q2-text" rows="2">What's the lowest point on the CDT?</textarea>
+                </div>
+                <div class="field">
+                  <label>Choices</label>
+                  <p class="choices-legend">Click the radio button next to the <strong>correct answer</strong>.</p>
+                  <div class="choice-row" id="q2-c0"><input type="radio" name="q2-correct" value="0" aria-label="Mark A correct"><div class="choice-letter" aria-hidden="true">A</div><input type="text" value="Interstate 15 in Montana" aria-label="Choice A"><span class="correct-label"></span></div>
+                  <div class="choice-row" id="q2-c1"><input type="radio" name="q2-correct" value="1" aria-label="Mark B correct"><div class="choice-letter" aria-hidden="true">B</div><input type="text" value="Elk River, Colorado" aria-label="Choice B"><span class="correct-label"></span></div>
+                  <div class="choice-row correct" id="q2-c2"><input type="radio" name="q2-correct" value="2" checked aria-label="Mark C correct"><div class="choice-letter" aria-hidden="true">C</div><input type="text" value="Lordsburg, New Mexico" aria-label="Choice C"><span class="correct-label">Correct</span></div>
+                  <div class="choice-row" id="q2-c3"><input type="radio" name="q2-correct" value="3" aria-label="Mark D correct"><div class="choice-letter" aria-hidden="true">D</div><input type="text" value="East Glacier Park Village" aria-label="Choice D"><span class="correct-label"></span></div>
+                </div>
+                <div class="field"><label for="q2-answer">Answer explanation</label><textarea id="q2-answer" rows="2">Lordsburg, New Mexico is the lowest point on the CDT at 4,200 ft.</textarea></div>
+              </div>
+            </div>
+
+            <!-- Q3 collapsed -->
+            <div class="q-card" id="q-3">
+              <div class="q-card-head" onclick="toggleQ('q-3')" role="button" aria-expanded="false" aria-controls="q-3-body" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleQ('q-3')">
+                <div class="q-num" aria-hidden="true">03</div>
+                <div class="q-card-preview">
+                  <div class="q-preview-text">What's the highest point on the CDT?</div>
+                  <div class="q-preview-correct">✓ Grays Peak, Colorado</div>
+                </div>
+                <div class="q-card-meta"><span class="q-expand-icon" aria-hidden="true">▼</span></div>
+              </div>
+              <div class="q-card-body" id="q-3-body">
+                <div class="field"><label for="q3-text">Question</label><textarea id="q3-text" rows="2">What's the highest point on the CDT?</textarea></div>
+                <div class="field">
+                  <label>Choices</label>
+                  <p class="choices-legend">Click the radio button next to the <strong>correct answer</strong>.</p>
+                  <div class="choice-row" id="q3-c0"><input type="radio" name="q3-correct" value="0" aria-label="Mark A correct"><div class="choice-letter" aria-hidden="true">A</div><input type="text" value="Parkview Mountain, Colorado" aria-label="Choice A"><span class="correct-label"></span></div>
+                  <div class="choice-row" id="q3-c1"><input type="radio" name="q3-correct" value="1" aria-label="Mark B correct"><div class="choice-letter" aria-hidden="true">B</div><input type="text" value="Targhee Peak, Idaho" aria-label="Choice B"><span class="correct-label"></span></div>
+                  <div class="choice-row" id="q3-c2"><input type="radio" name="q3-correct" value="2" aria-label="Mark C correct"><div class="choice-letter" aria-hidden="true">C</div><input type="text" value="Bridger Peak, Wyoming" aria-label="Choice C"><span class="correct-label"></span></div>
+                  <div class="choice-row correct" id="q3-c3"><input type="radio" name="q3-correct" value="3" checked aria-label="Mark D correct"><div class="choice-letter" aria-hidden="true">D</div><input type="text" value="Grays Peak, Colorado" aria-label="Choice D"><span class="correct-label">Correct</span></div>
+                </div>
+                <div class="field"><label for="q3-answer">Answer explanation</label><textarea id="q3-answer" rows="2">At 14,278 ft, Grays Peak in Colorado is the highest point along the CDT.</textarea></div>
+              </div>
+            </div>
+
+            <!-- Q4 collapsed -->
+            <div class="q-card" id="q-4">
+              <div class="q-card-head" onclick="toggleQ('q-4')" role="button" aria-expanded="false" aria-controls="q-4-body" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleQ('q-4')">
+                <div class="q-num" aria-hidden="true">04</div>
+                <div class="q-card-preview">
+                  <div class="q-preview-text">Which of these is NOT a town that lies along the CDT?</div>
+                  <div class="q-preview-correct">✓ Campo</div>
+                </div>
+                <div class="q-card-meta"><span class="q-expand-icon" aria-hidden="true">▼</span></div>
+              </div>
+              <div class="q-card-body" id="q-4-body">
+                <div class="field"><label for="q4-text">Question</label><textarea id="q4-text" rows="2">Which of these is NOT a town that lies along the CDT?</textarea></div>
+                <div class="field">
+                  <label>Choices</label>
+                  <p class="choices-legend">Click the radio button next to the <strong>correct answer</strong>.</p>
+                  <div class="choice-row" id="q4-c0"><input type="radio" name="q4-correct" value="0" aria-label="Mark A correct"><div class="choice-letter" aria-hidden="true">A</div><input type="text" value="Silver City" aria-label="Choice A"><span class="correct-label"></span></div>
+                  <div class="choice-row" id="q4-c1"><input type="radio" name="q4-correct" value="1" aria-label="Mark B correct"><div class="choice-letter" aria-hidden="true">B</div><input type="text" value="Pie Town" aria-label="Choice B"><span class="correct-label"></span></div>
+                  <div class="choice-row" id="q4-c2"><input type="radio" name="q4-correct" value="2" aria-label="Mark C correct"><div class="choice-letter" aria-hidden="true">C</div><input type="text" value="Salida" aria-label="Choice C"><span class="correct-label"></span></div>
+                  <div class="choice-row correct" id="q4-c3"><input type="radio" name="q4-correct" value="3" checked aria-label="Mark D correct"><div class="choice-letter" aria-hidden="true">D</div><input type="text" value="Campo" aria-label="Choice D"><span class="correct-label">Correct</span></div>
+                </div>
+                <div class="field"><label for="q4-answer">Answer explanation</label><textarea id="q4-answer" rows="2">Silver City, Pie Town, and Salida are all popular stops on the CDT. Campo is a town along the Pacific Crest Trail.</textarea></div>
+              </div>
+            </div>
+
+            <!-- Q5 collapsed -->
+            <div class="q-card" id="q-5">
+              <div class="q-card-head" onclick="toggleQ('q-5')" role="button" aria-expanded="false" aria-controls="q-5-body" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleQ('q-5')">
+                <div class="q-num" aria-hidden="true">05</div>
+                <div class="q-card-preview">
+                  <div class="q-preview-text">The CDT was designed for two sports. Hiking is one. What is the other?</div>
+                  <div class="q-preview-correct">✓ Horseback riding</div>
+                </div>
+                <div class="q-card-meta"><span class="q-expand-icon" aria-hidden="true">▼</span></div>
+              </div>
+              <div class="q-card-body" id="q-5-body">
+                <div class="field"><label for="q5-text">Question</label><textarea id="q5-text" rows="2">The CDT was designed for two sports. Hiking is one. What is the other?</textarea></div>
+                <div class="field">
+                  <label>Choices</label>
+                  <p class="choices-legend">Click the radio button next to the <strong>correct answer</strong>.</p>
+                  <div class="choice-row correct" id="q5-c0"><input type="radio" name="q5-correct" value="0" checked aria-label="Mark A correct"><div class="choice-letter" aria-hidden="true">A</div><input type="text" value="Horseback riding" aria-label="Choice A"><span class="correct-label">Correct</span></div>
+                  <div class="choice-row" id="q5-c1"><input type="radio" name="q5-correct" value="1" aria-label="Mark B correct"><div class="choice-letter" aria-hidden="true">B</div><input type="text" value="XC skiing" aria-label="Choice B"><span class="correct-label"></span></div>
+                  <div class="choice-row" id="q5-c2"><input type="radio" name="q5-correct" value="2" aria-label="Mark C correct"><div class="choice-letter" aria-hidden="true">C</div><input type="text" value="Mountain biking" aria-label="Choice C"><span class="correct-label"></span></div>
+                  <div class="choice-row" id="q5-c3"><input type="radio" name="q5-correct" value="3" aria-label="Mark D correct"><div class="choice-letter" aria-hidden="true">D</div><input type="text" value="Snowmobiling" aria-label="Choice D"><span class="correct-label"></span></div>
+                </div>
+                <div class="field"><label for="q5-answer">Answer explanation</label><textarea id="q5-answer" rows="2">The Continental Divide Trail was designated by Congress as a National Scenic Trail in 1978. It was envisioned to be used both by people and horses.</textarea></div>
+              </div>
+            </div>
+
+          </div><!-- /questions-list -->
+
+        </div><!-- /questions-box -->
+
+      </div><!-- /left column -->
+
+      <!-- ── Right column (sidebar) ── -->
+      <div>
+
+        <button class="preview-game-btn" onclick="openPreview()" aria-label="Preview this game as a player">
+          <svg width="13" height="14" viewBox="0 0 13 14" fill="none" aria-hidden="true">
+            <path d="M2 1.5l10 5.5-10 5.5V1.5z" fill="currentColor"/>
+          </svg>
+          Preview Game
+        </button>
+
+        <!-- Publish metabox -->
+        <div class="metabox">
+          <div class="metabox-head" onclick="toggleMeta('publish-body')">
+            <h2>Publish</h2>
+            <span class="metabox-toggle" aria-hidden="true">▼</span>
+          </div>
+          <div id="publish-body">
+            <div class="publish-misc">
+              <div class="pub-row">
+                <span class="pub-label">Status</span>
+                <span class="pub-value" id="status-display">
+                  <span class="status-dot status-pub" aria-hidden="true"></span>
+                  <span id="status-text">Published</span>
+                  <button class="pub-change" onclick="toggleStatus()" aria-label="Change status">Change</button>
+                </span>
+              </div>
+              <div class="pub-row">
+                <span class="pub-label">Published</span>
+                <span class="pub-value" id="pub-date-display">Dec 29, 2023</span>
+              </div>
+              <div class="pub-row">
+                <span class="pub-label">Author</span>
+                <span class="pub-value">John Need</span>
+              </div>
+            </div>
+            <div class="publish-actions">
+              <button class="btn btn-publish" id="main-publish-btn" onclick="publishGame()">Update</button>
+              <button class="btn btn-secondary" onclick="saveDraft()">Save Draft</button>
+              <div style="display:flex;justify-content:flex-end">
+                <button class="btn btn-icon" style="color:var(--wp-red);border-color:var(--wp-red);background:none;" title="Move to Trash" aria-label="Move to Trash" onclick="showDeleteDialog(document.getElementById('game-title').value||'this game')">
+                  <svg width="14" height="16" viewBox="0 0 14 16" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 4h12M5 4V2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V4M2.5 4l.75 9.5a.5.5 0 0 0 .5.5h6.5a.5.5 0 0 0 .5-.5L11.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5.5 7v5M8.5 7v5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tags metabox -->
+        <div class="metabox">
+          <div class="metabox-head" onclick="toggleMeta('tags-body')">
+            <h2>Tags</h2>
+            <span class="metabox-toggle" aria-hidden="true">▼</span>
+          </div>
+          <div class="metabox-body" id="tags-body">
+            <div class="tag-input-row">
+              <label for="tag-input" style="position:absolute;left:-9999px">Add tag</label>
+              <input type="text" id="tag-input" placeholder="Add tag…" onkeydown="if(event.key==='Enter'){addTag();event.preventDefault();}">
+              <button class="btn btn-secondary btn-sm" onclick="addTag()">Add</button>
+            </div>
+            <div class="tag-cloud" id="tag-cloud">
+              <span class="tag-chip">CDT <button onclick="removeTag(this)" aria-label="Remove tag CDT">×</button></span>
+              <span class="tag-chip">Triple Crown <button onclick="removeTag(this)" aria-label="Remove tag Triple Crown">×</button></span>
+              <span class="tag-chip">Colorado <button onclick="removeTag(this)" aria-label="Remove tag Colorado">×</button></span>
+            </div>
+          </div>
+        </div>
+
+
+      </div><!-- /right column -->
+    </div><!-- /editor-layout -->
+  </div><!-- /editor-screen -->
+
+</main>
+
+<!-- ═══ Preview Game Modal (mirrors actual React app) ═══ -->
+<div class="preview-modal hidden" id="preview-modal"
+     role="dialog" aria-modal="true" aria-label="Game preview">
+
+  <button class="pv-close-btn" id="pv-close-btn" onclick="closePreview()" aria-label="Close preview">×</button>
+
+  <div class="pv-app">
+
+    <!-- Home screen -->
+    <div class="pv-screen active" id="pv-home">
+      <div class="pv-home">
+        <p class="pv-message">A new trivia challenge every Friday</p>
+        <div class="pv-home-header">
+          <h1 class="pv-h1">Trail Trivia</h1>
+          <!-- Logo spinner: static compass-only + rotating outer ring -->
+          <div class="pv-logo" aria-hidden="true">
+            <span>
+              <svg width="1419" height="1419" viewBox="0 0 1419 1419" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(10.65,-56.7)">
+                  <path fill="#2A1C00" d="m698.9 570.3c-108 0-195.9 87.9-195.9 195.9s87.9 195.9 195.9 195.9 195.8-87.9 195.8-195.9-87.9-195.9-195.8-195.9zm0 369.1c-95.5 0-173.2-77.7-173.2-173.2s77.6-173.2 173.2-173.2 173.2 77.7 173.2 173.2-77.7 173.2-173.2 173.2z"/>
+                  <path fill="#2A1C00" d="m775.3 674.7-115.6 41.8c-3.1 1.1-5.6 3.6-6.7 6.7l-45 119.8c-1.6 4.2-0.5 8.9 2.7 12.1 2.1 2.1 5 3.2 7.9 3.2 1.4 0 2.8-0.3 4.2-0.8l126.3-50.3c3.2-1.2 5.6-3.9 6.6-7.2l34.2-111.3c1.2-4.1 0.1-8.5-3-11.5s-7.6-3.9-11.6-2.5zm-39.7 113.5-97.5 38.9 34.2-91 89.4-32.3z"/>
+                </g>
+              </svg>
+            </span>
+            <span>
+              <!-- Simplified outer ring to represent the spinning logo -->
+              <svg viewBox="0 0 1419 1419" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="709.5" cy="709.5" r="680" fill="none" stroke="#AA1300" stroke-width="18" stroke-dasharray="60 30"/>
+                <circle cx="709.5" cy="709.5" r="620" fill="none" stroke="#006A00" stroke-width="8" stroke-dasharray="80 20"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+        <p class="pv-quiz-title" id="pv-game-title"></p>
+        <p class="pv-quiz-subtitle" id="pv-game-subtitle"></p>
+        <div class="pv-btn-wrap">
+          <button class="pv-action-btn pv-btn-dark" onclick="previewStartGame()">Play</button>
+        </div>
+        <div class="pv-author">
+          <p id="pv-author-line">Preview mode</p>
+        </div>
       </div>
     </div>
 
-    <!-- Hero headline + CTA -->
-    <div class="hero-content">
-      <h1 class="hero-headline">Know your<br><em>trails?</em></h1>
-      <p class="hero-body">Weekly quizzes on the trails, history, and wild places of the Green Mountains — written by hikers, for hikers.</p>
-      <button class="hero-cta" onclick="show('screen-list')"
-              aria-label="Browse trivia games">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M5 3.5l4.5 3.5L5 10.5" stroke="currentColor" stroke-width="1.75"
-                stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Browse Games
-      </button>
-
-      <button class="latest-banner" onclick="startQuiz()"
-              aria-label="Play latest quiz: The Continental Divide Trail">
-        <span class="latest-pip" aria-hidden="true"></span>
-        <span class="latest-text">Latest —&nbsp;</span>
-        <span class="latest-title">The Continental Divide Trail</span>
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-          <path d="M4.5 3l3 3-3 3" stroke="rgba(255,255,255,0.5)" stroke-width="1.25"
-                stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- Quick game list preview on home -->
-  <div class="list-section">
-    <p class="section-eyebrow" aria-label="Recent games section">Recent games</p>
-    <div class="quiz-grid" role="list" aria-label="Available trivia games">
-      <article class="quiz-card" role="listitem" tabindex="0"
-               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
-               aria-label="The Continental Divide Trail — 5 questions, December 2023. Press Enter to play.">
-        <div class="card-icon" aria-hidden="true">🏔️</div>
-        <h2 class="card-title">The Continental Divide Trail</h2>
-        <p class="card-meta">
-          <span>5 questions</span>
-          <span class="sep" aria-hidden="true"></span>
-          <span>Dec 2023</span>
-          <span class="sep" aria-hidden="true"></span>
-          <span>John Need</span>
-        </p>
-        <span class="card-play" aria-hidden="true">
-          Play
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
+    <!-- Question screen -->
+    <div class="pv-screen" id="pv-question-screen">
+      <article class="pv-question-box">
+        <div class="pv-question-text" id="pv-qtext"></div>
+        <div class="pv-choices-container" id="pv-choices" role="group" aria-labelledby="pv-qtext"></div>
       </article>
-
-      <article class="quiz-card" role="listitem" tabindex="0"
-               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
-               aria-label="The AT in Maine — 5 questions, March 2024. Press Enter to play.">
-        <div class="card-icon" aria-hidden="true">🌲</div>
-        <h2 class="card-title">The AT in Maine</h2>
-        <p class="card-meta">
-          <span>5 questions</span>
-          <span class="sep" aria-hidden="true"></span>
-          <span>Mar 2024</span>
-        </p>
-        <span class="card-play" aria-hidden="true">
-          Play
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-      </article>
-
-      <article class="quiz-card" role="listitem" tabindex="0"
-               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
-               aria-label="The AT in New Hampshire — 5 questions, March 2024. Press Enter to play.">
-        <div class="card-icon" aria-hidden="true">⛰️</div>
-        <h2 class="card-title">The AT in New Hampshire</h2>
-        <p class="card-meta">
-          <span>5 questions</span>
-          <span class="sep" aria-hidden="true"></span>
-          <span>Mar 2024</span>
-        </p>
-        <span class="card-play" aria-hidden="true">
-          Play
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-      </article>
-
-      <article class="quiz-card" role="listitem" tabindex="0"
-               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
-               aria-label="The AT in Massachusetts — 5 questions, March 2024. Press Enter to play.">
-        <div class="card-icon" aria-hidden="true">🍂</div>
-        <h2 class="card-title">The AT in Massachusetts</h2>
-        <p class="card-meta">
-          <span>5 questions</span>
-          <span class="sep" aria-hidden="true"></span>
-          <span>Mar 2024</span>
-        </p>
-        <span class="card-play" aria-hidden="true">
-          Play
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-      </article>
-    </div>
-  </div>
-</div>
-
-<!-- ======================================================
-     SCREEN 2 — QUIZ LIST (full browse)
-====================================================== -->
-<div id="screen-list" class="screen" role="main" aria-label="Browse all trivia games">
-  <div class="quiz-header">
-    <button class="back-btn" onclick="show('screen-home')" aria-label="Back to home">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M10 4L6 8l4 4" stroke="currentColor" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      Home
-    </button>
-    <span class="quiz-title-small">All Games</span>
-  </div>
-  <div class="list-section">
-    <p class="section-eyebrow">All games</p>
-    <div class="quiz-grid" role="list" aria-label="All trivia games">
-      <article class="quiz-card" role="listitem" tabindex="0"
-               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
-               aria-label="The Continental Divide Trail — 5 questions. Press Enter to play.">
-        <div class="card-icon" aria-hidden="true">🏔️</div>
-        <h2 class="card-title">The Continental Divide Trail</h2>
-        <p class="card-meta">
-          <span>5 questions</span><span class="sep" aria-hidden="true"></span>
-          <span>Dec 2023</span><span class="sep" aria-hidden="true"></span>
-          <span>John Need</span>
-        </p>
-        <span class="card-play" aria-hidden="true">Play <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </article>
-      <article class="quiz-card" role="listitem" tabindex="0"
-               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
-               aria-label="The AT in Maine — 5 questions. Press Enter to play.">
-        <div class="card-icon" aria-hidden="true">🌲</div>
-        <h2 class="card-title">The AT in Maine</h2>
-        <p class="card-meta"><span>5 questions</span><span class="sep" aria-hidden="true"></span><span>Mar 2024</span></p>
-        <span class="card-play" aria-hidden="true">Play <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </article>
-      <article class="quiz-card" role="listitem" tabindex="0"
-               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
-               aria-label="The AT in New Hampshire — 5 questions. Press Enter to play.">
-        <div class="card-icon" aria-hidden="true">⛰️</div>
-        <h2 class="card-title">The AT in New Hampshire</h2>
-        <p class="card-meta"><span>5 questions</span><span class="sep" aria-hidden="true"></span><span>Mar 2024</span></p>
-        <span class="card-play" aria-hidden="true">Play <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </article>
-      <article class="quiz-card" role="listitem" tabindex="0"
-               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
-               aria-label="The AT in Massachusetts. Press Enter to play.">
-        <div class="card-icon" aria-hidden="true">🍂</div>
-        <h2 class="card-title">The AT in Massachusetts</h2>
-        <p class="card-meta"><span>5 questions</span><span class="sep" aria-hidden="true"></span><span>Mar 2024</span></p>
-        <span class="card-play" aria-hidden="true">Play <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </article>
-      <article class="quiz-card" role="listitem" tabindex="0"
-               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
-               aria-label="The AT in Connecticut. Press Enter to play.">
-        <div class="card-icon" aria-hidden="true">🌿</div>
-        <h2 class="card-title">The AT in Connecticut</h2>
-        <p class="card-meta"><span>5 questions</span><span class="sep" aria-hidden="true"></span><span>Mar 2024</span></p>
-        <span class="card-play" aria-hidden="true">Play <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </article>
-      <article class="quiz-card" role="listitem" tabindex="0"
-               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
-               aria-label="The AT in New York. Press Enter to play.">
-        <div class="card-icon" aria-hidden="true">🏙️</div>
-        <h2 class="card-title">The AT in New York</h2>
-        <p class="card-meta"><span>5 questions</span><span class="sep" aria-hidden="true"></span><span>Mar 2024</span></p>
-        <span class="card-play" aria-hidden="true">Play <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </article>
-    </div>
-  </div>
-</div>
-
-<!-- ======================================================
-     SCREEN 3 — QUIZ QUESTION
-====================================================== -->
-<div id="screen-quiz" class="screen" role="main" aria-label="Trivia question">
-  <div class="quiz-header">
-    <button class="back-btn" onclick="show('screen-list')"
-            aria-label="Exit quiz and return to game list">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M10 4L6 8l4 4" stroke="currentColor" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      Exit
-    </button>
-    <span class="quiz-title-small" aria-hidden="true">Continental Divide Trail</span>
-  </div>
-
-  <div class="elevation-bar"
-       role="progressbar"
-       aria-label="Quiz progress"
-       id="prog-bar"
-       aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-    <div class="elevation-fill" id="prog-fill" style="width:20%"></div>
-  </div>
-
-  <div class="quiz-body">
-    <div class="q-ghost-num" id="q-ghost" aria-hidden="true">01</div>
-    <p class="q-progress-line" id="q-progress" aria-live="polite">Question 1 of 5</p>
-    <h2 class="q-text" id="q-text">Which US states does the Continental Divide Trail pass through?</h2>
-
-    <div class="choices" role="group" aria-labelledby="q-text" id="choices-group">
-      <button class="choice" id="c0" data-idx="0" onclick="pick(0)">
-        <span class="choice-badge" aria-hidden="true">A</span>
-        Nebraska, Idaho, Wyoming, Colorado, and New Mexico
-      </button>
-      <button class="choice" id="c1" data-idx="1" onclick="pick(1)">
-        <span class="choice-badge" aria-hidden="true">B</span>
-        Montana, Idaho, Wyoming, Colorado, and New Mexico
-      </button>
-      <button class="choice" id="c2" data-idx="2" onclick="pick(2)">
-        <span class="choice-badge" aria-hidden="true">C</span>
-        Montana, Idaho, Wyoming, Utah, Colorado, and New Mexico
-      </button>
-      <button class="choice" id="c3" data-idx="3" onclick="pick(3)">
-        <span class="choice-badge" aria-hidden="true">D</span>
-        Montana, Idaho, Wyoming, Colorado, and Arizona
-      </button>
-    </div>
-
-    <div id="reveal" class="reveal" style="display:none"
-         aria-live="polite" aria-atomic="true">
-      <div class="reveal-banner" id="reveal-banner">Correct!</div>
-      <div class="reveal-body">
-        <p class="reveal-text" id="reveal-text"></p>
-        <img id="reveal-img" class="reveal-img" src="" alt="" style="display:none">
-        <p id="reveal-cap" class="reveal-caption"></p>
+      <div id="pv-answer-section" style="display:none" aria-live="polite">
+        <div class="pv-answer">
+          <h4 class="pv-huzzah">Huzzah!</h4>
+          <div id="pv-answer-body"></div>
+        </div>
+        <div id="pv-nav-section"></div>
       </div>
     </div>
 
-    <button class="next-btn" id="next-btn" style="display:none" onclick="advance()">
-      Next Question
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M5.5 3.5l4 3.5-4 3.5" stroke="currentColor" stroke-width="1.75"
-              stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
+    <!-- Score screen -->
+    <div class="pv-screen" id="pv-score-screen">
+      <div class="pv-score-screen">
+        <div><h1 class="pv-h1">Trail Trivia</h1></div>
+        <p class="pv-score-msg" id="pv-score-msg" aria-live="assertive"></p>
+        <div class="pv-score-nav">
+          <button class="pv-action-btn pv-btn-dark" onclick="closePreview()">◁ Back to Trail Trivia</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- ======================================================
-     SCREEN 4 — SCORE
-====================================================== -->
-<div id="screen-score" class="screen" role="main" aria-label="Quiz results">
-  <div class="quiz-header">
-    <button class="back-btn" onclick="show('screen-list')" aria-label="Browse more games">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M10 4L6 8l4 4" stroke="currentColor" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      All Games
-    </button>
-    <span class="quiz-title-small" aria-hidden="true">Results</span>
-  </div>
-
-  <div class="score-wrap">
-    <div class="score-ring" aria-hidden="true">
-      <span class="score-num" id="score-frac">4/5</span>
-      <span class="score-of">correct</span>
-    </div>
-
-    <div class="trail-badge" id="trail-badge">
-      <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true">
-        <path d="M5.5 1L7 4H10.5L7.75 6.2L8.75 9.5L5.5 7.5L2.25 9.5L3.25 6.2L0.5 4H4Z"
-              fill="currentColor"/>
-      </svg>
-      Expert Hiker
-    </div>
-
-    <h1 class="score-title" id="score-title">Summit reached!</h1>
-    <p class="score-sub" id="score-sub">You know the Continental Divide Trail inside and out.</p>
-
-    <div class="score-actions">
-      <button class="btn-primary" onclick="startQuiz()">Play Again</button>
-      <button class="btn-ghost" onclick="show('screen-list')">Browse More Games</button>
+<!-- ═══ Delete confirmation dialog ═══ -->
+<div class="dialog-backdrop hidden" id="delete-dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-desc">
+  <div class="dialog">
+    <h3 id="dialog-title">Move to Trash?</h3>
+    <p id="dialog-desc">Move "<span id="dialog-game-name">this game</span>" to the trash? You can restore it from the Trash screen.</p>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary" onclick="hideDialog()" aria-label="Cancel, keep the game">Cancel</button>
+      <button class="btn" style="background:var(--wp-red);color:#fff;border-color:#8b1a1a" onclick="confirmDelete()">Move to Trash</button>
     </div>
   </div>
 </div>
 
 <script>
-  /* ──────────────────────────────────
-     Quiz data (CDT — from trivia.json)
-  ────────────────────────────────── */
-  const quiz = {
-    title: 'The Continental Divide Trail',
-    questions: [
-      {
-        text: 'Which US states does the Continental Divide Trail pass through?',
-        choices: [
-          'Nebraska, Idaho, Wyoming, Colorado, and New Mexico',
-          'Montana, Idaho, Wyoming, Colorado, and New Mexico',
-          'Montana, Idaho, Wyoming, Utah, Colorado, and New Mexico',
-          'Montana, Idaho, Wyoming, Colorado, and Arizona'
-        ],
-        correct: 1,
-        answerText: 'The Continental Divide Trail is about 3,028 miles running from the U.S. border with Mexico to the border with Canada. It passes through Montana, Idaho, Wyoming, Colorado, and New Mexico.',
-        answerImage: 'https://www.fs.usda.gov/sites/default/files/styles/width_848px/public/2019-07/cdt_overview_map_2.jpg?itok=yvWqOkQh',
-        answerImageAlt: 'Map of the Continental Divide Trail',
-        answerImageCaption: 'Map of the Continental Divide Trail'
-      },
-      {
-        text: "What's the lowest point on the CDT?",
-        choices: ['Interstate 15 in Montana', 'Elk River, Colorado', 'Lordsburg, New Mexico', 'East Glacier Park Village'],
-        correct: 2,
-        answerText: "Lordsburg, New Mexico is the lowest point on the CDT at 4,200 ft. This town was featured in many movie westerns including John Wayne's 'Stagecoach.'",
-        answerImage: '',
-        answerImageCaption: ''
-      },
-      {
-        text: "What's the highest point on the CDT?",
-        choices: ['Parkview Mountain, Colorado', 'Targhee Peak, Idaho', 'Bridger Peak, Wyoming', 'Grays Peak, Colorado'],
-        correct: 3,
-        answerText: 'At 14,278 ft, Grays Peak in Colorado is the highest point along the CDT. It is the tenth-highest summit of the Rocky Mountains.',
-        answerImage: '',
-        answerImageCaption: ''
-      },
-      {
-        text: 'Which of these is NOT a town that lies along the CDT?',
-        choices: ['Silver City', 'Pie Town', 'Salida', 'Campo'],
-        correct: 3,
-        answerText: 'Silver City, Pie Town, and Salida are all popular stops on the CDT. Campo is a town along the Pacific Crest Trail.',
-        answerImage: '',
-        answerImageCaption: ''
-      },
-      {
-        text: 'The CDT was designed for two sports. Hiking is one. What is the other?',
-        choices: ['Horseback riding', 'XC skiing', 'Mountain biking', 'Snowmobiling'],
-        correct: 0,
-        answerText: 'The Continental Divide Trail was designated by Congress as a National Scenic Trail in 1978. It was envisioned to be used both by people and horses.',
-        answerImage: '',
-        answerImageCaption: ''
-      }
-    ]
-  };
+  /* ── Screen navigation ── */
+  function setNav(activeId) {
+    ['nav-all-games','nav-add-new','nav-settings'].forEach(id => {
+      document.getElementById(id)?.classList.remove('current');
+    });
+    document.getElementById(activeId)?.classList.add('current');
+  }
 
-  const LABELS = ['A','B','C','D'];
-  let qIdx = 0, score = 0;
-
-  /* ──────────────────────────────────
-     Navigation
-  ────────────────────────────────── */
-  function show(id) {
+  function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const el = document.getElementById(id);
-    el.classList.add('active');
+    document.getElementById(id).classList.add('active');
     window.scrollTo(0, 0);
-    // Move focus to screen for screen-readers
-    el.setAttribute('tabindex', '-1');
-    el.focus({ preventScroll: true });
   }
 
-  function startQuiz() {
-    qIdx = 0;
-    score = 0;
-    renderQuestion();
-    show('screen-quiz');
+  function showGames() {
+    setNav('nav-all-games');
+    showGames();
   }
 
-  /* ──────────────────────────────────
-     Question render
-  ────────────────────────────────── */
-  function renderQuestion() {
-    const q = quiz.questions[qIdx];
-    const total = quiz.questions.length;
-    const num = qIdx + 1;
-    const pct = Math.round((num / total) * 100);
+  function showSettings() {
+    setNav('nav-settings');
+    showScreen('settings-screen');
+  }
 
-    document.getElementById('q-ghost').textContent = String(num).padStart(2, '0');
-    document.getElementById('q-progress').textContent = `Question ${num} of ${total}`;
-    document.getElementById('q-text').textContent = q.text;
+  function showEditGame(id) {
+    const titles = {
+      'cdt':   ['The Continental Divide Trail', 'The Third Jewel in the Triple Crown', 'published', 'Dec 29, 2023'],
+      'at-me': ['The AT in Maine', '', 'published', 'Mar 29, 2024'],
+      'at-nh': ['The AT in New Hampshire', '', 'published', 'Mar 15, 2024'],
+      'at-ma': ['The AT in Massachusetts', '', 'published', 'Mar 15, 2024'],
+      'draft1':['Appalachian Trail Overview', '', 'draft', 'Jun 26, 2026'],
+    };
+    const [title, subtitle, status, date] = titles[id] || ['', '', 'draft', ''];
+    document.getElementById('game-title').value = title;
+    document.getElementById('game-subtitle').value = subtitle;
+    setStatus(status, date);
+    document.getElementById('autosave-msg').textContent = 'Last edited: ' + date;
+    document.getElementById('main-publish-btn').textContent = status === 'published' ? 'Update' : 'Publish';
+    setNav('nav-add-new');
+    showScreen('editor-screen');
+    checkPublishReady();
+  }
 
-    const progFill = document.getElementById('prog-fill');
-    const progBar  = document.getElementById('prog-bar');
-    progFill.style.width = pct + '%';
-    progBar.setAttribute('aria-valuenow', pct);
+  function showNewGame() {
+    document.getElementById('game-title').value = '';
+    document.getElementById('game-subtitle').value = '';
+    setStatus('draft', '—');
+    document.getElementById('autosave-msg').textContent = 'Not saved yet';
+    document.getElementById('main-publish-btn').textContent = 'Publish';
+    setNav('nav-add-new');
+    showScreen('editor-screen');
+    checkPublishReady();
+  }
 
-    LABELS.forEach((lbl, i) => {
-      const btn = document.getElementById('c' + i);
-      btn.className = 'choice';
-      btn.disabled = false;
-      btn.innerHTML =
-        `<span class="choice-badge" aria-hidden="true">${lbl}</span> ${q.choices[i]}`;
-      btn.onclick = () => pick(i);
+  /* ── Status ── */
+  let currentStatus = 'published';
+  function setStatus(status, date) {
+    currentStatus = status;
+    const dot = document.querySelector('#status-display .status-dot');
+    const txt = document.getElementById('status-text');
+    const datEl = document.getElementById('pub-date-display');
+    dot.className = 'status-dot ' + (status === 'published' ? 'status-pub' : 'status-draft-text');
+    txt.textContent = status === 'published' ? 'Published' : 'Draft';
+    datEl.textContent = date || '—';
+  }
+  function toggleStatus() {
+    const newStatus = currentStatus === 'published' ? 'draft' : 'published';
+    setStatus(newStatus, currentStatus === 'published' ? '—' : new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}));
+    document.getElementById('main-publish-btn').textContent = newStatus === 'published' ? 'Update' : 'Publish';
+  }
+
+  /* ── Question accordion ── */
+  function toggleQ(id) {
+    const card = document.getElementById(id);
+    const isOpen = card.classList.contains('open');
+    card.classList.toggle('open', !isOpen);
+    const head = card.querySelector('.q-card-head');
+    head.setAttribute('aria-expanded', String(!isOpen));
+  }
+
+  /* ── Correct answer highlight ── */
+  function markCorrect(qId, idx, choiceText) {
+    const card = document.getElementById(qId);
+    card.querySelectorAll('.choice-row').forEach((row, i) => {
+      const isCorrect = i === idx;
+      row.classList.toggle('correct', isCorrect);
+      row.querySelector('.correct-label').textContent = isCorrect ? 'Correct' : '';
     });
-
-    document.getElementById('reveal').style.display = 'none';
-    document.getElementById('next-btn').style.display = 'none';
+    const previewEl = card.querySelector('.q-preview-correct');
+    if (previewEl) previewEl.textContent = '✓ ' + choiceText;
   }
 
-  /* ──────────────────────────────────
-     Answer selection
-  ────────────────────────────────── */
-  function pick(idx) {
-    const q = quiz.questions[qIdx];
-    const correct = idx === q.correct;
-    if (correct) score++;
+  /* ── Update preview text from textarea ── */
+  function updatePreview(qId, val) {
+    const card = document.getElementById(qId);
+    const preview = card.querySelector('.q-preview-text');
+    preview.textContent = val || 'Empty question';
+    preview.classList.toggle('empty', !val);
+  }
 
-    LABELS.forEach((_, i) => {
-      const btn = document.getElementById('c' + i);
-      btn.disabled = true;
-      if (i === q.correct) btn.classList.add('is-correct');
-      if (i === idx && !correct) btn.classList.add('is-wrong');
+
+  /* ── Save / Publish ── */
+  function saveDraft() {
+    const msg = document.getElementById('autosave-msg');
+    msg.textContent = 'Saving…';
+    setTimeout(() => { msg.textContent = 'Draft saved just now'; showNotice('Draft saved.', 'success'); }, 600);
+  }
+
+  function publishGame() {
+    const btn = document.getElementById('main-publish-btn');
+    const isNew = btn.textContent === 'Publish';
+    setTimeout(() => {
+      setStatus('published', new Date().toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'}));
+      btn.textContent = 'Update';
+      showNotice(isNew ? 'Game published.' : 'Game updated.', 'success');
+      document.getElementById('autosave-msg').textContent = 'Saved just now';
+    }, 400);
+  }
+
+  /* ── Metabox toggle ── */
+  function toggleMeta(bodyId) {
+    const body = document.getElementById(bodyId);
+    if (body) body.style.display = body.style.display === 'none' ? '' : 'none';
+  }
+
+  /* ── Tags ── */
+  function addTag() {
+    const input = document.getElementById('tag-input');
+    const val = input.value.trim();
+    if (!val) return;
+    const cloud = document.getElementById('tag-cloud');
+    const chip = document.createElement('span');
+    chip.className = 'tag-chip';
+    chip.innerHTML = `${val} <button onclick="removeTag(this)" aria-label="Remove tag ${val}">×</button>`;
+    cloud.appendChild(chip);
+    input.value = '';
+    input.focus();
+  }
+  function removeTag(btn) { btn.closest('.tag-chip').remove(); }
+
+  /* ── Delete dialog ── */
+  function showDeleteDialog(name) {
+    document.getElementById('dialog-game-name').textContent = name;
+    document.getElementById('delete-dialog').classList.remove('hidden');
+    document.querySelector('#delete-dialog button:last-child').focus();
+  }
+  function hideDialog() { document.getElementById('delete-dialog').classList.add('hidden'); }
+  function confirmDelete() {
+    hideDialog();
+    showNotice('Game moved to Trash.', 'info');
+    showGames();
+  }
+  document.getElementById('delete-dialog').addEventListener('keydown', e => {
+    if (e.key === 'Escape') hideDialog();
+  });
+
+  /* ── Notice ── */
+  function showNotice(msg, type) {
+    const el = document.getElementById('global-notice');
+    document.getElementById('notice-msg').textContent = msg;
+    el.className = `notice ${type}`;
+    clearTimeout(el._timer);
+    el._timer = setTimeout(() => el.classList.add('hidden'), 4000);
+  }
+  function hideNotice() { document.getElementById('global-notice').classList.add('hidden'); }
+
+  /* ── Image preview ── */
+  function updateImgPreview(input, previewId) {
+    const preview = document.getElementById(previewId);
+    if (!preview) return;
+    const url = input.value.trim();
+    if (!url) { preview.classList.add('hidden'); return; }
+    const img = preview.querySelector('img');
+    img.src = url;
+    img.alt = preview.closest('.img-layout')?.querySelector('input[id$="-alt"]')?.value || '';
+    preview.classList.remove('hidden');
+  }
+
+  /* ── Settings ── */
+  function saveSettings() { showNotice('Settings saved.', 'success'); }
+
+  function revokeAccess(btn, name) {
+    btn.closest('tr').remove();
+    showNotice(`TriviaSmith access revoked for ${name}.`, 'info');
+  }
+
+  function grantAccess() {
+    const input = document.getElementById('grant-user');
+    const username = input.value.trim();
+    if (!username) { input.focus(); return; }
+    const tbody = document.getElementById('ts-user-list');
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><strong>${username}</strong></td>
+      <td><span class="ts-role-badge">Contributor</span></td>
+      <td><span class="badge badge-pub"><span class="badge-dot" aria-hidden="true"></span>TriviaSmith</span></td>
+      <td><button class="btn btn-secondary btn-sm" onclick="revokeAccess(this,'${username}')">Revoke</button></td>`;
+    tbody.appendChild(row);
+    input.value = '';
+    showNotice(`TriviaSmith access granted to ${username}.`, 'success');
+  }
+
+  /* ── Drag-to-reorder ── */
+  const qList = document.getElementById('questions-list');
+  const HANDLE_SVG = `<svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor" aria-hidden="true">
+    <circle cx="3" cy="3" r="1.5"/><circle cx="7" cy="3" r="1.5"/>
+    <circle cx="3" cy="8" r="1.5"/><circle cx="7" cy="8" r="1.5"/>
+    <circle cx="3" cy="13" r="1.5"/><circle cx="7" cy="13" r="1.5"/>
+  </svg>`;
+
+  // Inject handle + draggable into every card
+  qList.querySelectorAll('.q-card').forEach(card => {
+    card.draggable = true;
+    const handle = document.createElement('div');
+    handle.className = 'drag-handle';
+    handle.setAttribute('aria-label', 'Drag to reorder');
+    handle.innerHTML = HANDLE_SVG;
+    card.querySelector('.q-card-head').prepend(handle);
+  });
+
+  let dragSrc = null, canDrag = false;
+
+  qList.addEventListener('mousedown', e => { canDrag = !!e.target.closest('.drag-handle'); });
+
+  qList.addEventListener('dragstart', e => {
+    if (!canDrag) { e.preventDefault(); return; }
+    dragSrc = e.target.closest('.q-card');
+    e.dataTransfer.effectAllowed = 'move';
+    setTimeout(() => dragSrc?.classList.add('dragging'), 0);
+  });
+
+  qList.addEventListener('dragend', () => {
+    dragSrc?.classList.remove('dragging');
+    qList.querySelectorAll('.q-card').forEach(c => c.classList.remove('drag-over'));
+    dragSrc = null;
+  });
+
+  qList.addEventListener('dragover', e => {
+    e.preventDefault();
+    const card = e.target.closest('.q-card');
+    if (card && card !== dragSrc) {
+      qList.querySelectorAll('.q-card').forEach(c => c.classList.remove('drag-over'));
+      card.classList.add('drag-over');
+    }
+  });
+
+  qList.addEventListener('dragleave', e => {
+    if (!qList.contains(e.relatedTarget))
+      qList.querySelectorAll('.q-card').forEach(c => c.classList.remove('drag-over'));
+  });
+
+  qList.addEventListener('drop', e => {
+    e.preventDefault();
+    const target = e.target.closest('.q-card');
+    if (!target || !dragSrc || target === dragSrc) return;
+    const cards = [...qList.querySelectorAll('.q-card')];
+    cards.indexOf(dragSrc) < cards.indexOf(target) ? target.after(dragSrc) : target.before(dragSrc);
+    qList.querySelectorAll('.q-card').forEach(c => c.classList.remove('drag-over'));
+    renumberQs();
+  });
+
+  function renumberQs() {
+    qList.querySelectorAll('.q-card').forEach((card, i) => {
+      const num = card.querySelector('.q-num');
+      if (num) num.textContent = String(i + 1).padStart(2, '0');
     });
+  }
 
-    // Reveal
-    const banner = document.getElementById('reveal-banner');
-    banner.textContent = correct ? '✓  Correct!' : '✗  Not quite';
-    banner.className = 'reveal-banner ' + (correct ? 'correct-bg' : 'wrong-bg');
+  /* ── Publish gate: all 5 questions need text + 4 choices ── */
+  function checkPublishReady() {
+    const btn = document.getElementById('main-publish-btn');
+    const complete = [...qList.querySelectorAll('.q-card')].every(card => {
+      const qText = card.querySelector('textarea[id$="-text"]')?.value.trim();
+      if (!qText) return false;
+      const choices = [...card.querySelectorAll('.choice-row input[type="text"]')];
+      return choices.length === 4 && choices.every(c => c.value.trim());
+    });
+    btn.disabled = !complete;
+    btn.title = complete ? '' : 'Complete all 5 questions (question text + 4 choices) before publishing';
+  }
+  qList.addEventListener('input', checkPublishReady);
+  checkPublishReady();
 
-    document.getElementById('reveal-text').textContent = q.answerText;
+  /* ── Preview Game (matches actual React app behaviour) ── */
+  let previewQs = [], previewIdx = 0, previewScore = 0, previewFirstTry = true;
 
-    const img = document.getElementById('reveal-img');
-    const cap = document.getElementById('reveal-cap');
+  function openPreview() {
+    previewQs = [...qList.querySelectorAll('.q-card')].map(card => ({
+      text:          card.querySelector('textarea[id$="-text"]')?.value.trim() || '(no question)',
+      choices:       [...card.querySelectorAll('.choice-row input[type="text"]')].map(i => i.value.trim() || '—'),
+      correct:       parseInt(card.querySelector('input[type="radio"]:checked')?.value || '0'),
+      answerText:    card.querySelector('textarea[id$="-answer"]')?.value.trim() || '',
+      answerImage:   card.querySelector('input[id$="-img"]')?.value.trim() || '',
+      answerAlt:     card.querySelector('input[id$="-alt"]')?.value.trim() || '',
+      answerCaption: card.querySelector('input[id$="-cap"]')?.value.trim() || '',
+    }));
+    document.getElementById('pv-game-title').textContent =
+      document.getElementById('game-title').value.trim() || 'Untitled Game';
+    document.getElementById('pv-game-subtitle').textContent =
+      document.getElementById('game-subtitle').value.trim() || '';
+    previewIdx = 0; previewScore = 0;
+    pvShowScreen('pv-home');
+    document.getElementById('preview-modal').classList.remove('hidden');
+    document.getElementById('pv-close-btn').focus();
+  }
+
+  function closePreview() {
+    document.getElementById('preview-modal').classList.add('hidden');
+  }
+
+  function pvShowScreen(id) {
+    document.querySelectorAll('.pv-screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function previewStartGame() {
+    previewIdx = 0; previewScore = 0;
+    pvRenderQ();
+    pvShowScreen('pv-question-screen');
+  }
+
+  function pvRenderQ() {
+    const q = previewQs[previewIdx];
+    previewFirstTry = true;
+    document.getElementById('pv-qtext').textContent = q.text;
+    document.getElementById('pv-answer-section').style.display = 'none';
+
+    const choicesEl = document.getElementById('pv-choices');
+    choicesEl.innerHTML = '';
+    q.choices.forEach((text, i) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'pv-choice';
+      wrap.id = `pv-c-${i}`;
+      const inner = document.createElement('div');
+      inner.className = 'pv-choice-inner';
+      const btn = document.createElement('button');
+      btn.textContent = text;
+      btn.onclick = () => pvPick(i);
+      inner.appendChild(btn);
+      wrap.appendChild(inner);
+      choicesEl.appendChild(wrap);
+    });
+  }
+
+  function pvPick(idx) {
+    const q = previewQs[previewIdx];
+    if (idx === q.correct) {
+      // Correct — mirrors ChoiceButton: disable all, show Huzzah + answer
+      if (previewFirstTry) previewScore++;
+      document.querySelectorAll('#pv-choices button').forEach(b => b.disabled = true);
+      pvShowAnswer(q);
+      document.getElementById('pv-answer-section').style.display = '';
+    } else {
+      // Wrong — mirrors ChoiceButton: slide this choice right, disable it, keep others live
+      previewFirstTry = false;
+      const wrap = document.getElementById(`pv-c-${idx}`);
+      wrap.classList.add('wrong');
+      wrap.querySelector('button').disabled = true;
+    }
+  }
+
+  function pvShowAnswer(q) {
+    const body = document.getElementById('pv-answer-body');
+    const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const paras = q.answerText.split(/[\n\r]+/).filter(t => t.trim()).map(t => `<p>${esc(t)}</p>`).join('');
+
     if (q.answerImage) {
-      img.src = q.answerImage;
-      img.alt = q.answerImageAlt || q.answerImageCaption || '';
-      img.style.display = 'block';
-      cap.textContent = q.answerImageCaption || '';
+      body.innerHTML = `
+        <article class="pv-answer-box">
+          <div class="pv-answer-pic">
+            <figure>
+              <img src="${esc(q.answerImage)}" alt="${esc(q.answerAlt)}"
+                   onerror="this.closest('figure').style.display='none'">
+              ${q.answerCaption ? `<figcaption>${esc(q.answerCaption)}</figcaption>` : ''}
+            </figure>
+          </div>
+          <div class="pv-answer-text">${paras}</div>
+        </article>`;
     } else {
-      img.style.display = 'none';
-      cap.textContent = '';
+      body.innerHTML = `
+        <article class="pv-answer-no-img"><div>${paras}</div></article>`;
     }
 
-    document.getElementById('reveal').style.display = 'block';
-
-    const nextBtn = document.getElementById('next-btn');
-    nextBtn.style.display = 'flex';
-    nextBtn.innerHTML = (qIdx < quiz.questions.length - 1)
-      ? 'Next Question <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5.5 3.5l4 3.5-4 3.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-      : 'See Results <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5.5 3.5l4 3.5-4 3.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    nextBtn.focus();
-  }
-
-  function advance() {
-    qIdx++;
-    if (qIdx >= quiz.questions.length) {
-      showScore();
+    const isLast = previewIdx >= previewQs.length - 1;
+    const nav = document.getElementById('pv-nav-section');
+    if (isLast) {
+      nav.innerHTML = `
+        <div class="pv-congrats"><div>
+          <span class="pv-congrats-emoji">🎉</span>
+          <span><button class="pv-congrats-text" onclick="pvShowScore()">
+            You survived the quiz!<br>Checkout your score.
+          </button></span>
+          <span class="pv-congrats-emoji">🎉</span>
+        </div></div>`;
     } else {
-      renderQuestion();
+      nav.innerHTML = `<button class="pv-next-q" onclick="pvNextQ()">Next Question ▷</button>`;
     }
   }
 
-  /* ──────────────────────────────────
-     Score screen
-  ────────────────────────────────── */
-  function showScore() {
-    const total = quiz.questions.length;
-    const pct = score / total;
-
-    document.getElementById('score-frac').textContent = `${score}/${total}`;
-
-    let title, sub, badge;
-    if (pct === 1)        { title = 'Summit reached!';   sub = 'Perfect score — you know these trails cold.';    badge = '⭐ Expert Hiker'; }
-    else if (pct >= 0.8)  { title = 'Almost there!';     sub = 'One slip on a scree field. Nearly perfect.';     badge = '🥾 Strong Hiker'; }
-    else if (pct >= 0.6)  { title = 'Good trail sense.'; sub = 'Solid footing — keep exploring.';                badge = '🗺️ Intermediate'; }
-    else                  { title = 'Trail ahead.';      sub = 'Time to hit the books — and the trail.';         badge = '🌱 Trailhead'; }
-
-    document.getElementById('score-title').textContent = title;
-    document.getElementById('score-sub').textContent   = sub;
-    document.getElementById('trail-badge').innerHTML   = badge;
-
-    show('screen-score');
+  function pvNextQ() {
+    previewIdx++;
+    pvRenderQ();
+    window.scrollTo(0, 0);
   }
+
+  function pvShowScore() {
+    document.getElementById('pv-score-msg').textContent =
+      `You got ${previewScore} out of ${previewQs.length} right on the first try!`;
+    pvShowScreen('pv-score-screen');
+  }
+
+  // Close on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !document.getElementById('preview-modal').classList.contains('hidden'))
+      closePreview();
+  });
+
+  /* ── Full-screen image modal ── */
+  const imgModal = Object.assign(document.createElement('div'), {
+    className: 'img-modal hidden',
+    innerHTML: `<button class="img-modal-close" aria-label="Close image preview">×</button>
+                <img src="" alt="">
+                <span class="img-modal-caption"></span>`
+  });
+  imgModal.setAttribute('role', 'dialog');
+  imgModal.setAttribute('aria-modal', 'true');
+  imgModal.setAttribute('aria-label', 'Full-size image');
+  document.body.appendChild(imgModal);
+
+  const modalImg     = imgModal.querySelector('img');
+  const modalCaption = imgModal.querySelector('.img-modal-caption');
+  const modalClose   = imgModal.querySelector('.img-modal-close');
+
+  const closeImgModal = () => imgModal.classList.add('hidden');
+
+  imgModal.addEventListener('click', e => { if (e.target !== modalImg) closeImgModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeImgModal(); });
+
+  // Open when clicking any visible img-preview thumbnail
+  document.addEventListener('click', e => {
+    const preview = e.target.closest('.img-preview:not(.hidden)');
+    if (!preview) return;
+    const img = preview.querySelector('img');
+    if (!img?.src) return;
+    modalImg.src = img.src;
+    modalImg.alt = img.alt;
+    // Pull caption from sibling .img-fields input[id$="-cap"]
+    const cap = preview.closest('.img-layout')?.querySelector('input[id$="-cap"]')?.value || '';
+    modalCaption.textContent = cap;
+    modalCaption.hidden = !cap;
+    imgModal.classList.remove('hidden');
+    modalClose.focus();
+  });
+
+  /* ── Keyboard accessibility for dialog backdrop ── */
+  document.querySelector('.sidebar').querySelectorAll('[onclick]').forEach(el => {
+    if (!el.getAttribute('role')) el.setAttribute('role', 'menuitem');
+  });
 </script>
 </body>
 </html>

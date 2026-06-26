@@ -36,11 +36,17 @@
       "prettier --write"
     ]
   },
+  "devDependencies": {
+    "vitest": "^1.6.0",
+    "@vitest/coverage-v8": "^1.6.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:domain": "vitest run src/domain",
+    "test:domain:coverage": "vitest run --coverage src/domain"
   },
   "eslintConfig": {
     "extends": [
