@@ -6,6 +6,7 @@ const isValidDate = (value: unknown): boolean => Boolean(value) && new Date(valu
 
 
 const fn = R.cond([
+    [x => x[0] instanceof Date && isValidDate(x[0]), x => x[0]],
     [x => isValidDate(x[0]), x => new Date(x[0] + " 5:00:00")],
     [x => x[1], () => new Date()],
     [R.T, R.always(undefined)]

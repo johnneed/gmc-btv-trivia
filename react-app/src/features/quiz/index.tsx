@@ -21,7 +21,7 @@ const QuizScreen = () => {
 
     if (!quiz) {
         return (<div className={styles.quiz_screen}>
-            <p>Sorry, we couldn't find that quiz</p>
+            <p>Sorry, we couldn&apos;t find that quiz</p>
             <Link to="/">Back to Trail Trivia</Link>
         </div>);
     }

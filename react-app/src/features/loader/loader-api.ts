@@ -1,7 +1,7 @@
 import { Quiz, Trivia } from "../../models/types";
 import * as R from "ramda";
 import TriviaFactory from "../../models/factories/trivia.factory";
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
 const quizFilterSort  = R.compose<any[], Trivia, Quiz[], Quiz[], Quiz[], Quiz[], Quiz[] >(
     R.sort((a, b) => (b.publishDate - a.publishDate)),
@@ -13,7 +13,7 @@ const quizFilterSort  = R.compose<any[], Trivia, Quiz[], Quiz[], Quiz[], Quiz[],
 );
 
 export const fetchTrivia = async (amount = 1): Promise<Quiz[]> => {
-    if (!API_URL) throw new Error("REACT_APP_API_URL is not defined");
+    if (!API_URL) throw new Error("VITE_API_URL is not defined");
     console.log("FETCHING FROM: ", API_URL + "trivia.json");
     const response = await fetch(API_URL + "trivia.json");
     const trivia: Trivia = await response.json();
