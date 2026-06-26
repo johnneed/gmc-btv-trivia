@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trail Trivia — Green Mountain Club Burlington</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --canopy:        #1B3A24;
+      --canopy-light:  #2C5A3A;
+      --trail:         #C85212;
+      --trail-light:   #E86830;
+      --summit:        #F3EFE6;
+      --summit-dark:   #E2DAD0;
+      --rock:          #5C6358;
+      --night:         #0E1910;
+      --white:         #FFFFFF;
+      --correct:       #2A6E42;
+      --wrong:         #B83228;
+      --sky:           #3A6D8F;
+
+      --font-display:  'Fraunces', Georgia, serif;
+      --font-body:     'DM Sans', system-ui, -apple-system, sans-serif;
+
+      --r-sm: 6px;
+      --r-md: 12px;
+      --r-lg: 20px;
+      --r-xl: 28px;
+
+      --shadow-card:   0 1px 4px rgba(14,25,16,.06), 0 4px 16px rgba(14,25,16,.07);
+      --shadow-raise:  0 4px 12px rgba(14,25,16,.10), 0 12px 36px rgba(14,25,16,.12);
+      --ease:          cubic-bezier(.4,0,.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :focus-visible {
+      outline: 3px solid var(--trail);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--summit);
+      color: var(--night);
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ──────────────────────────────────────
+       SCREEN SYSTEM
+    ────────────────────────────────────── */
+    .screen { display: none; min-height: 100svh; }
+    .screen.active {
+      display: block;
+      animation: rise 280ms var(--ease) both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ──────────────────────────────────────
+       HOME SCREEN
+    ────────────────────────────────────── */
+    .home-hero {
+      background: var(--canopy);
+      position: relative;
+      overflow: hidden;
+      padding: clamp(2rem, 6vw, 4rem) clamp(1.25rem, 5vw, 3rem) clamp(4rem, 10vw, 7rem);
+    }
+
+    /* Topographic contour lines — signature element */
+    .topo {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .topo svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Mountain horizon silhouette */
+    .horizon {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 45%;
+      pointer-events: none;
+    }
+
+    /* Logo bar */
+    .home-logo {
+      display: flex;
+      align-items: center;
+      gap: .875rem;
+      margin-bottom: clamp(2rem, 6vw, 3.5rem);
+      position: relative;
+      z-index: 1;
+    }
+    .logo-compass {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+    }
+    .logo-wordmark {
+      display: flex;
+      flex-direction: column;
+      gap: .1rem;
+    }
+    .logo-org {
+      font-size: .65rem;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.5);
+    }
+    .logo-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.88);
+      letter-spacing: .01em;
+    }
+
+    /* Hero copy */
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
+    }
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(3.25rem, 10vw, 6.5rem);
+      font-weight: 900;
+      line-height: .92;
+      letter-spacing: -.03em;
+      color: var(--white);
+      margin-bottom: 1.25rem;
+    }
+    .hero-headline em {
+      font-style: italic;
+      color: var(--trail-light);
+    }
+    .hero-body {
+      font-size: clamp(.9rem, 2vw, 1.05rem);
+      color: rgba(255,255,255,.6);
+      max-width: 34ch;
+      margin-bottom: 2.25rem;
+      line-height: 1.6;
+    }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--trail);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: .95rem;
+      font-weight: 600;
+      padding: .875rem 1.75rem;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(200,82,18,.45);
+      transition: background 180ms var(--ease), transform 180ms var(--ease), box-shadow 180ms var(--ease);
+    }
+    .hero-cta:hover {
+      background: var(--trail-light);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(200,82,18,.55);
+    }
+    .hero-cta svg { flex-shrink: 0; }
+
+    /* Latest banner */
+    .latest-banner {
+      position: relative;
+      z-index: 1;
+      margin-top: 2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: .625rem;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 100px;
+      padding: .4rem .875rem .4rem .5rem;
+      cursor: pointer;
+      transition: background 180ms var(--ease);
+    }
+    .latest-banner:hover { background: rgba(255,255,255,.13); }
+    .latest-pip {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--trail-light);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50%      { opacity: .4; }
+    }
+    .latest-text {
+      font-size: .72rem;
+      color: rgba(255,255,255,.65);
+      font-weight: 500;
+    }
+    .latest-title {
+      font-size: .72rem;
+      color: rgba(255,255,255,.88);
+      font-weight: 600;
+    }
+
+    /* Quiz grid section */
+    .list-section {
+      padding: clamp(2rem, 5vw, 3rem) clamp(1.25rem, 5vw, 3rem) clamp(3rem, 6vw, 5rem);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .section-eyebrow {
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--rock);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+    .section-eyebrow::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--summit-dark);
+    }
+
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: .875rem;
+    }
+
+    .quiz-card {
+      background: var(--white);
+      border-radius: var(--r-md);
+      padding: 1.375rem 1.375rem 1.125rem;
+      box-shadow: var(--shadow-card);
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: .625rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 180ms var(--ease),
+                  box-shadow 180ms var(--ease),
+                  transform 180ms var(--ease);
+    }
+    .quiz-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: var(--canopy);
+      transition: width 180ms var(--ease);
+    }
+    .quiz-card:hover,
+    .quiz-card:focus-visible {
+      border-color: var(--canopy);
+      box-shadow: var(--shadow-raise);
+      transform: translateY(-3px);
+      outline: none;
+    }
+    .quiz-card:hover::before { width: 6px; }
+
+    .card-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+      margin-bottom: .125rem;
+    }
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--night);
+      line-height: 1.2;
+    }
+    .card-meta {
+      font-size: .72rem;
+      color: var(--rock);
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+    .card-meta .sep {
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--summit-dark);
+      flex-shrink: 0;
+    }
+    .card-play {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--canopy);
+      padding-top: .375rem;
+      border-top: 1px solid var(--summit-dark);
+    }
+
+    /* ──────────────────────────────────────
+       SHARED QUIZ HEADER
+    ────────────────────────────────────── */
+    .quiz-header {
+      background: var(--canopy);
+      padding: .875rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .back-btn {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,.65);
+      font-family: var(--font-body);
+      font-size: .825rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: .375rem;
+      padding: .375rem .625rem;
+      border-radius: var(--r-sm);
+      transition: color 150ms, background 150ms;
+    }
+    .back-btn:hover {
+      color: var(--white);
+      background: rgba(255,255,255,.1);
+    }
+    .quiz-title-small {
+      font-family: var(--font-display);
+      font-size: .8rem;
+      font-style: italic;
+      color: rgba(255,255,255,.5);
+      text-align: right;
+      max-width: 180px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Elevation-profile progress bar */
+    .elevation-bar {
+      height: 5px;
+      background: rgba(255,255,255,.1);
+      position: relative;
+    }
+    .elevation-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--trail) 0%, var(--trail-light) 100%);
+      border-radius: 0 3px 3px 0;
+      transition: width 550ms var(--ease);
+    }
+
+    /* ──────────────────────────────────────
+       QUIZ QUESTION SCREEN
+    ────────────────────────────────────── */
+    .quiz-body {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1.25rem, 5vw, 2rem) 3rem;
+    }
+
+    /* Large ghost question number — the editorial risk */
+    .q-ghost-num {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 16vw, 9rem);
+      font-weight: 900;
+      line-height: .85;
+      color: var(--summit-dark);
+      letter-spacing: -.05em;
+      margin-bottom: -.75rem;
+      user-select: none;
+    }
+
+    .q-progress-line {
+      font-size: .7rem;
+      color: var(--rock);
+      font-weight: 500;
+      letter-spacing: .06em;
+      margin-bottom: .875rem;
+    }
+
+    .q-text {
+      font-family: var(--font-display);
+      font-size: clamp(1.05rem, 3.2vw, 1.45rem);
+      font-weight: 700;
+      color: var(--night);
+      line-height: 1.3;
+      margin-bottom: 1.75rem;
+    }
+
+    /* Choices */
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+    .choice {
+      display: flex;
+      align-items: center;
+      gap: .875rem;
+      background: var(--white);
+      border: 1.5px solid var(--summit-dark);
+      border-radius: var(--r-md);
+      padding: .875rem 1.125rem;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: .875rem;
+      font-weight: 400;
+      color: var(--night);
+      text-align: left;
+      width: 100%;
+      box-shadow: var(--shadow-card);
+      transition: border-color 150ms var(--ease),
+                  background 150ms var(--ease),
+                  transform 150ms var(--ease);
+    }
+    .choice:hover:not(:disabled) {
+      border-color: var(--canopy);
+      background: rgba(27,58,36,.03);
+      transform: translateX(4px);
+    }
+    .choice:disabled { cursor: not-allowed; }
+
+    .choice-badge {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--summit);
+      border: 1.5px solid var(--summit-dark);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .65rem;
+      font-weight: 700;
+      color: var(--rock);
+      flex-shrink: 0;
+      transition: background 180ms, border-color 180ms, color 180ms;
+    }
+
+    .choice.is-correct {
+      background: rgba(42,110,66,.06);
+      border-color: var(--correct);
+    }
+    .choice.is-correct .choice-badge {
+      background: var(--correct);
+      border-color: var(--correct);
+      color: var(--white);
+    }
+    .choice.is-wrong {
+      background: rgba(184,50,40,.04);
+      border-color: var(--wrong);
+    }
+    .choice.is-wrong .choice-badge {
+      background: var(--wrong);
+      border-color: var(--wrong);
+      color: var(--white);
+    }
+    .choice.is-correct, .choice.is-wrong { opacity: 1 !important; }
+    .choice:disabled:not(.is-correct):not(.is-wrong) { opacity: .55; }
+
+    /* Answer reveal panel */
+    .reveal {
+      margin-top: 1.25rem;
+      border-radius: var(--r-md);
+      overflow: hidden;
+      animation: rise 300ms var(--ease);
+    }
+    .reveal-banner {
+      padding: .625rem 1.125rem;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    .reveal-banner.correct-bg { background: var(--correct); }
+    .reveal-banner.wrong-bg   { background: var(--wrong); }
+
+    .reveal-body {
+      background: var(--white);
+      border: 1.5px solid var(--summit-dark);
+      border-top: none;
+      border-radius: 0 0 var(--r-md) var(--r-md);
+      padding: 1.125rem;
+    }
+    .reveal-text {
+      font-size: .875rem;
+      color: var(--rock);
+      line-height: 1.65;
+      margin-bottom: .875rem;
+    }
+    .reveal-img {
+      width: 100%;
+      border-radius: var(--r-sm);
+      max-height: 190px;
+      object-fit: cover;
+      margin-bottom: .5rem;
+      display: block;
+    }
+    .reveal-caption {
+      font-size: .68rem;
+      color: var(--rock);
+      text-align: center;
+      font-style: italic;
+    }
+
+    .next-btn {
+      margin-top: 1.25rem;
+      width: 100%;
+      background: var(--canopy);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: .9rem;
+      font-weight: 600;
+      padding: .9rem 1.5rem;
+      border-radius: var(--r-md);
+      border: none;
+      cursor: pointer;
+      transition: background 150ms var(--ease), transform 150ms var(--ease);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+    }
+    .next-btn:hover {
+      background: var(--canopy-light);
+      transform: translateY(-1px);
+    }
+    .next-btn svg { flex-shrink: 0; }
+
+    /* ──────────────────────────────────────
+       SCORE SCREEN
+    ────────────────────────────────────── */
+    .score-wrap {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: clamp(2.5rem, 8vw, 4rem) 1.5rem;
+      text-align: center;
+    }
+
+    .score-ring {
+      width: 128px; height: 128px;
+      border-radius: 50%;
+      background: var(--canopy);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 8px 32px rgba(27,58,36,.3);
+    }
+    .score-num {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1;
+    }
+    .score-of {
+      font-size: .62rem;
+      color: rgba(255,255,255,.55);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .trail-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: var(--summit-dark);
+      color: var(--canopy);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      border-radius: 100px;
+      padding: .3rem .875rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .score-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 6vw, 2.5rem);
+      font-weight: 900;
+      color: var(--night);
+      line-height: 1.1;
+      margin-bottom: .5rem;
+    }
+    .score-sub {
+      font-size: .9rem;
+      color: var(--rock);
+      margin-bottom: 2rem;
+      max-width: 30ch;
+      margin-left: auto; margin-right: auto;
+    }
+
+    .score-actions {
+      display: flex;
+      flex-direction: column;
+      gap: .625rem;
+    }
+    .btn-primary {
+      background: var(--trail);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: .9rem;
+      padding: .875rem 1.5rem;
+      border-radius: var(--r-md);
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      transition: background 150ms var(--ease), transform 150ms var(--ease);
+    }
+    .btn-primary:hover {
+      background: var(--trail-light);
+      transform: translateY(-1px);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--canopy);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: .9rem;
+      padding: .875rem 1.5rem;
+      border-radius: var(--r-md);
+      border: 1.5px solid var(--summit-dark);
+      cursor: pointer;
+      width: 100%;
+      transition: border-color 150ms, background 150ms;
+    }
+    .btn-ghost:hover {
+      border-color: var(--canopy);
+      background: rgba(27,58,36,.03);
+    }
+
+    /* ──────────────────────────────────────
+       REDUCED MOTION
+    ────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    /* ──────────────────────────────────────
+       RESPONSIVE
+    ────────────────────────────────────── */
+    @media (max-width: 420px) {
+      .quiz-grid { grid-template-columns: 1fr; }
+      .latest-banner { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ======================================================
+     SCREEN 1 — HOME
+====================================================== -->
+<div id="screen-home" class="screen active">
+
+  <div class="home-hero" role="banner">
+
+    <!-- Topo contour background (signature element) -->
+    <div class="topo" aria-hidden="true">
+      <svg viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid slice"
+           fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="rgba(255,255,255,0.07)" stroke-width="1.5" fill="none">
+          <path d="M-80,380 C50,260 150,320 280,240 S420,100 560,180 S720,300 900,160 S1050,80 1120,140"/>
+          <path d="M-80,410 C50,290 150,350 280,270 S420,130 560,210 S720,330 900,190 S1050,110 1120,170"/>
+          <path d="M-80,440 C50,320 150,380 280,300 S420,160 560,240 S720,360 900,220 S1050,140 1120,200"/>
+          <path d="M-80,350 C50,230 150,290 280,210 S420,70  560,150 S720,270 900,130 S1050,50  1120,110"/>
+          <path d="M-80,320 C50,200 150,260 280,180 S420,40  560,120 S720,240 900,100 S1050,20  1120,80"/>
+          <path d="M-80,290 C50,170 150,230 280,150 S420,10  560,90  S720,210 900,70  S1050,-10 1120,50"/>
+          <path d="M-80,260 C50,140 150,200 280,120 S420,-20 560,60  S720,180 900,40  S1050,-40 1120,20"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Mountain horizon -->
+    <svg class="horizon" aria-hidden="true" viewBox="0 0 1200 220"
+         preserveAspectRatio="xMidYMax meet" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,220 L0,155 L80,90 L150,130 L270,50 L400,110 L500,55 L620,140 L740,48
+               L860,95 L960,30 L1060,75 L1140,40 L1200,60 L1200,220 Z"
+            fill="rgba(255,255,255,0.055)"/>
+      <path d="M0,220 L0,175 L100,120 L190,155 L310,90 L440,140 L540,95 L660,165 L780,90
+               L880,125 L990,70 L1090,105 L1170,75 L1200,88 L1200,220 Z"
+            fill="rgba(255,255,255,0.04)"/>
+    </svg>
+
+    <!-- Logo -->
+    <div class="home-logo">
+      <svg class="logo-compass" viewBox="0 0 44 44" fill="none"
+           xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="22" cy="22" r="21" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+        <path d="M22 6L35 28H9L22 6Z" stroke="rgba(255,255,255,0.55)" stroke-width="1.5"
+              stroke-linejoin="round" fill="none"/>
+        <path d="M15 28L22 18L29 28" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"
+              stroke-linejoin="round" fill="none"/>
+        <circle cx="22" cy="22" r="3" fill="rgba(200,82,18,0.9)"/>
+        <line x1="22" y1="6" x2="22" y2="3" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+        <line x1="22" y1="41" x2="22" y2="38" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+        <line x1="6" y1="22" x2="3" y2="22" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+        <line x1="41" y1="22" x2="38" y2="22" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+      </svg>
+      <div class="logo-wordmark">
+        <span class="logo-org">Green Mountain Club Burlington</span>
+        <span class="logo-name">Trail Trivia</span>
+      </div>
+    </div>
+
+    <!-- Hero headline + CTA -->
+    <div class="hero-content">
+      <h1 class="hero-headline">Know your<br><em>trails?</em></h1>
+      <p class="hero-body">Weekly quizzes on the trails, history, and wild places of the Green Mountains — written by hikers, for hikers.</p>
+      <button class="hero-cta" onclick="show('screen-list')"
+              aria-label="Browse trivia games">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M5 3.5l4.5 3.5L5 10.5" stroke="currentColor" stroke-width="1.75"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Browse Games
+      </button>
+
+      <button class="latest-banner" onclick="startQuiz()"
+              aria-label="Play latest quiz: The Continental Divide Trail">
+        <span class="latest-pip" aria-hidden="true"></span>
+        <span class="latest-text">Latest —&nbsp;</span>
+        <span class="latest-title">The Continental Divide Trail</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <path d="M4.5 3l3 3-3 3" stroke="rgba(255,255,255,0.5)" stroke-width="1.25"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Quick game list preview on home -->
+  <div class="list-section">
+    <p class="section-eyebrow" aria-label="Recent games section">Recent games</p>
+    <div class="quiz-grid" role="list" aria-label="Available trivia games">
+      <article class="quiz-card" role="listitem" tabindex="0"
+               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
+               aria-label="The Continental Divide Trail — 5 questions, December 2023. Press Enter to play.">
+        <div class="card-icon" aria-hidden="true">🏔️</div>
+        <h2 class="card-title">The Continental Divide Trail</h2>
+        <p class="card-meta">
+          <span>5 questions</span>
+          <span class="sep" aria-hidden="true"></span>
+          <span>Dec 2023</span>
+          <span class="sep" aria-hidden="true"></span>
+          <span>John Need</span>
+        </p>
+        <span class="card-play" aria-hidden="true">
+          Play
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </article>
+
+      <article class="quiz-card" role="listitem" tabindex="0"
+               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
+               aria-label="The AT in Maine — 5 questions, March 2024. Press Enter to play.">
+        <div class="card-icon" aria-hidden="true">🌲</div>
+        <h2 class="card-title">The AT in Maine</h2>
+        <p class="card-meta">
+          <span>5 questions</span>
+          <span class="sep" aria-hidden="true"></span>
+          <span>Mar 2024</span>
+        </p>
+        <span class="card-play" aria-hidden="true">
+          Play
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </article>
+
+      <article class="quiz-card" role="listitem" tabindex="0"
+               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
+               aria-label="The AT in New Hampshire — 5 questions, March 2024. Press Enter to play.">
+        <div class="card-icon" aria-hidden="true">⛰️</div>
+        <h2 class="card-title">The AT in New Hampshire</h2>
+        <p class="card-meta">
+          <span>5 questions</span>
+          <span class="sep" aria-hidden="true"></span>
+          <span>Mar 2024</span>
+        </p>
+        <span class="card-play" aria-hidden="true">
+          Play
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </article>
+
+      <article class="quiz-card" role="listitem" tabindex="0"
+               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
+               aria-label="The AT in Massachusetts — 5 questions, March 2024. Press Enter to play.">
+        <div class="card-icon" aria-hidden="true">🍂</div>
+        <h2 class="card-title">The AT in Massachusetts</h2>
+        <p class="card-meta">
+          <span>5 questions</span>
+          <span class="sep" aria-hidden="true"></span>
+          <span>Mar 2024</span>
+        </p>
+        <span class="card-play" aria-hidden="true">
+          Play
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </article>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================
+     SCREEN 2 — QUIZ LIST (full browse)
+====================================================== -->
+<div id="screen-list" class="screen" role="main" aria-label="Browse all trivia games">
+  <div class="quiz-header">
+    <button class="back-btn" onclick="show('screen-home')" aria-label="Back to home">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M10 4L6 8l4 4" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Home
+    </button>
+    <span class="quiz-title-small">All Games</span>
+  </div>
+  <div class="list-section">
+    <p class="section-eyebrow">All games</p>
+    <div class="quiz-grid" role="list" aria-label="All trivia games">
+      <article class="quiz-card" role="listitem" tabindex="0"
+               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
+               aria-label="The Continental Divide Trail — 5 questions. Press Enter to play.">
+        <div class="card-icon" aria-hidden="true">🏔️</div>
+        <h2 class="card-title">The Continental Divide Trail</h2>
+        <p class="card-meta">
+          <span>5 questions</span><span class="sep" aria-hidden="true"></span>
+          <span>Dec 2023</span><span class="sep" aria-hidden="true"></span>
+          <span>John Need</span>
+        </p>
+        <span class="card-play" aria-hidden="true">Play <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </article>
+      <article class="quiz-card" role="listitem" tabindex="0"
+               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
+               aria-label="The AT in Maine — 5 questions. Press Enter to play.">
+        <div class="card-icon" aria-hidden="true">🌲</div>
+        <h2 class="card-title">The AT in Maine</h2>
+        <p class="card-meta"><span>5 questions</span><span class="sep" aria-hidden="true"></span><span>Mar 2024</span></p>
+        <span class="card-play" aria-hidden="true">Play <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </article>
+      <article class="quiz-card" role="listitem" tabindex="0"
+               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
+               aria-label="The AT in New Hampshire — 5 questions. Press Enter to play.">
+        <div class="card-icon" aria-hidden="true">⛰️</div>
+        <h2 class="card-title">The AT in New Hampshire</h2>
+        <p class="card-meta"><span>5 questions</span><span class="sep" aria-hidden="true"></span><span>Mar 2024</span></p>
+        <span class="card-play" aria-hidden="true">Play <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </article>
+      <article class="quiz-card" role="listitem" tabindex="0"
+               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
+               aria-label="The AT in Massachusetts. Press Enter to play.">
+        <div class="card-icon" aria-hidden="true">🍂</div>
+        <h2 class="card-title">The AT in Massachusetts</h2>
+        <p class="card-meta"><span>5 questions</span><span class="sep" aria-hidden="true"></span><span>Mar 2024</span></p>
+        <span class="card-play" aria-hidden="true">Play <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </article>
+      <article class="quiz-card" role="listitem" tabindex="0"
+               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
+               aria-label="The AT in Connecticut. Press Enter to play.">
+        <div class="card-icon" aria-hidden="true">🌿</div>
+        <h2 class="card-title">The AT in Connecticut</h2>
+        <p class="card-meta"><span>5 questions</span><span class="sep" aria-hidden="true"></span><span>Mar 2024</span></p>
+        <span class="card-play" aria-hidden="true">Play <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </article>
+      <article class="quiz-card" role="listitem" tabindex="0"
+               onclick="startQuiz()" onkeydown="if(event.key==='Enter'||event.key===' ')startQuiz()"
+               aria-label="The AT in New York. Press Enter to play.">
+        <div class="card-icon" aria-hidden="true">🏙️</div>
+        <h2 class="card-title">The AT in New York</h2>
+        <p class="card-meta"><span>5 questions</span><span class="sep" aria-hidden="true"></span><span>Mar 2024</span></p>
+        <span class="card-play" aria-hidden="true">Play <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 3l3 3-3 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </article>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================
+     SCREEN 3 — QUIZ QUESTION
+====================================================== -->
+<div id="screen-quiz" class="screen" role="main" aria-label="Trivia question">
+  <div class="quiz-header">
+    <button class="back-btn" onclick="show('screen-list')"
+            aria-label="Exit quiz and return to game list">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M10 4L6 8l4 4" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Exit
+    </button>
+    <span class="quiz-title-small" aria-hidden="true">Continental Divide Trail</span>
+  </div>
+
+  <div class="elevation-bar"
+       role="progressbar"
+       aria-label="Quiz progress"
+       id="prog-bar"
+       aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+    <div class="elevation-fill" id="prog-fill" style="width:20%"></div>
+  </div>
+
+  <div class="quiz-body">
+    <div class="q-ghost-num" id="q-ghost" aria-hidden="true">01</div>
+    <p class="q-progress-line" id="q-progress" aria-live="polite">Question 1 of 5</p>
+    <h2 class="q-text" id="q-text">Which US states does the Continental Divide Trail pass through?</h2>
+
+    <div class="choices" role="group" aria-labelledby="q-text" id="choices-group">
+      <button class="choice" id="c0" data-idx="0" onclick="pick(0)">
+        <span class="choice-badge" aria-hidden="true">A</span>
+        Nebraska, Idaho, Wyoming, Colorado, and New Mexico
+      </button>
+      <button class="choice" id="c1" data-idx="1" onclick="pick(1)">
+        <span class="choice-badge" aria-hidden="true">B</span>
+        Montana, Idaho, Wyoming, Colorado, and New Mexico
+      </button>
+      <button class="choice" id="c2" data-idx="2" onclick="pick(2)">
+        <span class="choice-badge" aria-hidden="true">C</span>
+        Montana, Idaho, Wyoming, Utah, Colorado, and New Mexico
+      </button>
+      <button class="choice" id="c3" data-idx="3" onclick="pick(3)">
+        <span class="choice-badge" aria-hidden="true">D</span>
+        Montana, Idaho, Wyoming, Colorado, and Arizona
+      </button>
+    </div>
+
+    <div id="reveal" class="reveal" style="display:none"
+         aria-live="polite" aria-atomic="true">
+      <div class="reveal-banner" id="reveal-banner">Correct!</div>
+      <div class="reveal-body">
+        <p class="reveal-text" id="reveal-text"></p>
+        <img id="reveal-img" class="reveal-img" src="" alt="" style="display:none">
+        <p id="reveal-cap" class="reveal-caption"></p>
+      </div>
+    </div>
+
+    <button class="next-btn" id="next-btn" style="display:none" onclick="advance()">
+      Next Question
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M5.5 3.5l4 3.5-4 3.5" stroke="currentColor" stroke-width="1.75"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- ======================================================
+     SCREEN 4 — SCORE
+====================================================== -->
+<div id="screen-score" class="screen" role="main" aria-label="Quiz results">
+  <div class="quiz-header">
+    <button class="back-btn" onclick="show('screen-list')" aria-label="Browse more games">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M10 4L6 8l4 4" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      All Games
+    </button>
+    <span class="quiz-title-small" aria-hidden="true">Results</span>
+  </div>
+
+  <div class="score-wrap">
+    <div class="score-ring" aria-hidden="true">
+      <span class="score-num" id="score-frac">4/5</span>
+      <span class="score-of">correct</span>
+    </div>
+
+    <div class="trail-badge" id="trail-badge">
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true">
+        <path d="M5.5 1L7 4H10.5L7.75 6.2L8.75 9.5L5.5 7.5L2.25 9.5L3.25 6.2L0.5 4H4Z"
+              fill="currentColor"/>
+      </svg>
+      Expert Hiker
+    </div>
+
+    <h1 class="score-title" id="score-title">Summit reached!</h1>
+    <p class="score-sub" id="score-sub">You know the Continental Divide Trail inside and out.</p>
+
+    <div class="score-actions">
+      <button class="btn-primary" onclick="startQuiz()">Play Again</button>
+      <button class="btn-ghost" onclick="show('screen-list')">Browse More Games</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ──────────────────────────────────
+     Quiz data (CDT — from trivia.json)
+  ────────────────────────────────── */
+  const quiz = {
+    title: 'The Continental Divide Trail',
+    questions: [
+      {
+        text: 'Which US states does the Continental Divide Trail pass through?',
+        choices: [
+          'Nebraska, Idaho, Wyoming, Colorado, and New Mexico',
+          'Montana, Idaho, Wyoming, Colorado, and New Mexico',
+          'Montana, Idaho, Wyoming, Utah, Colorado, and New Mexico',
+          'Montana, Idaho, Wyoming, Colorado, and Arizona'
+        ],
+        correct: 1,
+        answerText: 'The Continental Divide Trail is about 3,028 miles running from the U.S. border with Mexico to the border with Canada. It passes through Montana, Idaho, Wyoming, Colorado, and New Mexico.',
+        answerImage: 'https://www.fs.usda.gov/sites/default/files/styles/width_848px/public/2019-07/cdt_overview_map_2.jpg?itok=yvWqOkQh',
+        answerImageAlt: 'Map of the Continental Divide Trail',
+        answerImageCaption: 'Map of the Continental Divide Trail'
+      },
+      {
+        text: "What's the lowest point on the CDT?",
+        choices: ['Interstate 15 in Montana', 'Elk River, Colorado', 'Lordsburg, New Mexico', 'East Glacier Park Village'],
+        correct: 2,
+        answerText: "Lordsburg, New Mexico is the lowest point on the CDT at 4,200 ft. This town was featured in many movie westerns including John Wayne's 'Stagecoach.'",
+        answerImage: '',
+        answerImageCaption: ''
+      },
+      {
+        text: "What's the highest point on the CDT?",
+        choices: ['Parkview Mountain, Colorado', 'Targhee Peak, Idaho', 'Bridger Peak, Wyoming', 'Grays Peak, Colorado'],
+        correct: 3,
+        answerText: 'At 14,278 ft, Grays Peak in Colorado is the highest point along the CDT. It is the tenth-highest summit of the Rocky Mountains.',
+        answerImage: '',
+        answerImageCaption: ''
+      },
+      {
+        text: 'Which of these is NOT a town that lies along the CDT?',
+        choices: ['Silver City', 'Pie Town', 'Salida', 'Campo'],
+        correct: 3,
+        answerText: 'Silver City, Pie Town, and Salida are all popular stops on the CDT. Campo is a town along the Pacific Crest Trail.',
+        answerImage: '',
+        answerImageCaption: ''
+      },
+      {
+        text: 'The CDT was designed for two sports. Hiking is one. What is the other?',
+        choices: ['Horseback riding', 'XC skiing', 'Mountain biking', 'Snowmobiling'],
+        correct: 0,
+        answerText: 'The Continental Divide Trail was designated by Congress as a National Scenic Trail in 1978. It was envisioned to be used both by people and horses.',
+        answerImage: '',
+        answerImageCaption: ''
+      }
+    ]
+  };
+
+  const LABELS = ['A','B','C','D'];
+  let qIdx = 0, score = 0;
+
+  /* ──────────────────────────────────
+     Navigation
+  ────────────────────────────────── */
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById(id);
+    el.classList.add('active');
+    window.scrollTo(0, 0);
+    // Move focus to screen for screen-readers
+    el.setAttribute('tabindex', '-1');
+    el.focus({ preventScroll: true });
+  }
+
+  function startQuiz() {
+    qIdx = 0;
+    score = 0;
+    renderQuestion();
+    show('screen-quiz');
+  }
+
+  /* ──────────────────────────────────
+     Question render
+  ────────────────────────────────── */
+  function renderQuestion() {
+    const q = quiz.questions[qIdx];
+    const total = quiz.questions.length;
+    const num = qIdx + 1;
+    const pct = Math.round((num / total) * 100);
+
+    document.getElementById('q-ghost').textContent = String(num).padStart(2, '0');
+    document.getElementById('q-progress').textContent = `Question ${num} of ${total}`;
+    document.getElementById('q-text').textContent = q.text;
+
+    const progFill = document.getElementById('prog-fill');
+    const progBar  = document.getElementById('prog-bar');
+    progFill.style.width = pct + '%';
+    progBar.setAttribute('aria-valuenow', pct);
+
+    LABELS.forEach((lbl, i) => {
+      const btn = document.getElementById('c' + i);
+      btn.className = 'choice';
+      btn.disabled = false;
+      btn.innerHTML =
+        `<span class="choice-badge" aria-hidden="true">${lbl}</span> ${q.choices[i]}`;
+      btn.onclick = () => pick(i);
+    });
+
+    document.getElementById('reveal').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'none';
+  }
+
+  /* ──────────────────────────────────
+     Answer selection
+  ────────────────────────────────── */
+  function pick(idx) {
+    const q = quiz.questions[qIdx];
+    const correct = idx === q.correct;
+    if (correct) score++;
+
+    LABELS.forEach((_, i) => {
+      const btn = document.getElementById('c' + i);
+      btn.disabled = true;
+      if (i === q.correct) btn.classList.add('is-correct');
+      if (i === idx && !correct) btn.classList.add('is-wrong');
+    });
+
+    // Reveal
+    const banner = document.getElementById('reveal-banner');
+    banner.textContent = correct ? '✓  Correct!' : '✗  Not quite';
+    banner.className = 'reveal-banner ' + (correct ? 'correct-bg' : 'wrong-bg');
+
+    document.getElementById('reveal-text').textContent = q.answerText;
+
+    const img = document.getElementById('reveal-img');
+    const cap = document.getElementById('reveal-cap');
+    if (q.answerImage) {
+      img.src = q.answerImage;
+      img.alt = q.answerImageAlt || q.answerImageCaption || '';
+      img.style.display = 'block';
+      cap.textContent = q.answerImageCaption || '';
+    } else {
+      img.style.display = 'none';
+      cap.textContent = '';
+    }
+
+    document.getElementById('reveal').style.display = 'block';
+
+    const nextBtn = document.getElementById('next-btn');
+    nextBtn.style.display = 'flex';
+    nextBtn.innerHTML = (qIdx < quiz.questions.length - 1)
+      ? 'Next Question <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5.5 3.5l4 3.5-4 3.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      : 'See Results <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M5.5 3.5l4 3.5-4 3.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    nextBtn.focus();
+  }
+
+  function advance() {
+    qIdx++;
+    if (qIdx >= quiz.questions.length) {
+      showScore();
+    } else {
+      renderQuestion();
+    }
+  }
+
+  /* ──────────────────────────────────
+     Score screen
+  ────────────────────────────────── */
+  function showScore() {
+    const total = quiz.questions.length;
+    const pct = score / total;
+
+    document.getElementById('score-frac').textContent = `${score}/${total}`;
+
+    let title, sub, badge;
+    if (pct === 1)        { title = 'Summit reached!';   sub = 'Perfect score — you know these trails cold.';    badge = '⭐ Expert Hiker'; }
+    else if (pct >= 0.8)  { title = 'Almost there!';     sub = 'One slip on a scree field. Nearly perfect.';     badge = '🥾 Strong Hiker'; }
+    else if (pct >= 0.6)  { title = 'Good trail sense.'; sub = 'Solid footing — keep exploring.';                badge = '🗺️ Intermediate'; }
+    else                  { title = 'Trail ahead.';      sub = 'Time to hit the books — and the trail.';         badge = '🌱 Trailhead'; }
+
+    document.getElementById('score-title').textContent = title;
+    document.getElementById('score-sub').textContent   = sub;
+    document.getElementById('trail-badge').innerHTML   = badge;
+
+    show('screen-score');
+  }
+</script>
+</body>
+</html>

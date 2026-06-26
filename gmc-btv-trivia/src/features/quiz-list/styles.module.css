@@ -1,0 +1,71 @@
+
+.quiz_list {
+    margin: 0 auto;
+}
+
+h1 {
+    margin: 0 auto;
+}
+
+h1 > a {
+    font-size: 2rem;
+    font-family: "Henny Penny", sans-serif;
+
+    text-shadow: 0 2px 2px #999;
+    color: indianred;
+    margin: 1rem 0 0 0;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+h1 > a:visited {
+    color: indianred
+}
+
+h1 > a:hover {
+    color: #E86969FF;
+    text-shadow: 0 -2px 2px #999;
+}
+
+
+.quiz_cards {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
+    margin: 1rem;
+}
+
+.quiz_card_container {
+    order: 1;
+    flex: 0 1 auto;
+    align-self: stretch;
+}
+
+
+.quiz_list_header {
+    font-size: 2.3rem;
+    margin: 0;
+}
+
+@media only screen and (min-width: 700px) {
+
+    h1 > a {
+        font-size: 4rem;
+    }
+
+    .quiz_cards {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 2rem;
+    }
+
+    .quiz_card_container {
+        order: 0;
+    }
+
+
+}

@@ -1,0 +1,239 @@
+.answer {
+    margin: 0 0.5rem;
+}
+
+.huzzah {
+    font-size: 3rem;
+    font-family: "Henny Penny", sans-serif;
+    margin: 0;
+    color: tomato;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.answer_box {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
+    border: solid 1px #AAA;
+    margin: 0 auto 2rem auto;
+    max-width: 80rem;
+}
+
+.answer_picture {
+    order: 1;
+    flex: 0 1 auto;
+    align-self: stretch;
+
+    flex-basis: 50%;
+    flex-grow: 0;
+    flex-shrink: 1;
+
+
+}
+
+.answer_text {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: stretch;
+
+
+    text-align: left;
+    padding: 0.25rem 1rem 0.25rem 1.25rem;
+
+}
+
+.answer_text > p {
+    font-size: 1.2rem;
+    line-height: normal;
+
+}
+
+.answer_picture > figure {
+    max-width: calc(100% - 3.5rem);
+    margin: 1.5rem 0 1rem 1rem;
+    padding: 0;
+}
+
+.answer_picture > figure > img {
+    max-width: 100%;
+    border: solid 0.7rem white;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
+    border-radius: 0.1rem;
+    margin: 0;
+    max-height: 50vh;
+    object-fit: contain;
+
+}
+
+.answer_picture > figure > figcaption {
+    text-align: center;
+    margin: 0.5rem 0 0 0;
+}
+
+
+.answer_box_no_image {
+    border: solid 1px #AAA;
+    margin: 0 auto 2rem auto;
+    max-width: 60rem;
+}
+
+.answer_box_no_image > div {
+    padding: 2rem;
+    text-align: left;
+}
+
+
+.question_box {
+    margin-top: 2rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    width: 100vw;
+    text-align: left;
+    display: inline-block;
+    max-width: 60rem;
+}
+
+.question_text {
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+}
+
+.choices_container {
+    width: 100%;
+}
+
+.next_question {
+    font-family: "Tilt Neon", sans-serif;
+    font-size: 1.5rem;
+    color: #000;
+    text-align: right;
+    padding: 1rem 2rem;
+    display: inline-block;
+    cursor: pointer;
+    border: solid 1px #AAA;
+    transition: all 0.2s;
+}
+
+.next_question:hover {
+    background-color: slateblue;
+    color: white;
+}
+
+.congratulations {
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.congratulations > div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.congratulations > div > span {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+}
+
+.congratulations > div > span:nth-child(1) {
+    transform: scale(-1, 1);
+    font-size: 4rem;
+}
+
+.congratulations > div > span:nth-child(3) {
+    font-size: 4rem;
+}
+
+.congratulations > div > span:nth-child(2) {
+    margin: 0 0.1rem;
+    padding: 0;
+
+    border: solid 1px #AAA;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+
+.congrats_text {
+    max-width: 45vw;
+    padding: 1rem 1rem;
+    font-size: 1rem;
+    font-family: "Tilt Neon", sans-serif;
+    color: #111;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+    transition: all 0.2s;
+
+}
+
+.congrats_text:hover {
+    color: white;
+    text-shadow: 1px 0 1px rgba(0, 0, 0, 0.25);
+    background-color: slateblue;
+}
+
+
+@media only screen and (min-width: 700px) {
+    .answer {
+        margin: 0 2rem;
+    }
+
+    .question_box {
+        margin-top: 6rem;
+        padding: 0 2rem;
+        max-width: 50rem;
+    }
+
+    .question_text {
+        font-size: 1.8rem;
+    }
+
+    .answer_box {
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    .answer_picture {
+        order: 0;
+
+    }
+
+    .answer_picture > figure {
+        max-width: 100%;
+    }
+
+    .answer_picture > figure > img {
+        max-width: 40vw;
+    }
+
+    .answer_text {
+        order: 1;
+    }
+
+    .answer_text > p {
+        line-height: 2rem;
+        font-size: 1.5rem;
+    }
+
+    .huzzah {
+        font-size: 5rem;
+    }
+
+
+    .congratulations > div > span:nth-child(2) {
+        margin: 0 1rem;
+    }
+
+    .congrats_text {
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+    }
+}

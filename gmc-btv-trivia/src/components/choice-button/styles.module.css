@@ -1,0 +1,47 @@
+.choice {
+    margin: 0.5rem 0;
+    display: block;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: left;
+    transition: all 0.5s;
+    padding-left: 0;
+    box-sizing: border-box;
+}
+
+.choice.ahh_too_bad {
+    padding-left: 4.5rem;
+}
+
+.choice .button_container {
+    background-color: white;
+    height: 4rem;
+    width: 100%;
+    margin-left: 0;
+}
+
+.choice .button_container button {
+    font-size: 1.1rem;
+    width: 100%;
+    box-sizing: border-box;
+    height: 100%;
+    padding: 0 0.5rem;
+    background-color: transparent;
+    border: solid 1px #DDD;
+    cursor: pointer;
+    text-align: left;
+}
+
+.choice button > span {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    justify-items: start;
+}
+
+
+.choice button:hover {
+    background-color: #FFE;
+}
+
+
