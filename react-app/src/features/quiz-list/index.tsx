@@ -40,7 +40,7 @@ const QuizListScreen = () => {
                 </div>
                 <div className={styles.quiz_cards}>
                     {quizzes.map((q, i) => (
-                        <div className={styles.quiz_card_container}>
+                        <div key={q.id} className={styles.quiz_card_container}>
                             <QuizCard key={q.id} quiz={q}>
                                 {assignGraphic(i)}
                             </QuizCard>

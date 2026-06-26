@@ -34,7 +34,7 @@ const HomeScreen = () => {
                 </div>
                 <div className={styles.author}>
                     <p>{date2String(latestQuiz?.publishDate)}</p>
-                    {latestQuiz?.author && <p>This week's quiz master is: <span>{latestQuiz?.author}</span></p>}
+                    {latestQuiz?.author && <p>This week&apos;s quiz master is: <span>{latestQuiz?.author}</span></p>}
                 </div>
             </div>
         </motion.div>

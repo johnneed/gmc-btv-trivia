@@ -24,7 +24,7 @@ interface SocialButtonsProps {
     subject?: string;
 }
 
-const url = process.env.REACT_APP_URL || "http://localhost:3000";
+const url = import.meta.env.VITE_URL || "http://localhost:3000";
 const pageTitle = "Green Mountain Club - Burlington Section";
 const SocialButtons = ({
                            subject = "Checkout my score on Trail Trivia",
