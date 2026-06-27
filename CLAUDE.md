@@ -1,5 +1,5 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan at:
-specs/002-vite-migration/plan.md
+specs/003-fp-refactor-aria/plan.md
 <!-- SPECKIT END -->

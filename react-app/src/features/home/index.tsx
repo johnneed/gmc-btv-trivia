@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./styles.module.css";
 import { LogoSpinner } from "../../components/logo-spinner";
 import { useAppSelector } from "../../app/hooks";
@@ -6,17 +6,16 @@ import { selectLatestQuiz, selectQuizzes } from "../loader/loader-slice";
 import { date2String } from "../../libs/date-helpers";
 import { scrollTop } from "../../libs/window-helpers";
 import { ActionButton } from "../../components/action-button";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 const HomeScreen = () => {
-
+    const reduceMotion = useReducedMotion();
     const latestQuiz = useAppSelector(selectLatestQuiz);
     const quizzes = useAppSelector(selectQuizzes);
-
-
+    useEffect(() => { document.title = "Trail Trivia"; }, []);
 
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        <motion.div initial={reduceMotion ? false : { opacity: 0 }} animate={reduceMotion ? false : { opacity: 1 }} exit={reduceMotion ? undefined : { opacity: 0 }}>
             <div className={styles.home_screen}>
                 <p className={styles.message}>{"A new trivia challenge every Friday"}</p>
                 <div className={styles.home_screen_header}>

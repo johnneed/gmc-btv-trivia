@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import type { Choice } from "../../models/types";
+import type { Choice } from "../../domain/types";
 import styles from "./styles.module.css";
 import wrongAnswer from "../../assets/images/wrong-answer.svg";
 

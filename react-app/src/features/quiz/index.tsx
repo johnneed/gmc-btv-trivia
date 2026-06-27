@@ -5,19 +5,23 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectQuizzes } from "../loader/loader-slice";
 import * as R from "ramda";
 import { Carousel } from "../../components/carousel";
-import type { Quiz } from "../../models/types";
+import { ProgressBar } from "../../components/progress-bar";
+import type { Quiz } from "../../domain/types";
 import { incrementScore, setScore } from "../score/score-slice";
 
 const QuizScreen = () => {
-    const { qid, questionIndex   } = useParams();
+    const { qid, questionIndex } = useParams();
     const quiz = R.compose(R.find((q: Quiz) => q.id === qid), useAppSelector)(selectQuizzes);
     const dispatch = useAppDispatch();
-    const qIndex =  isNaN(Number(questionIndex)) ? 0 : Number(questionIndex);
+    const qIndex = isNaN(Number(questionIndex)) ? 0 : Number(questionIndex);
     useEffect(() => {
         if (!qIndex && qid) {
             dispatch(setScore({ quizId: qid, score: 0 }));
         }
     }, [dispatch, qid, qIndex]);
+    useEffect(() => {
+        document.title = quiz ? `Trail Trivia — ${quiz.title}` : "Trail Trivia";
+    }, [quiz]);
 
     if (!quiz) {
         return (<div className={styles.quiz_screen}>
@@ -29,6 +33,7 @@ const QuizScreen = () => {
 
     return (
         <div className={styles.quiz_screen}>
+            <ProgressBar current={qIndex + 1} total={quiz.questions.length} />
             <div className={styles.quiz_box}>
                 <div className={styles.quiz_box_content}>
                     <Carousel incrementScore={() => dispatch(incrementScore(quiz.id))} quiz={quiz} questionIndex={qIndex}/>

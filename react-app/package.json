@@ -34,6 +34,7 @@
     ]
   },
   "devDependencies": {
+    "@axe-core/cli": "^4.12.1",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
     "@vitejs/plugin-react": "^4",
@@ -49,6 +50,7 @@
     "start": "vite",
     "build": "vite build",
     "test": "vitest",
+    "test:coverage": "vitest run --coverage",
     "test:domain": "vitest run src/domain",
     "test:domain:coverage": "vitest run --coverage src/domain",
     "lint": "eslint src/"

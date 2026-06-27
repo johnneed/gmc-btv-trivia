@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { createQuestion } from "./question.factory";
+import type Question from "../types/question.type";
 
 describe("createQuestion", () => {
   it("returns a Question with a non-empty UUID id", () => {
@@ -37,7 +38,7 @@ describe("createQuestion", () => {
 
   it("choices invariant holds even if overrides supply fewer than 4 choices", () => {
     // The factory enforces exactly 4 choices regardless of what overrides say
-    const q = createQuestion({ choices: [] as any });
+    const q = createQuestion({ choices: [] as unknown as Question["choices"] });
     expect(q.choices).toHaveLength(4);
   });
 });
