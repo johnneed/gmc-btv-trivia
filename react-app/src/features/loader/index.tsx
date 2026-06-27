@@ -20,6 +20,7 @@ const Loader = () => {
     return (
         <div aria-live="polite" aria-busy={isLoading}>
             {fetchStatus === "failed" && <p role="alert">Failed to load quizzes. Please refresh the page.</p>}
+            {fetchStatus === "unauthorized" && <p role="alert">Sign in to view this content.</p>}
         </div>
     );
 };

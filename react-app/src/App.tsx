@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import "./App.css";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorBoundaryFallback from "./app/ErrorBoundary";
 import { HashRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import QuizScreen from "./features/quiz";
 import HomeScreen from "./features/home";
@@ -38,9 +40,11 @@ function App() {
         <Provider store={store}>
             <div className="App">
                 <Loader/>
-                <HashRouter>
-                    <TriviaRoutes/>
-                </HashRouter>
+                <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+                    <HashRouter>
+                        <TriviaRoutes/>
+                    </HashRouter>
+                </ErrorBoundary>
             </div>
         </Provider>
     );
