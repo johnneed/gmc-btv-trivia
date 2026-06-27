@@ -91,6 +91,33 @@ class Trail_Trivia_REST_API {
                 ),
             )
         );
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/settings/access',
+            array(
+                array(
+                    'methods'             => WP_REST_Server::READABLE,
+                    'callback'            => array( $this, 'get_access_handler' ),
+                    'permission_callback' => '__return_true',
+                ),
+                array(
+                    'methods'             => WP_REST_Server::CREATABLE,
+                    'callback'            => array( $this, 'grant_access_handler' ),
+                    'permission_callback' => '__return_true',
+                ),
+            )
+        );
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/settings/access/(?P<userId>\d+)',
+            array(
+                'methods'             => WP_REST_Server::DELETABLE,
+                'callback'            => array( $this, 'revoke_access_handler' ),
+                'permission_callback' => '__return_true',
+            )
+        );
     }
 
     // -------------------------------------------------------------------------
@@ -137,18 +164,117 @@ class Trail_Trivia_REST_API {
             return new WP_Error( 'rest_forbidden', 'You do not have permission.', array( 'status' => 403 ) );
         }
 
+        $settings   = new Trail_Trivia_Settings();
+        $setting    = $settings->get_settings();
+        $per_page   = absint( $request->get_param( 'per_page' ) ?? $setting['gamesPerPage'] ?? 10 );
+        $page       = max( 1, absint( $request->get_param( 'page' ) ?? 1 ) );
+        $status_in  = array( 'publish', 'draft' );
+
         $query = new WP_Query(
             array(
                 'post_type'      => 'trail_trivia_game',
-                'post_status'    => array( 'publish', 'draft' ),
-                'posts_per_page' => -1,
+                'post_status'    => $status_in,
+                'posts_per_page' => $per_page,
+                'paged'          => $page,
                 'orderby'        => 'date',
                 'order'          => 'DESC',
             )
         );
 
-        $games = array_map( array( $this, 'build_game_response' ), $query->posts );
-        return new WP_REST_Response( $games, 200 );
+        $games    = array_map( array( $this, 'build_game_response' ), $query->posts );
+        $response = new WP_REST_Response( $games, 200 );
+        $response->header( 'X-WP-Total', $query->found_posts );
+        $response->header( 'X-WP-TotalPages', $query->max_num_pages );
+        return $response;
+    }
+
+    // -------------------------------------------------------------------------
+    // Settings access handlers
+    // -------------------------------------------------------------------------
+
+    /** GET /settings/access — list users with manage_trail_trivia */
+    public function get_access_handler( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            return new WP_Error( 'rest_forbidden', 'You do not have permission.', array( 'status' => 403 ) );
+        }
+
+        $users = get_users( array( 'fields' => 'all' ) );
+        $smiths = array();
+        foreach ( $users as $user ) {
+            if ( $user->has_cap( 'manage_trail_trivia' ) || $user->has_cap( 'manage_options' ) ) {
+                $smiths[] = array(
+                    'userId'      => $user->ID,
+                    'displayName' => $user->display_name,
+                    'roles'       => array_values( $user->roles ),
+                    'isAdmin'     => user_can( $user->ID, 'manage_options' ),
+                );
+            }
+        }
+        return new WP_REST_Response( $smiths, 200 );
+    }
+
+    /** POST /settings/access — grant manage_trail_trivia to a username */
+    public function grant_access_handler( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+        if ( ! $this->verify_nonce( $request ) ) {
+            return new WP_Error( 'rest_not_logged_in', 'Nonce verification failed.', array( 'status' => 401 ) );
+        }
+        if ( ! current_user_can( 'manage_options' ) ) {
+            return new WP_Error( 'rest_forbidden', 'You do not have permission.', array( 'status' => 403 ) );
+        }
+
+        $body     = $request->get_json_params();
+        $username = sanitize_text_field( $body['username'] ?? '' );
+
+        if ( empty( $username ) ) {
+            return new WP_Error( 'missing_username', 'Username is required.', array( 'status' => 400 ) );
+        }
+
+        $user = get_user_by( 'login', $username );
+        if ( ! $user ) {
+            return new WP_Error( 'user_not_found', 'No user found with that username.', array( 'status' => 400 ) );
+        }
+
+        if ( user_can( $user->ID, 'manage_options' ) ) {
+            return new WP_Error( 'is_administrator', 'Administrators always have access and cannot be added.', array( 'status' => 400 ) );
+        }
+
+        $user->add_cap( 'manage_trail_trivia' );
+
+        return new WP_REST_Response(
+            array(
+                'success' => true,
+                'user'    => array(
+                    'userId'      => $user->ID,
+                    'displayName' => $user->display_name,
+                    'roles'       => array_values( $user->roles ),
+                    'isAdmin'     => false,
+                ),
+            ),
+            200
+        );
+    }
+
+    /** DELETE /settings/access/{userId} — revoke manage_trail_trivia */
+    public function revoke_access_handler( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+        if ( ! $this->verify_nonce( $request ) ) {
+            return new WP_Error( 'rest_not_logged_in', 'Nonce verification failed.', array( 'status' => 401 ) );
+        }
+        if ( ! current_user_can( 'manage_options' ) ) {
+            return new WP_Error( 'rest_forbidden', 'You do not have permission.', array( 'status' => 403 ) );
+        }
+
+        $user_id = absint( $request->get_param( 'userId' ) );
+        $user    = get_user_by( 'ID', $user_id );
+
+        if ( ! $user ) {
+            return new WP_Error( 'user_not_found', 'User not found.', array( 'status' => 404 ) );
+        }
+        if ( user_can( $user_id, 'manage_options' ) ) {
+            return new WP_Error( 'is_administrator', 'Cannot revoke access from an Administrator.', array( 'status' => 400 ) );
+        }
+
+        $user->remove_cap( 'manage_trail_trivia' );
+        return new WP_REST_Response( array( 'success' => true ), 200 );
     }
 
     // -------------------------------------------------------------------------
