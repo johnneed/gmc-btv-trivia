@@ -9,4 +9,11 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
     exit;
 }
 
-// Future cleanup: remove options, caps, and CPT data.
+delete_option( 'trail_trivia_settings' );
+
+$users = get_users( array( 'fields' => 'all' ) );
+foreach ( $users as $user ) {
+    if ( $user->has_cap( 'manage_trail_trivia' ) ) {
+        $user->remove_cap( 'manage_trail_trivia' );
+    }
+}
