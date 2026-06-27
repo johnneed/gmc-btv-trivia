@@ -37,7 +37,7 @@ describe("createQuiz", () => {
   });
 
   it("returned object has no 'image' field", () => {
-    const q = createQuiz() as any;
+    const q = createQuiz() as Record<string, unknown>;
     expect(q).not.toHaveProperty("image");
   });
 });

@@ -21,5 +21,8 @@ describe("score reducer", () => {
         expect(actual.scores).toEqual({ "ABC-123": 5 });
     });
 
-
+    it("should handle incrementScore when no prior score (starts at 0)", () => {
+        const actual = ScoreReducer({ scores: {} }, incrementScore("NEW-QUIZ"));
+        expect(actual.scores["NEW-QUIZ"]).toBe(1);
+    });
 });

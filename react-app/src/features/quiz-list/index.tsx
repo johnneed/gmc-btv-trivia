@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./styles.module.css";
 import { QuizCard } from "../../components/quiz-card";
 import { useAppSelector } from "../../app/hooks";
@@ -11,7 +11,7 @@ import { MapleLeaf } from "../../assets/images/maple-leaf";
 import { Backpack } from "../../assets/images/backpack";
 import { Link } from "react-router-dom";
 import { ActionButton } from "../../components/action-button";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 const assignGraphic = (index: number) => {
     switch (0) {
@@ -31,9 +31,11 @@ const assignGraphic = (index: number) => {
 };
 
 const QuizListScreen = () => {
+    const reduceMotion = useReducedMotion();
     const quizzes = useAppSelector(selectQuizzes);
+    useEffect(() => { document.title = "Trail Trivia — Archives"; }, []);
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+        <motion.div initial={reduceMotion ? false : { opacity: 0 }} animate={reduceMotion ? false : { opacity: 1 }} exit={reduceMotion ? undefined : { opacity: 0 }}>
             <div className={styles.quiz_list}>
                 <div className={styles.quiz_list_header}>
                     <h1><Link to="/">Trail Trivia Archives</Link></h1>

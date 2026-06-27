@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import type { Question, Quiz } from "../../models/types";
+import type { Question, Quiz } from "../../domain/types";
 import { ChoiceButton } from "../choice-button";
 import styles from "./styles.module.css";
 import { Link } from "react-router-dom";
 import { splitOnCarriageReturn } from "../../libs/string-helpers";
 import { scrollTop } from "../../libs/window-helpers";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 interface CarouselProps {
     quiz: Quiz;
@@ -27,8 +27,8 @@ interface QuestionBoxProps {
 
 const QuestionComponent = ({ question, handleSelect }: QuestionBoxProps) => (
     <article className={styles.question_box}>
-        <div className={styles.question_text}>{question.questionText}</div>
-        <div className={styles.choices_container}>
+        <h2 id={`question-${question.id}`} className={styles.question_text}>{question.questionText}</h2>
+        <div role="group" aria-labelledby={`question-${question.id}`} className={styles.choices_container}>
             {question.choices.map((c, index) => (
                 <ChoiceButton key={index} choice={c} isCorrect={index === question.correctAnswerIndex}
                               onClick={handleSelect}/>))}
@@ -66,7 +66,7 @@ const AnswerComponent = ({ question }: AnswerBoxProps) => (
 
 
 const Carousel = ({ quiz, incrementScore, questionIndex = 0 }: CarouselProps) => {
-
+    const reduceMotion = useReducedMotion();
     const [isCurrentQuestionAnswered, setIsCurrentQuestionAnswered] = useState(false);
     const [isFirstTry, setIsFirstTry] = useState(true);
 
@@ -90,7 +90,7 @@ const Carousel = ({ quiz, incrementScore, questionIndex = 0 }: CarouselProps) =>
     };
 
     return (
-        <motion.div initial={{ translateX: "101vw" }} animate={{ translateX: "0vw" }}>
+        <motion.div initial={reduceMotion ? false : { translateX: "101vw" }} animate={reduceMotion ? false : { translateX: "0vw" }}>
             <div className={styles.carousel}>
                 {
                     isCurrentQuestionAnswered

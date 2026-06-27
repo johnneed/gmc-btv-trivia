@@ -1,12 +1,12 @@
 import React from "react";
-import type { Quiz } from "../../models/types";
+import type { Quiz } from "../../domain/types";
 import styles from "./styles.module.css";
 import { Link } from "react-router-dom";
 import { scrollTop } from "../../libs/window-helpers";
 
 interface QuizCardProps {
     quiz: Quiz;
-    children: any;
+    children: React.ReactNode;
 }
 
 
