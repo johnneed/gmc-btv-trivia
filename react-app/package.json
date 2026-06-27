@@ -49,6 +49,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
+    "build:player": "vite build --config vite.player.config.ts",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:domain": "vitest run src/domain",

@@ -33,6 +33,7 @@ add_action(
     function () {
         ( new Trail_Trivia_Post_Type() )->register();
         ( new Trail_Trivia_Settings() )->register();
+        ( new Trail_Trivia_Shortcode() )->register();
     }
 );
 
