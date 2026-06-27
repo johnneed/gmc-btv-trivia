@@ -27,3 +27,18 @@ require_once TRAIL_TRIVIA_PLUGIN_DIR . 'includes/class-settings.php';
 require_once TRAIL_TRIVIA_PLUGIN_DIR . 'includes/class-admin-ui.php';
 require_once TRAIL_TRIVIA_PLUGIN_DIR . 'includes/class-shortcode.php';
 require_once TRAIL_TRIVIA_PLUGIN_DIR . 'includes/class-cli-command.php';
+
+add_action(
+    'init',
+    function () {
+        ( new Trail_Trivia_Post_Type() )->register();
+        ( new Trail_Trivia_Settings() )->register();
+    }
+);
+
+add_action(
+    'rest_api_init',
+    function () {
+        ( new Trail_Trivia_REST_API() )->register_routes();
+    }
+);
