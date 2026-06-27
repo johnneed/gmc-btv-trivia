@@ -9,7 +9,7 @@ import Loader from "./index";
 
 const fakeQuiz = { id: "1", title: "T", author: "", authorId: 0, publishDate: 0, status: "published" as const, questions: [], tags: [] };
 
-const makeStore = (status: "idle" | "loading" | "failed") =>
+const makeStore = (status: "idle" | "loading" | "failed" | "unauthorized") =>
     configureStore({
         reducer: { loader: loaderReducer, score: scoreReducer },
         preloadedState: {
@@ -37,6 +37,11 @@ describe("Loader", () => {
     it("shows error message when status is failed", () => {
         render(<Provider store={makeStore("failed")}><Loader /></Provider>);
         expect(screen.getByRole("alert")).toBeInTheDocument();
+    });
+
+    it("shows sign-in message when status is unauthorized", () => {
+        render(<Provider store={makeStore("unauthorized")}><Loader /></Provider>);
+        expect(screen.getByText(/Sign in to view this content/)).toBeInTheDocument();
     });
 
     it("does not dispatch fetch when status is loading (covers && short-circuit)", () => {

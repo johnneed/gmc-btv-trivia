@@ -1,14 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { fetchTrivia } from "../../data/trivia-api";
-import { filterPublished, sortByDateDesc } from "../../domain/transforms/quiz.transforms";
+import { fetchGames } from "../../data/trivia-api";
+import { sortByDateDesc } from "../../domain/transforms/quiz.transforms";
 import type { Quiz } from "../../domain/types";
 import * as R from "ramda";
 
 export interface LoaderState {
     quizzes: Quiz[];
     quizTags: string[];
-    status: "idle" | "loading" | "failed";
+    status: "idle" | "loading" | "failed" | "unauthorized";
     selectedQuizTags: string[];
     selectedQuiz: string | null;
 }
@@ -22,8 +22,9 @@ const initialState: LoaderState = {
 };
 
 export const fetchQuizzes = createAsyncThunk("loader/loadQuizzes", async () => {
-    const raw = await fetchTrivia();
-    return sortByDateDesc(filterPublished(raw));
+    // WP REST API public endpoint only returns published games — no client-side filtering needed
+    const raw = await fetchGames();
+    return sortByDateDesc(raw);
 });
 
 const extractQuizTags = R.compose(
@@ -67,9 +68,8 @@ export const loaderSlice = createSlice({
                 state.quizzes = action.payload;
                 state.quizTags = extractQuizTags(action.payload);
             })
-            .addCase(fetchQuizzes.rejected, (state) => {
-                // status="failed" is read by the loader feature component to show an error message
-                state.status = "failed";
+            .addCase(fetchQuizzes.rejected, (state, action) => {
+                state.status = action.error.name === "UnauthorizedError" ? "unauthorized" : "failed";
             });
     },
 });

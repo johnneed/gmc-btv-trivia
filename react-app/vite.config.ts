@@ -4,6 +4,10 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
+  esbuild: {
+    // ponytail: drop removes our console.* calls; dependency console.log refs are pre-compiled
+    drop: ["console"],
+  },
   test: {
     globals: true,
     environment: "jsdom",

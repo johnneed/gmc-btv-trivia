@@ -1,4 +1,4 @@
-import loaderReducer, { LoaderState, setQuiz, addQuizTag, removeQuizTag, clearQuizTags, unsetQuiz, loaderSlice } from "./loader-slice";
+import loaderReducer, { LoaderState, setQuiz, addQuizTag, removeQuizTag, clearQuizTags, unsetQuiz, loaderSlice, fetchQuizzes } from "./loader-slice";
 
 const initialState: LoaderState = {
     quizzes: [],
@@ -51,5 +51,22 @@ describe("loader reducer", () => {
         const state = loaderReducer(initialState, loadQuizzes([quiz]));
         expect(state.quizzes).toHaveLength(1);
         expect(state.quizTags).toContain("nature");
+    });
+
+    it("fetchQuizzes.rejected with UnauthorizedError sets status to 'unauthorized'", () => {
+        const action = fetchQuizzes.rejected(
+            new Error("Unauthorized"),
+            "req-id",
+            undefined,
+            { name: "UnauthorizedError", message: "Unauthorized" }
+        );
+        // Simulate the error having name UnauthorizedError
+        const rejectedAction = { ...action, error: { name: "UnauthorizedError", message: "Unauthorized" } };
+        expect(loaderReducer(initialState, rejectedAction).status).toBe("unauthorized");
+    });
+
+    it("fetchQuizzes.rejected with generic Error sets status to 'failed'", () => {
+        const action = fetchQuizzes.rejected(new Error("Network Error"), "req-id");
+        expect(loaderReducer(initialState, action).status).toBe("failed");
     });
 });
