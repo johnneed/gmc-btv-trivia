@@ -555,9 +555,12 @@ class Trail_Trivia_REST_API {
             );
         }
 
-        $questions_result = $this->validate_questions( $body['questions'] ?? null );
-        if ( is_wp_error( $questions_result ) ) {
-            return $questions_result;
+        // Only enforce complete questions when publishing, not for drafts.
+        if ( ( $body['status'] ?? 'draft' ) === 'published' ) {
+            $questions_result = $this->validate_questions( $body['questions'] ?? null );
+            if ( is_wp_error( $questions_result ) ) {
+                return $questions_result;
+            }
         }
 
         return null;

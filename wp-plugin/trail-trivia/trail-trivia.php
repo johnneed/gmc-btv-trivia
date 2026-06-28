@@ -27,6 +27,9 @@ require_once TRAIL_TRIVIA_PLUGIN_DIR . 'includes/class-settings.php';
 require_once TRAIL_TRIVIA_PLUGIN_DIR . 'includes/class-admin-ui.php';
 require_once TRAIL_TRIVIA_PLUGIN_DIR . 'includes/class-shortcode.php';
 require_once TRAIL_TRIVIA_PLUGIN_DIR . 'includes/class-cli-command.php';
+require_once TRAIL_TRIVIA_PLUGIN_DIR . 'includes/class-seeder.php';
+
+Trail_Trivia_Capabilities::register();
 
 add_action(
     'init',
@@ -42,5 +45,12 @@ add_action(
     'rest_api_init',
     function () {
         ( new Trail_Trivia_REST_API() )->register_routes();
+    }
+);
+
+register_activation_hook(
+    __FILE__,
+    function () {
+        // ponytail: seed on activation — real data import handled by WP-CLI command
     }
 );
