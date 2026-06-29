@@ -5,6 +5,7 @@ import {
     loadGames, removeGame, setStatusFilter, setSearchQuery, setPage,
 } from "../../store/games/games.slice";
 import ConfirmationDialog from "../../components/confirmation-dialog/confirmation-dialog";
+import { seedGames } from "../../data/admin-api";
 import type { Quiz } from "../../../domain/types";
 
 const GameList = () => {
@@ -13,6 +14,8 @@ const GameList = () => {
     const { items, total, page, perPage, statusFilter, status } = useAdminSelector((s) => s.gamesAdmin);
     const [searchInput, setSearchInput] = useState("");
     const [trashTarget, setTrashTarget] = useState<Quiz | null>(null);
+    const [seeding, setSeeding] = useState(false);
+    const [seedError, setSeedError] = useState<string | null>(null);
 
     useEffect(() => { dispatch(loadGames()); }, [dispatch, page, statusFilter]);
 
@@ -33,20 +36,46 @@ const GameList = () => {
         setTrashTarget(null);
     };
 
+    const handleSeed = async () => {
+        if (!window.confirm("Seed the database with sample games? Images will be downloaded — this may take several minutes.")) return;
+        setSeeding(true);
+        setSeedError(null);
+        try {
+            await seedGames();
+            dispatch(loadGames());
+        } catch (err) {
+            setSeedError(err instanceof Error ? err.message : "Seeding failed");
+        } finally {
+            setSeeding(false);
+        }
+    };
+
     const totalPages = Math.ceil(total / perPage);
 
     return (
         <div className="wrap">
             <div className="list-header">
                 <h1>Trail Trivia</h1>
-                <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => navigate("/games/new")}
-                >
-                    + Add New Game
-                </button>
+                <div style={{ display: "flex", gap: 8 }}>
+                    <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={handleSeed}
+                        disabled={seeding}
+                        title="Import sample games with images (may take several minutes)"
+                    >
+                        {seeding ? "Seeding…" : "Seed Games"}
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={() => navigate("/games/new")}
+                    >
+                        + Add New Game
+                    </button>
+                </div>
             </div>
+            {seedError && <p role="alert" style={{ color: "var(--wp-error, red)" }}>{seedError}</p>}
 
             <div className="subsubsub" role="tablist" aria-label="Filter games by status">
                 {(["all", "published", "draft"] as const).map((f, i) => (

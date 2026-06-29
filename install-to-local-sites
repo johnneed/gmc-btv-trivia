@@ -40,6 +40,9 @@ mkdir -p "$TARGET_DIR"
 echo "⏳ Copying plugin files..."
 echo ""
 
+# Ensure we have the latest seed data
+cp "$SCRIPT_DIR/react-app/seed-games.json" "$PLUGIN_SOURCE_DIR/data/seed-games.json"
+
 # Use rsync with basic progress (compatible with macOS rsync)
 rsync -a --delete --delete-excluded --progress \
   --exclude ".git/" \

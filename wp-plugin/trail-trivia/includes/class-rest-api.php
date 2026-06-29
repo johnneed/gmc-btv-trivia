@@ -48,6 +48,17 @@ class Trail_Trivia_REST_API {
             )
         );
 
+        // Must be registered before /games/(?P<id>...) so "seed" isn't captured as an id.
+        register_rest_route(
+            self::NAMESPACE,
+            '/games/seed',
+            array(
+                'methods'             => WP_REST_Server::CREATABLE,
+                'callback'            => array( $this, 'seed_games_handler' ),
+                'permission_callback' => array( $this, 'require_manage_cap' ),
+            )
+        );
+
         register_rest_route(
             self::NAMESPACE,
             '/games/(?P<id>[a-zA-Z0-9\-]+)',
@@ -228,6 +239,35 @@ class Trail_Trivia_REST_API {
     }
 
     // -------------------------------------------------------------------------
+    // Seed handler
+    // -------------------------------------------------------------------------
+
+    /** POST /games/seed — seeds the database from bundled seed-games.json */
+    public function seed_games_handler( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+        if ( ! $this->verify_nonce( $request ) ) {
+            return new WP_Error( 'rest_not_logged_in', 'Nonce verification failed.', array( 'status' => 401 ) );
+        }
+
+        $seed_file = TRAIL_TRIVIA_PLUGIN_DIR . 'data/seed-games.json';
+        if ( ! file_exists( $seed_file ) ) {
+            return new WP_Error( 'seed_not_found', 'Seed data not found.', array( 'status' => 404 ) );
+        }
+
+        $data = json_decode( file_get_contents( $seed_file ), true );
+        if ( ! $data ) {
+            return new WP_Error( 'seed_invalid', 'Seed data is invalid.', array( 'status' => 500 ) );
+        }
+
+        // Allow long-running image downloads.
+        set_time_limit( 300 );
+        ignore_user_abort( true );
+
+        ( new Trail_Trivia_Seeder() )->seed( $data );
+
+        return new WP_REST_Response( array( 'seeded' => true ), 200 );
+    }
+
+    // -------------------------------------------------------------------------
     // Public read handlers
     // -------------------------------------------------------------------------
 
@@ -256,7 +296,7 @@ class Trail_Trivia_REST_API {
     /** GET /games/{id} — single published game by UUID */
     public function get_game_handler( WP_REST_Request $request ): WP_REST_Response|WP_Error {
         $uuid = sanitize_text_field( $request->get_param( 'id' ) );
-        $post = $this->get_game_by_uuid( $uuid );
+        $post = $this->get_game_by_any_id( $uuid );
 
         if ( ! $post || 'trash' === $post->post_status ) {
             return new WP_Error( 'game_not_found', 'Game not found.', array( 'status' => 404 ) );
@@ -441,7 +481,7 @@ class Trail_Trivia_REST_API {
         }
 
         $uuid = sanitize_text_field( $request->get_param( 'id' ) );
-        $post = $this->get_game_by_uuid( $uuid );
+        $post = $this->get_game_by_any_id( $uuid );
         if ( ! $post ) {
             return new WP_Error( 'game_not_found', 'Game not found.', array( 'status' => 404 ) );
         }
@@ -477,7 +517,7 @@ class Trail_Trivia_REST_API {
         }
 
         $uuid = sanitize_text_field( $request->get_param( 'id' ) );
-        $post = $this->get_game_by_uuid( $uuid );
+        $post = $this->get_game_by_any_id( $uuid );
         if ( ! $post ) {
             return new WP_Error( 'game_not_found', 'Game not found.', array( 'status' => 404 ) );
         }
@@ -520,7 +560,7 @@ class Trail_Trivia_REST_API {
         }
 
         $uuid = sanitize_text_field( $request->get_param( 'id' ) );
-        $post = $this->get_game_by_uuid( $uuid );
+        $post = $this->get_game_by_any_id( $uuid );
         if ( ! $post || 'trash' === $post->post_status ) {
             return new WP_Error( 'game_not_found', 'Game not found.', array( 'status' => 404 ) );
         }
@@ -573,7 +613,18 @@ class Trail_Trivia_REST_API {
     /** Maps a WP_Post to a Quiz-shaped array. */
     private function build_game_response( WP_Post $post ): array {
         $questions_raw = get_post_meta( $post->ID, '_trivia_questions', true );
-        $questions     = $questions_raw ? json_decode( $questions_raw, true ) : array();
+        $questions     = array();
+
+        if ( ! empty( $questions_raw ) ) {
+            $questions = json_decode( $questions_raw, true );
+            if ( null === $questions ) {
+                error_log( "Trail Trivia API: Failed to decode questions for post {$post->ID}. Error: " . json_last_error_msg() );
+                error_log( "Trail Trivia API: Raw questions meta: " . substr( $questions_raw, 0, 500 ) );
+            }
+        } else {
+            error_log( "Trail Trivia API: Questions meta is empty for post {$post->ID}" );
+        }
+
         $tags_raw      = get_post_meta( $post->ID, '_trivia_tags', true );
         $tags          = $tags_raw ? json_decode( $tags_raw, true ) : array();
         $uuid          = get_post_meta( $post->ID, '_trivia_original_id', true );
@@ -584,7 +635,8 @@ class Trail_Trivia_REST_API {
         $resolved = array_map( array( $this, 'resolve_question_image' ), is_array( $questions ) ? $questions : array() );
 
         return array(
-            'id'          => $uuid ?: (string) $post->ID,
+            'id'          => (string) $post->ID,
+            'uuid'        => $uuid ?: (string) $post->ID,
             'title'       => $post->post_title,
             'subtitle'    => $post->post_excerpt ?: '',
             'author'      => $author_name,
@@ -596,14 +648,32 @@ class Trail_Trivia_REST_API {
         );
     }
 
-    /** Resolves answerImageId to a URL; preserves answerImageId in response. */
+    /** Resolves answerImageId to a URL; ensures all expected fields exist. */
     private function resolve_question_image( array $q ): array {
-        $image_id = isset( $q['answerImageId'] ) ? (int) $q['answerImageId'] : 0;
+        $defaults = array(
+            'id'                 => wp_generate_uuid4(),
+            'questionText'       => '',
+            'choices'            => array(),
+            'correctAnswerIndex' => 0,
+            'answerText'         => '',
+            'answerImage'        => '',
+            'answerImageId'      => 0,
+            'answerImageAlt'     => '',
+            'answerImageCaption' => '',
+            'tags'               => array(),
+        );
+
+        $q = array_merge( $defaults, $q );
+
+        $image_id = (int) $q['answerImageId'];
         if ( $image_id > 0 ) {
             $url = wp_get_attachment_image_url( $image_id, 'full' );
-            $q['answerImage']   = $url ?: ( $q['answerImage'] ?? '' );
-            $q['answerImageId'] = $image_id;
+            if ( $url ) {
+                $q['answerImage'] = $url;
+            }
+            $q['answerImageAlt'] = get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ?: $q['answerImageAlt'];
         }
+
         return $q;
     }
 
@@ -740,15 +810,23 @@ class Trail_Trivia_REST_API {
         }
     }
 
-    /** Finds a game post by its _trivia_original_id UUID. */
-    private function get_game_by_uuid( string $uuid ): ?WP_Post {
+    /** Finds a game post by either WordPress ID or original UUID. */
+    private function get_game_by_any_id( string $id ): ?WP_Post {
+        if ( is_numeric( $id ) ) {
+            $post = get_post( (int) $id );
+            if ( $post && 'trail_trivia_game' === $post->post_type ) {
+                return $post;
+            }
+        }
+
         $query = new WP_Query(
             array(
                 'post_type'      => 'trail_trivia_game',
-                'post_status'    => array( 'publish', 'draft', 'trash' ),
+                'post_status'    => array( 'publish', 'draft' ),
                 'meta_key'       => '_trivia_original_id',
-                'meta_value'     => $uuid,
+                'meta_value'     => $id,
                 'posts_per_page' => 1,
+                'no_found_rows'  => true,
             )
         );
 
