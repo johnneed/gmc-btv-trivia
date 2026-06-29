@@ -28,58 +28,63 @@ const PublishSidebar = ({
         ? undefined
         : "Complete all 5 questions (non-empty question text and all 4 choices) to enable publishing";
 
-    const autosaveText = autosaveStatus === "saved" && autosaveTimestamp
-        ? `Draft saved at ${formatTime(autosaveTimestamp)}`
-        : autosaveStatus === "failed"
-        ? "Draft save failed — check your connection"
-        : autosaveStatus === "saving"
-        ? "Saving…"
-        : "";
+    // Update: green only when dirty. Publish: green when gate open.
+    const primaryActive = status === "published" ? isDirty : publishGateOpen;
+    const primaryClass = `btn ${primaryActive ? "btn-publish" : "btn-secondary"}`;
+    const primaryDisabled = !primaryActive || !publishGateOpen;
 
     return (
-        <div className="trail-trivia-publish-sidebar" role="complementary" aria-label="Publish options">
-            <div className="trail-trivia-autosave-status" style={{ color: autosaveStatus === "failed" ? "#d63638" : undefined }}>
-                {autosaveText}
+        <div className="metabox" role="complementary" aria-label="Publish options">
+            {autosaveStatus !== "idle" && (
+                <div className="publish-misc">
+                    <span className="autosave" style={{ color: autosaveStatus === "failed" ? "#d63638" : undefined }}>
+                        {autosaveStatus === "saving" && "Saving…"}
+                        {autosaveStatus === "saved" && autosaveTimestamp && `Saved at ${formatTime(autosaveTimestamp)}`}
+                        {autosaveStatus === "failed" && "Save failed — check connection"}
+                    </span>
+                </div>
+            )}
+
+            <div className="publish-misc">
+                <div className="pub-row">
+                    <span className="pub-label">Status</span>
+                    <span className="pub-value">
+                        <span className={`status-dot ${status === "published" ? "status-pub" : "status-draft-text"}`} />
+                        {status === "published" ? "Published" : "Draft"}
+                        <button type="button" className="pub-change" onClick={onToggleStatus}>Change</button>
+                    </span>
+                </div>
+                <div className="pub-row">
+                    <span className="pub-label">Published</span>
+                    <span className="pub-value">{new Date(publishDate).toLocaleDateString()}</span>
+                </div>
+                <div className="pub-row">
+                    <span className="pub-label">Author</span>
+                    <span className="pub-value">{author}</span>
+                </div>
             </div>
 
-            <div className="trail-trivia-status-row">
-                <span>Status: <strong>{status === "published" ? "Published" : "Draft"}</strong></span>
-                <button type="button" onClick={onToggleStatus} aria-label="Toggle publish status">
-                    Change
-                </button>
-            </div>
-
-            <div>
-                <span>Published: {new Date(publishDate).toLocaleDateString()}</span>
-            </div>
-
-            <div>
-                <span>Author: {author}</span>
-            </div>
-
-            <div className="trail-trivia-sidebar-actions">
-                <button type="button" onClick={onPreview}>Preview Game</button>
-                <button type="button" onClick={onSaveDraft}>Save Draft</button>
+            <div className="publish-actions">
+                <button type="button" className="preview-game-btn" onClick={onPreview}>▶ Preview Game</button>
+                <button type="button" className="btn btn-secondary" onClick={onSaveDraft}>Save Draft</button>
                 <button
                     type="button"
+                    className={primaryClass}
                     onClick={onPublish}
-                    disabled={!publishGateOpen}
-                    title={gateTitle}
-                    aria-disabled={!publishGateOpen}
-                    className="button-primary"
+                    disabled={primaryDisabled}
+                    title={!publishGateOpen ? gateTitle : undefined}
+                    aria-disabled={primaryDisabled}
                 >
                     {status === "published" ? "Update" : "Publish"}
                 </button>
-            </div>
-
-            <div className="trail-trivia-trash-action">
                 <button
                     type="button"
+                    className="btn btn-secondary btn-sm"
                     onClick={onTrash}
                     aria-label="Move to trash"
-                    style={{ color: "#d63638", border: "1px solid #d63638", background: "none" }}
+                    style={{ color: "var(--wp-red)", borderColor: "var(--wp-red)", marginTop: 4 }}
                 >
-                    🗑 Move to Trash
+                    Move to Trash
                 </button>
             </div>
         </div>

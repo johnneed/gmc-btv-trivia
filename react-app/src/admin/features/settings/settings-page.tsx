@@ -28,12 +28,14 @@ const SettingsPage = () => {
     };
 
     return (
-        <div className="trail-trivia-settings wrap">
-            <h1>Trail Trivia — Settings</h1>
+        <div className="settings-wrap wrap">
+            <h1>Settings</h1>
 
             {/* General panel */}
-            <section aria-labelledby="general-panel-heading" className="trail-trivia-settings-panel">
-                <h2 id="general-panel-heading">General</h2>
+            <div className="settings-panel">
+                <div className="settings-panel-head">
+                    <h2>General</h2>
+                </div>
                 <table className="form-table">
                     <tbody>
                         <tr>
@@ -46,91 +48,120 @@ const SettingsPage = () => {
                                     value={perPageInput}
                                     onChange={(e) => setPerPageInput(parseInt(e.target.value, 10))}
                                 />
+                                <p className="field-desc">Number of games shown per page in the TriviaSmith game list.</p>
                                 {perPageError && (
-                                    <p role="alert" style={{ color: "#d63638" }}>{perPageError}</p>
+                                    <p role="alert" style={{ color: "#d63638", margin: "4px 0 0" }}>{perPageError}</p>
                                 )}
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <button
-                    type="button"
-                    className="button button-primary"
-                    onClick={handleSaveGeneral}
-                    aria-busy={status === "saving"}
-                >
-                    {status === "saving" ? "Saving…" : "Save Changes"}
-                </button>
-            </section>
+                <div className="settings-footer">
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={handleSaveGeneral}
+                        aria-busy={status === "saving"}
+                    >
+                        {status === "saving" ? "Saving…" : "Save Changes"}
+                    </button>
+                </div>
+            </div>
 
             {/* TriviaSmith Access panel */}
-            <section aria-labelledby="access-panel-heading" className="trail-trivia-settings-panel">
-                <h2 id="access-panel-heading">TriviaSmith Access</h2>
+            <div className="settings-panel">
+                <div className="settings-panel-head">
+                    <h2>TriviaSmith Access</h2>
+                    <p>TriviaSmiths can create, edit, and publish Trail Trivia games. Administrators always have full access and do not need to be granted permission.</p>
+                </div>
 
-                <table className="wp-list-table widefat fixed">
+                <table className="ts-table">
                     <thead>
                         <tr>
                             <th>User</th>
-                            <th>Role</th>
+                            <th>WordPress Role</th>
                             <th>Access</th>
                         </tr>
                     </thead>
                     <tbody>
                         {triviaSmiths.map((smith) => (
                             <tr key={smith.userId}>
-                                <td>{smith.displayName}</td>
-                                <td>{smith.roles.join(", ")}</td>
+                                <td><strong>{smith.displayName}</strong></td>
+                                <td><span className="ts-role-badge">{smith.roles[0] ?? "—"}</span></td>
                                 <td>
                                     {smith.isAdmin ? (
-                                        <span>Always Active</span>
+                                        <>
+                                            <span style={{ color: "var(--wp-green)", fontWeight: 500 }}>● Always active</span>
+                                            <span className="ts-admin-note" style={{ marginLeft: 12 }}>Cannot revoke</span>
+                                        </>
                                     ) : (
-                                        <button
-                                            type="button"
-                                            onClick={() => dispatch(revokeAccess(smith.userId))}
-                                        >
-                                            Revoke
-                                        </button>
+                                        <>
+                                            <span style={{ color: "var(--tt-green)", fontWeight: 500, marginRight: 12 }}>● TriviaSmith</span>
+                                            <button
+                                                type="button"
+                                                className="btn btn-secondary btn-sm"
+                                                onClick={() => dispatch(revokeAccess(smith.userId))}
+                                            >
+                                                Revoke
+                                            </button>
+                                        </>
                                     )}
                                 </td>
                             </tr>
                         ))}
                         {triviaSmiths.length === 0 && (
-                            <tr><td colSpan={3}>No TriviaSmiths yet.</td></tr>
+                            <tr><td colSpan={3} style={{ color: "var(--wp-muted)", fontStyle: "italic" }}>No TriviaSmiths yet.</td></tr>
                         )}
                     </tbody>
                 </table>
 
-                <div className="trail-trivia-grant-row" style={{ marginTop: 12 }}>
+                <div className="grant-row">
                     <label htmlFor="grant-username">Grant access to:</label>
                     <input
                         id="grant-username"
                         type="text"
                         value={grantInput}
                         onChange={(e) => { setGrantInput(e.target.value); dispatch(clearGrantError()); }}
-                        placeholder="WordPress username"
+                        placeholder="Username or display name…"
+                        onKeyDown={(e) => { if (e.key === "Enter") handleGrant(); }}
                     />
-                    <button type="button" onClick={handleGrant}>Grant</button>
+                    <button type="button" className="btn btn-primary" onClick={handleGrant}>
+                        Grant Access
+                    </button>
                     {grantError && (
-                        <p role="alert" style={{ color: "#d63638" }}>{grantError}</p>
+                        <p role="alert" style={{ color: "#d63638", margin: "8px 0 0", fontSize: 13 }}>{grantError}</p>
                     )}
                 </div>
-            </section>
+            </div>
 
             {/* About panel */}
-            <section aria-labelledby="about-panel-heading" className="trail-trivia-settings-panel">
-                <h2 id="about-panel-heading">About</h2>
-                <table className="form-table">
-                    <tbody>
-                        <tr><th>Plugin version</th><td>{version}</td></tr>
-                        <tr><th>Requires WordPress</th><td>{wpMinimum}+</td></tr>
-                        <tr><th>Requires PHP</th><td>{phpMinimum}+</td></tr>
-                        <tr>
-                            <th>Data storage</th>
-                            <td>Games are stored as the <code>trail_trivia_game</code> Custom Post Type with post meta. No custom database tables.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+            <div className="settings-panel">
+                <div className="settings-panel-head">
+                    <h2>About</h2>
+                </div>
+                <div className="about-grid">
+                    <div className="about-row">
+                        <div className="about-label">Plugin</div>
+                        <div className="about-value">Trail Trivia for GMC Burlington</div>
+                    </div>
+                    <div className="about-row">
+                        <div className="about-label">Version</div>
+                        <div className="about-value">{version ?? "—"}</div>
+                    </div>
+                    <div className="about-row">
+                        <div className="about-label">WordPress</div>
+                        <div className="about-value">Requires {wpMinimum ?? "6.4"}+</div>
+                    </div>
+                    <div className="about-row">
+                        <div className="about-label">PHP</div>
+                        <div className="about-value">Requires {phpMinimum ?? "8.0"}+</div>
+                    </div>
+                    <div className="about-row">
+                        <div className="about-label">Data storage</div>
+                        <div className="about-value">Custom post type — no custom database tables</div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

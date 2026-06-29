@@ -9,11 +9,15 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+define( 'TRAIL_TRIVIA_IMAGE_TAXONOMY', 'trivia_image_type' );
+define( 'TRAIL_TRIVIA_IMAGE_TERM', 'trivia-answer-image' );
+
 class Trail_Trivia_Post_Type {
 
     public function register(): void {
         $this->register_post_type();
         $this->register_taxonomy();
+        $this->register_image_taxonomy();
     }
 
     private function register_post_type(): void {
@@ -36,6 +40,21 @@ class Trail_Trivia_Post_Type {
                 'has_archive'        => false,
                 'hierarchical'       => false,
                 'supports'           => array( 'title', 'excerpt', 'author', 'custom-fields' ),
+            )
+        );
+    }
+
+    private function register_image_taxonomy(): void {
+        register_taxonomy(
+            TRAIL_TRIVIA_IMAGE_TAXONOMY,
+            'attachment',
+            array(
+                'label'        => 'Trivia Image Type',
+                'public'       => false,
+                'show_ui'      => true,
+                'show_in_rest' => true,
+                'hierarchical' => false,
+                'rewrite'      => false,
             )
         );
     }

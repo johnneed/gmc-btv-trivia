@@ -5,11 +5,21 @@
  * @package Trail_Trivia
  */
 ?>
+<?php
+$initial_route = ( isset( $_GET['page'] ) && $_GET['page'] === 'trail-trivia-settings' ) ? '/settings' : '/games';
+?>
 <script>
 var ttAdmin = <?php echo wp_json_encode( array(
     'apiBase' => rest_url( 'trail-trivia/v1' ),
     'nonce'   => wp_create_nonce( 'wp_rest' ),
 ) ); ?>;
+// Force hash to the correct route for this WP page before React mounts.
+(function() {
+    var route = <?php echo wp_json_encode( '#' . $initial_route ); ?>;
+    if (window.location.hash !== route) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search + route);
+    }
+})();
 </script>
 <div class="wrap">
 <div id="trail-trivia-admin-root">
