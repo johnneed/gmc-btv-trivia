@@ -1,15 +1,16 @@
-import type { Quiz } from "../../domain/types";
+import type { Quiz, MediaAttachment } from "../../domain/types";
 import type { TriviaSmithUser } from "../store/settings/settings.slice";
 
 interface AdminConfig {
     apiBase: string;
     nonce: string;
-    currentUser: { id: number; displayName: string; isAdmin: boolean };
+    currentUser?: { id: number; displayName: string; isAdmin: boolean };
 }
 
 const config = (): AdminConfig => {
-    const c = (window as { trailTriviaAdminConfig?: AdminConfig }).trailTriviaAdminConfig;
-    if (!c?.apiBase) throw new Error("trailTriviaAdminConfig not found");
+    const c = (window as { ttAdmin?: AdminConfig; trailTriviaAdminConfig?: AdminConfig }).ttAdmin
+        ?? (window as { trailTriviaAdminConfig?: AdminConfig }).trailTriviaAdminConfig;
+    if (!c?.apiBase) throw new Error("Admin config not found");
     return c;
 };
 
@@ -91,6 +92,28 @@ export const deleteGame = async (id: string): Promise<void> => {
         headers: headers(),
     });
     await handleResponse<{ deleted: boolean }>(res);
+};
+
+// ---- Media ----
+
+export const uploadAnswerImage = async (file: File): Promise<MediaAttachment> => {
+    const form = new FormData();
+    form.append("file", file);
+    const res = await fetch(`${base()}/media/upload`, {
+        method: "POST",
+        headers: { "X-WP-Nonce": config().nonce },
+        body: form,
+    });
+    return handleResponse<MediaAttachment>(res);
+};
+
+export const sideloadAnswerImageFromUrl = async (url: string): Promise<MediaAttachment> => {
+    const res = await fetch(`${base()}/media/from-url`, {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ url }),
+    });
+    return handleResponse<MediaAttachment>(res);
 };
 
 // ---- Settings ----

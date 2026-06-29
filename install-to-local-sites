@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+PLUGIN_SLUG="trail-trivia"
+LOCAL_SITE_DIR="/Users/johnneed/Local Sites/gmc-shelters"
+WP_ROOT="$LOCAL_SITE_DIR/app/public"
+PLUGINS_DIR="$WP_ROOT/wp-content/plugins"
+TARGET_DIR="$PLUGINS_DIR/$PLUGIN_SLUG"
+PLUGIN_SOURCE_DIR="$SCRIPT_DIR/wp-plugin/trail-trivia"
+MAIN_PLUGIN_FILE="$PLUGIN_SOURCE_DIR/trail-trivia.php"
+WP_CONFIG_FILE="$WP_ROOT/wp-config.php"
+
+if [[ ! -f "$MAIN_PLUGIN_FILE" ]]; then
+  echo "Could not find $MAIN_PLUGIN_FILE. Run this script from the repository root." >&2
+  exit 1
+fi
+
+if [[ ! -d "$LOCAL_SITE_DIR" ]]; then
+  echo "Local site directory not found: $LOCAL_SITE_DIR" >&2
+  exit 1
+fi
+
+if [[ ! -f "$WP_CONFIG_FILE" ]]; then
+  echo "Could not find wp-config.php at $WP_CONFIG_FILE" >&2
+  exit 1
+fi
+
+echo "================================================"
+echo "Installing GMC BTV Trivia Plugin"
+echo "================================================"
+echo ""
+echo "Source:      $PLUGIN_SOURCE_DIR"
+echo "Destination: $TARGET_DIR"
+echo ""
+
+mkdir -p "$TARGET_DIR"
+
+echo "⏳ Copying plugin files..."
+echo ""
+
+# Use rsync with basic progress (compatible with macOS rsync)
+rsync -a --delete --delete-excluded --progress \
+  --exclude ".git/" \
+  --exclude ".github/" \
+  --exclude ".idea/" \
+  --exclude ".vscode/" \
+  --exclude ".claude/" \
+  --exclude ".junie/" \
+  --exclude ".specify/" \
+  --exclude ".DS_Store" \
+  --exclude ".gitignore" \
+  --exclude "CLAUDE.md" \
+  --exclude "node_modules/" \
+  --exclude "react-app/node_modules/" \
+  --exclude "install-to-local-sites" \
+  --exclude "tests/" \
+  --exclude "*.md" \
+  --exclude ".git*" \
+  "$PLUGIN_SOURCE_DIR/" \
+  "$TARGET_DIR/" 2>&1 | tail -10
+
+TOTAL_FILES=$(find "$TARGET_DIR" -type f 2>/dev/null | wc -l | tr -d ' ')
+
+echo ""
+echo "================================================"
+echo "✅ Installation Complete!"
+echo "================================================"
+echo ""
+echo "📦 Total files: $TOTAL_FILES"
+echo "📍 Location: $TARGET_DIR"
+echo ""
+echo "Key directories:"
+echo "  ✓ includes/    - PHP class files"
+echo "  ✓ assets/      - CSS & JavaScript"
+echo "  ✓ data/        - Bundled photos (if present)"
+echo "  ✓ templates/   - Template files"
+echo ""
+echo "================================================"
+echo "⚠️  WAIT FOR THIS MESSAGE BEFORE ACTIVATING! ⚠️"
+echo "================================================"
+echo ""
+echo "Now safe to activate in WordPress:"
+echo "  1. Go to WordPress Admin → Plugins"
+echo "  2. Find 'Trail Trivia'"
+echo "  3. Click 'Activate'"
+echo ""
+echo "================================================"

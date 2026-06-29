@@ -1,0 +1,198 @@
+/* Two-column layout */
+.layout {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+/* Left column — fixed square */
+.previewCol {
+    flex: 0 0 160px;
+    width: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.previewBtn {
+    width: 160px;
+    height: 160px;
+    border: 1px solid var(--wp-border, #c3c4c7);
+    border-radius: 3px;
+    background-color: var(--wp-bg, #f0f0f1);
+    background-size: cover;
+    background-position: center;
+    cursor: zoom-in;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.previewStub {
+    width: 160px;
+    height: 160px;
+    border: 2px dashed var(--wp-border, #c3c4c7);
+    border-radius: 3px;
+    background: var(--wp-bg, #f0f0f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b4b9be;
+}
+
+.previewStub.uploading {
+    opacity: 0.6;
+}
+
+.stubIcon {
+    font-size: 36px;
+    opacity: 0.35;
+}
+
+.removeBtn {
+    background: none;
+    border: 1px solid var(--wp-border, #c3c4c7);
+    border-radius: 3px;
+    color: var(--wp-red, #b32d2e);
+    font-family: var(--font-ui, sans-serif);
+    font-size: 11px;
+    padding: 3px 0;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+
+.removeBtn:hover {
+    border-color: var(--wp-red, #b32d2e);
+    background: #fff5f5;
+}
+
+/* Right column — flex grow */
+.controlsCol {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Drop zone */
+.dropzone {
+    border: 2px dashed #b4b9be;
+    border-radius: 3px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--wp-muted, #646970);
+    cursor: default;
+    transition: border-color 120ms, background 120ms;
+}
+
+.dropzone.dragging {
+    border-color: var(--wp-blue, #2271b1);
+    background: #f0f6fc;
+}
+
+.dropzone.uploading {
+    opacity: 0.6;
+}
+
+.fileInput {
+    display: none;
+}
+
+.browseBtn {
+    background: none;
+    border: 1px solid var(--wp-border, #c3c4c7);
+    border-radius: 3px;
+    color: var(--wp-blue, #2271b1);
+    font-family: var(--font-ui, sans-serif);
+    font-size: 12px;
+    padding: 2px 8px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.browseBtn:hover {
+    border-color: var(--wp-blue, #2271b1);
+}
+
+/* URL row */
+.urlRow {
+    display: flex;
+    gap: 6px;
+}
+
+.urlInput {
+    flex: 1;
+    font-family: var(--font-ui, sans-serif);
+    font-size: 13px;
+    border: 1px solid var(--wp-border, #c3c4c7);
+    border-radius: 3px;
+    padding: 4px 8px;
+    background: #fff;
+    min-width: 0;
+}
+
+.urlInput:focus {
+    border-color: var(--wp-blue, #2271b1);
+    outline: none;
+    box-shadow: 0 0 0 1px var(--wp-blue, #2271b1);
+}
+
+/* Meta fields */
+.metaLabel {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--wp-muted, #646970);
+}
+
+.metaLabel input {
+    font-family: var(--font-ui, sans-serif);
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--wp-text, #3c434a);
+    border: 1px solid var(--wp-border, #c3c4c7);
+    border-radius: 3px;
+    padding: 4px 8px;
+    background: #fff;
+    width: 100%;
+}
+
+.metaLabel input:focus {
+    border-color: var(--wp-blue, #2271b1);
+    outline: none;
+    box-shadow: 0 0 0 1px var(--wp-blue, #2271b1);
+}
+
+/* Error */
+.error {
+    color: var(--wp-red, #b32d2e);
+    font-size: 12px;
+    margin: 0;
+}
+
+/* Spinner */
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(0,0,0,.1);
+    border-top-color: var(--wp-blue, #2271b1);
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

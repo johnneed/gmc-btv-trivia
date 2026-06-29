@@ -36,56 +36,62 @@ const GameList = () => {
     const totalPages = Math.ceil(total / perPage);
 
     return (
-        <div className="trail-trivia-game-list wrap">
-            <h1>Trail Trivia Games</h1>
-            <button
-                type="button"
-                className="button button-primary"
-                onClick={() => navigate("/games/new")}
-            >
-                Add New Game
-            </button>
+        <div className="wrap">
+            <div className="list-header">
+                <h1>Trail Trivia</h1>
+                <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => navigate("/games/new")}
+                >
+                    + Add New Game
+                </button>
+            </div>
 
-            {/* Filter tabs */}
-            <div className="trail-trivia-filter-tabs" role="tablist" aria-label="Filter games by status">
-                {(["all", "published", "draft"] as const).map((f) => (
-                    <button
-                        key={f}
-                        role="tab"
-                        aria-selected={statusFilter === f}
-                        type="button"
-                        onClick={() => handleFilter(f)}
-                        className={statusFilter === f ? "trail-trivia-tab-active" : ""}
-                    >
-                        {f.charAt(0).toUpperCase() + f.slice(1)}
-                    </button>
+            <div className="subsubsub" role="tablist" aria-label="Filter games by status">
+                {(["all", "published", "draft"] as const).map((f, i) => (
+                    <React.Fragment key={f}>
+                        {i > 0 && <span className="pipe">|</span>}
+                        <button
+                            role="tab"
+                            aria-selected={statusFilter === f}
+                            type="button"
+                            onClick={() => handleFilter(f)}
+                            className={statusFilter === f ? "current" : ""}
+                        >
+                            {f.charAt(0).toUpperCase() + f.slice(1)}
+                        </button>
+                    </React.Fragment>
                 ))}
             </div>
 
-            {/* Search */}
-            <form onSubmit={handleSearch} className="trail-trivia-search-form">
-                <input
-                    type="search"
-                    value={searchInput}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                    placeholder="Search by title…"
-                    aria-label="Search games by title"
-                />
-                <button type="submit">Search</button>
-            </form>
+            <div className="tablenav">
+                <form className="search-form" role="search" onSubmit={handleSearch}>
+                    <label htmlFor="game-search" style={{ position: "absolute", left: -9999 }}>Search games</label>
+                    <input
+                        id="game-search"
+                        type="search"
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        placeholder="Search games…"
+                        aria-label="Search games by title"
+                    />
+                    <button type="submit" className="btn btn-secondary btn-sm">Search</button>
+                </form>
+                <span style={{ fontSize: 12, color: "var(--wp-muted)" }}>{total} {total === 1 ? "game" : "games"}</span>
+            </div>
 
-            {/* Table */}
             {status === "loading" && <p>Loading…</p>}
             {status === "failed" && <p role="alert">Failed to load games.</p>}
 
-            <table className="wp-list-table widefat fixed striped">
+            <table className="widefat" aria-label="Trail Trivia games">
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Status</th>
-                        <th>Questions</th>
-                        <th>Author</th>
-                        <th>Date</th>
+                        <th className="col-title" scope="col">Title</th>
+                        <th className="col-status" scope="col">Status</th>
+                        <th className="col-qs" scope="col">Questions</th>
+                        <th className="col-author" scope="col">Author</th>
+                        <th className="col-date" scope="col">Date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,36 +99,45 @@ const GameList = () => {
                         <tr><td colSpan={5}>No games found.</td></tr>
                     )}
                     {items.map((game) => (
-                        <tr key={game.id} className="trail-trivia-game-row">
+                        <tr key={game.id}>
                             <td>
-                                <strong>{game.title}</strong>
-                                {game.subtitle && <div className="trail-trivia-subtitle">{game.subtitle}</div>}
-                                <div className="trail-trivia-row-actions">
-                                    <button type="button" onClick={() => navigate(`/games/${game.id}/edit`)}>
-                                        Edit
+                                <div className="row-title-wrap">
+                                    <button
+                                        type="button"
+                                        className="row-title"
+                                        onClick={() => navigate(`/games/${game.id}/edit`)}
+                                        aria-label={`Edit ${game.title}`}
+                                    >
+                                        {game.title}
                                     </button>
-                                    {" | "}
-                                    <button type="button" onClick={() => setTrashTarget(game)} style={{ color: "#d63638" }}>
-                                        Trash
-                                    </button>
+                                    {game.subtitle && <span className="row-subtitle">{game.subtitle}</span>}
+                                    <div className="row-actions" role="group" aria-label={`Actions for ${game.title}`}>
+                                        <button type="button" className="edit-link" onClick={() => navigate(`/games/${game.id}/edit`)}>
+                                            Edit
+                                        </button>
+                                        <span className="sep" aria-hidden="true">|</span>
+                                        <button type="button" className="trash-link" onClick={() => setTrashTarget(game)}>
+                                            Trash
+                                        </button>
+                                    </div>
                                 </div>
                             </td>
                             <td>
-                                <span className={`trail-trivia-badge-${game.status}`}>
-                                    {game.status}
+                                <span className={`badge ${game.status === "published" ? "badge-pub" : "badge-draft"}`}>
+                                    <span className="badge-dot" aria-hidden="true" />
+                                    {game.status === "published" ? "Published" : "Draft"}
                                 </span>
                             </td>
-                            <td>{game.questions.length}</td>
+                            <td className="qs-count">{game.questions.length}</td>
                             <td>{game.author}</td>
-                            <td>{new Date(game.publishDate).toLocaleDateString()}</td>
+                            <td>{new Date(game.publishDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            {/* Pagination */}
             {totalPages > 1 && (
-                <div className="trail-trivia-pagination" role="navigation" aria-label="Game list pagination">
+                <div style={{ marginTop: 8, display: "flex", gap: 4 }}>
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
                         <button
                             key={p}
@@ -130,7 +145,7 @@ const GameList = () => {
                             onClick={() => { dispatch(setPage(p)); dispatch(loadGames()); }}
                             aria-label={`Page ${p}`}
                             aria-current={p === page ? "page" : undefined}
-                            className={p === page ? "trail-trivia-page-active" : ""}
+                            className={`btn btn-sm ${p === page ? "btn-primary" : "btn-secondary"}`}
                         >
                             {p}
                         </button>

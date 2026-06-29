@@ -13,11 +13,12 @@ class Trail_Trivia_Shortcode {
 
     public function register(): void {
         add_shortcode( 'trail_trivia', array( $this, 'render' ) );
+        add_shortcode( 'trail-trivia', array( $this, 'render' ) );
     }
 
     public function render(): string {
         $this->enqueue_assets();
-        return '<div id="trail-trivia-root"></div>';
+        return '<div id="root"></div>';
     }
 
     private function enqueue_assets(): void {

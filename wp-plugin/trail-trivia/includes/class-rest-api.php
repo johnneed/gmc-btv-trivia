@@ -118,6 +118,113 @@ class Trail_Trivia_REST_API {
                 'permission_callback' => '__return_true',
             )
         );
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/media/upload',
+            array(
+                'methods'             => WP_REST_Server::CREATABLE,
+                'callback'            => array( $this, 'handle_media_upload' ),
+                'permission_callback' => array( $this, 'require_manage_cap' ),
+            )
+        );
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/media/from-url',
+            array(
+                'methods'             => WP_REST_Server::CREATABLE,
+                'callback'            => array( $this, 'handle_media_from_url' ),
+                'permission_callback' => array( $this, 'require_manage_cap' ),
+            )
+        );
+    }
+
+    // -------------------------------------------------------------------------
+    // Permission callbacks
+    // -------------------------------------------------------------------------
+
+    public function require_manage_cap(): bool {
+        return Trail_Trivia_Capabilities::has_manage_cap();
+    }
+
+    // -------------------------------------------------------------------------
+    // Media handlers
+    // -------------------------------------------------------------------------
+
+    /** POST /media/upload — upload a file to the WP media library */
+    public function handle_media_upload( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+        $files = $request->get_file_params();
+        if ( empty( $files['file'] ) ) {
+            return new WP_Error( 'trivia_upload_no_file', 'No file provided.', array( 'status' => 400 ) );
+        }
+
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+        require_once ABSPATH . 'wp-admin/includes/image.php';
+        require_once ABSPATH . 'wp-admin/includes/media.php';
+
+        $overrides    = array( 'test_form' => false );
+        $upload       = wp_handle_upload( $files['file'], $overrides );
+
+        if ( isset( $upload['error'] ) ) {
+            $code = str_contains( $upload['error'], 'type' ) ? 'trivia_upload_invalid_type' : 'trivia_upload_failed';
+            return new WP_Error( $code, $upload['error'], array( 'status' => 400 ) );
+        }
+
+        $attachment_id = wp_insert_attachment(
+            array(
+                'post_mime_type' => $upload['type'],
+                'post_title'     => sanitize_file_name( basename( $upload['file'] ) ),
+                'post_status'    => 'inherit',
+            ),
+            $upload['file']
+        );
+
+        if ( is_wp_error( $attachment_id ) ) {
+            return new WP_Error( 'trivia_upload_failed', $attachment_id->get_error_message(), array( 'status' => 500 ) );
+        }
+
+        wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
+        $this->tag_attachment( $attachment_id );
+
+        return new WP_REST_Response( $this->attachment_to_response( $attachment_id ), 200 );
+    }
+
+    /** POST /media/from-url — sideload an image from a public URL */
+    public function handle_media_from_url( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+        $body = $request->get_json_params();
+        $url  = esc_url_raw( $body['url'] ?? '' );
+
+        if ( empty( $url ) ) {
+            return new WP_Error( 'trivia_url_missing', 'url is required.', array( 'status' => 400 ) );
+        }
+
+        $response = wp_remote_get( $url, array( 'timeout' => 15, 'redirection' => 5 ) );
+
+        if ( is_wp_error( $response ) ) {
+            $msg  = $response->get_error_message();
+            $code = str_contains( strtolower( $msg ), 'timed out' ) ? 'trivia_url_timeout' : 'trivia_url_timeout';
+            return new WP_Error( $code, $msg, array( 'status' => 400 ) );
+        }
+
+        $content_type = wp_remote_retrieve_header( $response, 'content-type' );
+        if ( ! str_starts_with( $content_type, 'image/' ) ) {
+            return new WP_Error( 'trivia_url_not_image', 'URL does not point to an image.', array( 'status' => 400 ) );
+        }
+
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+        require_once ABSPATH . 'wp-admin/includes/image.php';
+        require_once ABSPATH . 'wp-admin/includes/media.php';
+
+        $attachment_id = media_sideload_image( $url, 0, '', 'id' );
+
+        if ( is_wp_error( $attachment_id ) ) {
+            return new WP_Error( 'trivia_url_sideload_failed', $attachment_id->get_error_message(), array( 'status' => 500 ) );
+        }
+
+        $this->tag_attachment( (int) $attachment_id );
+
+        return new WP_REST_Response( $this->attachment_to_response( (int) $attachment_id ), 200 );
     }
 
     // -------------------------------------------------------------------------
@@ -151,7 +258,12 @@ class Trail_Trivia_REST_API {
         $uuid = sanitize_text_field( $request->get_param( 'id' ) );
         $post = $this->get_game_by_uuid( $uuid );
 
-        if ( ! $post || 'publish' !== $post->post_status ) {
+        if ( ! $post || 'trash' === $post->post_status ) {
+            return new WP_Error( 'game_not_found', 'Game not found.', array( 'status' => 404 ) );
+        }
+
+        // Drafts are only visible to managers; public requests see published only.
+        if ( 'publish' !== $post->post_status && ! Trail_Trivia_Capabilities::has_manage_cap() ) {
             return new WP_Error( 'game_not_found', 'Game not found.', array( 'status' => 404 ) );
         }
 
@@ -469,6 +581,8 @@ class Trail_Trivia_REST_API {
         $publish_ms    = (int) strtotime( get_post_field( 'post_date', $post->ID ) ) * 1000;
         $author_name   = get_the_author_meta( 'display_name', (int) $post->post_author );
 
+        $resolved = array_map( array( $this, 'resolve_question_image' ), is_array( $questions ) ? $questions : array() );
+
         return array(
             'id'          => $uuid ?: (string) $post->ID,
             'title'       => $post->post_title,
@@ -477,8 +591,33 @@ class Trail_Trivia_REST_API {
             'authorId'    => (int) $post->post_author,
             'publishDate' => $publish_ms,
             'status'      => $status,
-            'questions'   => is_array( $questions ) ? $questions : array(),
+            'questions'   => $resolved,
             'tags'        => is_array( $tags ) ? $tags : array(),
+        );
+    }
+
+    /** Resolves answerImageId to a URL; preserves answerImageId in response. */
+    private function resolve_question_image( array $q ): array {
+        $image_id = isset( $q['answerImageId'] ) ? (int) $q['answerImageId'] : 0;
+        if ( $image_id > 0 ) {
+            $url = wp_get_attachment_image_url( $image_id, 'full' );
+            $q['answerImage']   = $url ?: ( $q['answerImage'] ?? '' );
+            $q['answerImageId'] = $image_id;
+        }
+        return $q;
+    }
+
+    /** Tags an attachment with the trivia answer image taxonomy term. */
+    private function tag_attachment( int $id ): void {
+        wp_set_object_terms( $id, TRAIL_TRIVIA_IMAGE_TERM, TRAIL_TRIVIA_IMAGE_TAXONOMY );
+    }
+
+    /** Builds the MediaAttachment response array. */
+    private function attachment_to_response( int $id ): array {
+        return array(
+            'id'  => $id,
+            'url' => wp_get_attachment_image_url( $id, 'full' ) ?: '',
+            'alt' => get_post_meta( $id, '_wp_attachment_image_alt', true ) ?: '',
         );
     }
 
@@ -555,9 +694,12 @@ class Trail_Trivia_REST_API {
             );
         }
 
-        $questions_result = $this->validate_questions( $body['questions'] ?? null );
-        if ( is_wp_error( $questions_result ) ) {
-            return $questions_result;
+        // Only enforce complete questions when publishing, not for drafts.
+        if ( ( $body['status'] ?? 'draft' ) === 'published' ) {
+            $questions_result = $this->validate_questions( $body['questions'] ?? null );
+            if ( is_wp_error( $questions_result ) ) {
+                return $questions_result;
+            }
         }
 
         return null;

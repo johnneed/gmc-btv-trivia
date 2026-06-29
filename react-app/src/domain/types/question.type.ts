@@ -6,6 +6,7 @@ type Question = {
   choices: Choice[];
   correctAnswerIndex: number;
   answerText: string;
+  answerImageId?: number;
   answerImage?: string;
   answerImageAlt?: string;
   answerImageCaption?: string;
