@@ -50,6 +50,14 @@ export const fetchAllGames = async (
     });
     const res = await fetch(`${base()}/games/all?${params}`, { headers: headers() });
     const items = await handleResponse<Quiz[]>(res);
+    console.log("API ALL GAMES RESPONSE:", items);
+    if (items.length > 0) {
+        console.log("FIRST GAME PREVIEW:", {
+            title: items[0].title,
+            questionsCount: items[0].questions?.length,
+            questions: items[0].questions
+        });
+    }
     const total = parseInt(res.headers.get("X-WP-Total") ?? "0", 10);
     return { items, total };
 };
@@ -92,6 +100,14 @@ export const deleteGame = async (id: string): Promise<void> => {
         headers: headers(),
     });
     await handleResponse<{ deleted: boolean }>(res);
+};
+
+export const seedGames = async (): Promise<void> => {
+    const res = await fetch(`${base()}/games/seed`, {
+        method: "POST",
+        headers: headers(),
+    });
+    await handleResponse<{ seeded: boolean }>(res);
 };
 
 // ---- Media ----

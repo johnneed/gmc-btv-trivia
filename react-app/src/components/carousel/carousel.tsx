@@ -89,6 +89,11 @@ const Carousel = ({ quiz, incrementScore, questionIndex = 0 }: CarouselProps) =>
         scrollTop();
     };
 
+    const currentQuestion = quiz.questions[questionIndex];
+    if (!currentQuestion) {
+        return <div className={styles.carousel}><p>No question found.</p></div>;
+    }
+
     return (
         <motion.div initial={reduceMotion ? false : { translateX: "101vw" }} animate={reduceMotion ? false : { translateX: "0vw" }}>
             <div className={styles.carousel}>
@@ -98,7 +103,7 @@ const Carousel = ({ quiz, incrementScore, questionIndex = 0 }: CarouselProps) =>
                             <>
                                 <AnswerComponent isLast={questionIndex === quiz.questions.length}
                                                  handleNext={nextQuestion}
-                                                 question={quiz.questions[questionIndex]}/>
+                                                 question={currentQuestion}/>
                                 <div>
                                     {
                                         questionIndex >= quiz.questions.length - 1
@@ -130,7 +135,7 @@ const Carousel = ({ quiz, incrementScore, questionIndex = 0 }: CarouselProps) =>
 
                         : (
                             <QuestionComponent handleSelect={handleSelect}
-                                               question={quiz.questions[questionIndex]}/>
+                                               question={currentQuestion}/>
                         )
                 }
             </div>
