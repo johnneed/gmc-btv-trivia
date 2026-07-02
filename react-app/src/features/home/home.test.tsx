@@ -34,9 +34,19 @@ describe("HomeScreen", () => {
         expect(screen.getByText("CDT Quiz")).toBeInTheDocument();
     });
 
-    it("renders Play button", () => {
+    it("renders the message 'Test your trail smarts'", () => {
         wrap();
-        expect(screen.getByText("Play")).toBeInTheDocument();
+        expect(screen.getByText("Test your trail smarts")).toBeInTheDocument();
+    });
+
+    it("renders Play The Latest button", () => {
+        wrap();
+        expect(screen.getByText("Play The Latest")).toBeInTheDocument();
+    });
+
+    it("renders Choose Your Game button always", () => {
+        wrap(makeStore([createQuiz({ title: "A" })]));
+        expect(screen.getByText("Choose Your Game")).toBeInTheDocument();
     });
 
     it("renders without crashing when no quizzes loaded", () => {
@@ -44,14 +54,11 @@ describe("HomeScreen", () => {
         expect(screen.getByRole("heading", { name: "Trail Trivia" })).toBeInTheDocument();
     });
 
-    it("shows Past Games button when multiple quizzes exist", () => {
-        wrap(makeStore([createQuiz({ title: "A" }), createQuiz({ title: "B" })]));
-        expect(screen.getByText("Past Games")).toBeInTheDocument();
-    });
-
-    it("shows quiz master author when present", () => {
-        wrap(makeStore([createQuiz({ title: "A", author: "Jane Doe" })]));
-        expect(screen.getByText("Jane Doe")).toBeInTheDocument();
+    it("buttons appear before quiz title in DOM", () => {
+        wrap();
+        const buttons = screen.getByText("Play The Latest").closest("div")!;
+        const title = screen.getByText("CDT Quiz");
+        expect(buttons.compareDocumentPosition(title) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     });
 
     it("renders without animation when reduced-motion is active", () => {

@@ -11,6 +11,8 @@ interface CarouselProps {
     quiz: Quiz;
     questionIndex?: number;
     incrementScore: () => void;
+    onNext?: (nextIndex: number) => void;
+    onComplete?: () => void;
 }
 
 interface AnswerBoxProps {
@@ -65,7 +67,7 @@ const AnswerComponent = ({ question }: AnswerBoxProps) => (
 );
 
 
-const Carousel = ({ quiz, incrementScore, questionIndex = 0 }: CarouselProps) => {
+const Carousel = ({ quiz, incrementScore, questionIndex = 0, onNext, onComplete }: CarouselProps) => {
     const reduceMotion = useReducedMotion();
     const [isCurrentQuestionAnswered, setIsCurrentQuestionAnswered] = useState(false);
     const [isFirstTry, setIsFirstTry] = useState(true);
@@ -112,21 +114,43 @@ const Carousel = ({ quiz, incrementScore, questionIndex = 0 }: CarouselProps) =>
                                                     <div>
                                                         <span>{"🎉"}</span>
                                                         <span>
-                                                    <Link onClick={scrollTop} className={styles.congrats_text}
-                                                          to={`/score/${quiz.id}`}>
-                                                        You survived the quiz!<br/>
-                                                        Checkout your score.
-                                                    </Link>
+                                                    {onComplete
+                                                        ? (
+                                                            <button className={styles.congrats_text}
+                                                                    style={{ background: "none" }}
+                                                                    onClick={() => { onComplete(); scrollTop(); }}>
+                                                                You survived the quiz!<br/>
+                                                                Checkout your score.
+                                                            </button>
+                                                        )
+                                                        : (
+                                                            <Link onClick={scrollTop} className={styles.congrats_text}
+                                                                  to={`/score/${quiz.id}`}>
+                                                                You survived the quiz!<br/>
+                                                                Checkout your score.
+                                                            </Link>
+                                                        )
+                                                    }
                                                     </span>
                                                         <span>{"🎉"}</span>
                                                     </div>
                                                 </div>
                                             )
                                             : (
-                                                <Link to={`/quiz/${quiz.id}/${questionIndex + 1}`}
-                                                      className={styles.next_question} onClick={() => nextQuestion()}>
-                                                    Next Question <span>{"\u25B7"}</span>
-                                                </Link>
+                                                onNext
+                                                    ? (
+                                                        <button className={styles.next_question}
+                                                                style={{ background: "none" }}
+                                                                onClick={() => { nextQuestion(); onNext(questionIndex + 1); }}>
+                                                            Next Question <span>{"▷"}</span>
+                                                        </button>
+                                                    )
+                                                    : (
+                                                        <Link to={`/quiz/${quiz.id}/${questionIndex + 1}`}
+                                                              className={styles.next_question} onClick={() => nextQuestion()}>
+                                                            Next Question <span>{"▷"}</span>
+                                                        </Link>
+                                                    )
                                             )
                                     }
                                 </div>

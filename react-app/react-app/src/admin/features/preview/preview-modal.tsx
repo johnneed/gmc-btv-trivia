@@ -59,13 +59,11 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ open, quiz, onClose }) => {
 
             <Provider store={previewStore}>
                 <MemoryRouter initialEntries={["/"]}>
-                    <div className="preview-content">
-                        <Routes>
-                            <Route path="/" element={<HomeScreen />} />
-                            <Route path="/quiz/:qid" element={<QuizScreen />} />
-                            <Route path="/score/:qid" element={<ScoreScreen />} />
-                        </Routes>
-                    </div>
+                    <Routes>
+                        <Route path="/" element={<HomeScreen />} />
+                        <Route path="/quiz/:qid" element={<QuizScreen />} />
+                        <Route path="/score/:qid" element={<ScoreScreen />} />
+                    </Routes>
                 </MemoryRouter>
             </Provider>
 
@@ -74,16 +72,10 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ open, quiz, onClose }) => {
                     position: fixed;
                     inset: 0;
                     z-index: 999999;
-                    background: #fff;
+                    background: #f0f0f1;
                     overflow: auto;
                     display: flex;
                     flex-direction: column;
-                }
-                .preview-content {
-                    flex: 1;
-                    width: 100%;
-                    max-width: 100vw;
-                    margin: 0 auto;
                 }
                 .close-preview {
                     position: fixed;
@@ -101,10 +93,6 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ open, quiz, onClose }) => {
                 }
                 .close-preview:hover {
                     background: #135e96;
-                }
-                /* Ensure the content inside preview modal is visible and doesn't conflict with admin styles */
-                .preview-modal h1, .preview-modal h2, .preview-modal p {
-                    color: #1d2327;
                 }
             `}</style>
         </div>

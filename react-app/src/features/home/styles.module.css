@@ -58,12 +58,6 @@
     margin-top: 1rem;
 }
 
-.author > p > span {
-    word-break: keep-all;
-    white-space: nowrap;
-
-}
-
 @media only screen and (min-width: 700px) {
     .quiz_title {
         font-size: 3rem;

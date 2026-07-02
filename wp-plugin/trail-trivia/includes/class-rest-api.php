@@ -320,18 +320,27 @@ class Trail_Trivia_REST_API {
         $setting    = $settings->get_settings();
         $per_page   = absint( $request->get_param( 'per_page' ) ?? $setting['gamesPerPage'] ?? 10 );
         $page       = max( 1, absint( $request->get_param( 'page' ) ?? 1 ) );
-        $status_in  = array( 'publish', 'draft' );
+        $search     = sanitize_text_field( $request->get_param( 'search' ) ?? '' );
+        $status_raw = sanitize_text_field( $request->get_param( 'status' ) ?? '' );
+        $status_in  = match ( $status_raw ) {
+            'published' => array( 'publish' ),
+            'draft'     => array( 'draft' ),
+            default     => array( 'publish', 'draft' ),
+        };
 
-        $query = new WP_Query(
-            array(
-                'post_type'      => 'trail_trivia_game',
-                'post_status'    => $status_in,
-                'posts_per_page' => $per_page,
-                'paged'          => $page,
-                'orderby'        => 'date',
-                'order'          => 'DESC',
-            )
+        $query_args = array(
+            'post_type'      => 'trail_trivia_game',
+            'post_status'    => $status_in,
+            'posts_per_page' => $per_page,
+            'paged'          => $page,
+            'orderby'        => 'date',
+            'order'          => 'DESC',
         );
+        if ( ! empty( $search ) ) {
+            $query_args['s'] = $search;
+        }
+
+        $query = new WP_Query( $query_args );
 
         $games    = array_map( array( $this, 'build_game_response' ), $query->posts );
         $response = new WP_REST_Response( $games, 200 );
@@ -798,7 +807,8 @@ class Trail_Trivia_REST_API {
             $data['questions'] ?? array()
         );
 
-        update_post_meta( $post_id, '_trivia_questions', wp_json_encode( $questions ) );
+        // addslashes to counteract update_post_meta's internal wp_unslash(), which strips \" in JSON.
+        update_post_meta( $post_id, '_trivia_questions', addslashes( wp_json_encode( $questions ) ) );
 
         $tags = array_map( 'sanitize_text_field', $data['tags'] ?? array() );
         wp_set_object_terms( $post_id, $tags, 'trivia_tag' );
