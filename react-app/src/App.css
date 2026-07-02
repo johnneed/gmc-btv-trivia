@@ -5,3 +5,8 @@
     padding: 1rem 0;
 }
 
+/* Suppress outline on programmatic focus-management target (tabIndex={-1}, never in tab order) */
+#main-content:focus {
+    outline: none;
+}
+

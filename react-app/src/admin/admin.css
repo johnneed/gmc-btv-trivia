@@ -119,7 +119,7 @@ tr:hover .row-actions { display: flex; }
 .back-link { display: inline-flex; align-items: center; gap: 5px; color: var(--wp-blue); font-size: 13px; cursor: pointer; background: none; border: none; font-family: var(--font-ui); padding: 0; text-decoration: none; }
 .back-link:hover { text-decoration: underline; }
 .autosave { font-size: 12px; color: var(--wp-muted); font-style: italic; }
-.editor-layout { display: grid; grid-template-columns: 1fr 220px; gap: 16px; align-items: start; }
+.editor-layout { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 16px; align-items: start; }
 
 .title-box { background: var(--wp-white); border: 1px solid var(--wp-border); box-shadow: var(--shadow-panel); margin-bottom: 14px; }
 #game-title { width: 100%; font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--wp-text); border: none; padding: 11px 14px; background: transparent; display: block; }
@@ -367,7 +367,7 @@ tr:hover .row-actions { display: flex; }
 .trail-trivia-page-active { background: var(--wp-blue) !important; border-color: var(--wp-blue-dk) !important; color: #fff !important; cursor: default; }
 
 /* Editor layout */
-.trail-trivia-editor-layout { display: grid; grid-template-columns: 1fr 220px; gap: 16px; align-items: start; }
+.trail-trivia-editor-layout { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 16px; align-items: start; }
 .trail-trivia-editor-toolbar { display: flex; align-items: center; margin-bottom: 18px; }
 .trail-trivia-editor-toolbar a { display: inline-flex; align-items: center; gap: 5px; color: var(--wp-blue); font-size: 13px; text-decoration: none; }
 .trail-trivia-editor-toolbar a:hover { text-decoration: underline; }

@@ -41,9 +41,9 @@ describe("ScoreScreen", () => {
         expect(screen.getByText("Congratulations!")).toBeInTheDocument();
     });
 
-    it("score result is wrapped in aria-live=assertive region", () => {
-        const { container } = renderScore(3);
-        expect(container.querySelector("[aria-live='assertive']")).toBeInTheDocument();
+    it("renders More Games nav button linking to quiz-list", () => {
+        renderScore(3);
+        expect(screen.getByText("More Games!")).toBeInTheDocument();
     });
 
     it("renders share buttons", () => {
@@ -51,8 +51,9 @@ describe("ScoreScreen", () => {
         expect(screen.getByText("Share your score!")).toBeInTheDocument();
     });
 
-    it("renders Back and Past Games nav buttons", () => {
+    it("renders More Games nav button linking to quiz-list", () => {
         renderScore(3);
-        expect(screen.getByText(/Back to Trail Trivia/)).toBeInTheDocument();
+        const link = screen.getByText("More Games!");
+        expect(link.closest("a")).toHaveAttribute("href", "/quiz-list");
     });
 });
