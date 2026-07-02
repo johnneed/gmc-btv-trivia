@@ -1,11 +1,7 @@
-import React, { useMemo } from "react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { Provider } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
-import loaderReducer from "../../../features/loader/loader-slice";
-import scoreReducer from "../../../features/score/score-slice";
-import HomeScreen from "../../../features/home";
-import QuizScreen from "../../../features/quiz";
+import React, { useState } from "react";
+import { createPortal } from "react-dom";
+import carouselStyles from "../../../components/carousel/styles.module.css";
+import { Carousel } from "../../../components/carousel";
 import ScoreScreen from "../../../features/score";
 import type { Quiz } from "../../../domain/types";
 
@@ -15,31 +11,10 @@ interface PreviewModalProps {
     onClose: () => void;
 }
 
-const PreviewModal: React.FC<PreviewModalProps> = ({ open, quiz, onClose }) => {
-    // Create a dedicated store for the preview so it doesn't pollute the admin store
-    // and correctly contains the quiz being edited.
-    const previewStore = useMemo(() => {
-        return configureStore({
-            reducer: {
-                loader: loaderReducer,
-                score: scoreReducer,
-            },
-            preloadedState: {
-                loader: {
-                    quizzes: [quiz],
-                    quizTags: quiz.tags,
-                    status: "idle",
-                    selectedQuizTags: [],
-                    selectedQuiz: null,
-                },
-                score: {
-                    scores: {},
-                },
-            },
-        });
-    }, [quiz]);
-
-    if (!open) return null;
+const PreviewModalContent = ({ quiz, onClose }: Omit<PreviewModalProps, "open">) => {
+    const [questionIndex, setQuestionIndex] = useState(0);
+    const [score, setScore] = useState(0);
+    const [screen, setScreen] = useState<"quiz" | "score">("quiz");
 
     return (
         <div
@@ -57,19 +32,27 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ open, quiz, onClose }) => {
                 × Close Preview
             </button>
 
-            <Provider store={previewStore}>
-                <MemoryRouter initialEntries={["/"]}>
-                    <div className="preview-content">
-                        <Routes>
-                            <Route path="/" element={<HomeScreen />} />
-                            <Route path="/quiz/:qid" element={<QuizScreen />} />
-                            <Route path="/score/:qid" element={<ScoreScreen />} />
-                        </Routes>
-                    </div>
-                </MemoryRouter>
-            </Provider>
+            <div className="preview-content">
+                <div className="preview-player-shell">
+                    {screen === "quiz"
+                        ? (
+                            <Carousel
+                                quiz={quiz}
+                                questionIndex={questionIndex}
+                                incrementScore={() => setScore((s) => s + 1)}
+                                onNext={setQuestionIndex}
+                                onComplete={() => setScreen("score")}
+                            />
+                        )
+                        : <ScoreScreen quiz={quiz} score={score} showMoreGames={false} />
+                    }
+                </div>
+            </div>
 
             <style>{`
+                @import url('https://fonts.googleapis.com/css?family=Tilt+Neon&display=swap');
+                @import url('https://fonts.googleapis.com/css?family=Henny+Penny&display=swap');
+
                 .preview-modal {
                     position: fixed;
                     inset: 0;
@@ -84,6 +67,22 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ open, quiz, onClose }) => {
                     width: 100%;
                     max-width: 100vw;
                     margin: 0 auto;
+                    padding: 0 16px 32px;
+                    box-sizing: border-box;
+                }
+                .preview-player-shell {
+                    text-align: center;
+                    max-width: 80rem;
+                    margin: 0 auto;
+                    padding: 1rem 0;
+                }
+                .preview-player-shell p,
+                .preview-player-shell h2,
+                .preview-player-shell h4,
+                .preview-player-shell button,
+                .preview-player-shell a,
+                .preview-player-shell figcaption {
+                    line-height: 1.45;
                 }
                 .close-preview {
                     position: fixed;
@@ -106,8 +105,46 @@ const PreviewModal: React.FC<PreviewModalProps> = ({ open, quiz, onClose }) => {
                 .preview-modal h1, .preview-modal h2, .preview-modal p {
                     color: #1d2327;
                 }
+                .preview-player-shell .${carouselStyles.huzzah} {
+                    margin: 0 0 1rem 0;
+                    line-height: 1.15;
+                    text-align: center;
+                }
+                .preview-player-shell .${carouselStyles.answer_box},
+                .preview-player-shell .${carouselStyles.answer_box_no_image} {
+                    margin-top: 1rem;
+                }
+                .preview-player-shell .${carouselStyles.answer_text} {
+                    padding-top: 0.75rem;
+                }
+                .preview-player-shell .${carouselStyles.answer_text} > p,
+                .preview-player-shell .${carouselStyles.answer_box_no_image} > div > p {
+                    line-height: 1.6;
+                    margin: 0 0 1rem 0;
+                }
+                .preview-player-shell .${carouselStyles.answer_text} > p:last-child,
+                .preview-player-shell .${carouselStyles.answer_box_no_image} > div > p:last-child {
+                    margin-bottom: 0;
+                }
+                .preview-player-shell .${carouselStyles.next_question} {
+                    display: block;
+                    width: fit-content;
+                    max-width: calc(100% - 2rem);
+                    margin: 0 auto;
+                    line-height: 1.35;
+                    text-align: center;
+                }
             `}</style>
         </div>
+    );
+};
+
+const PreviewModal = ({ open, quiz, onClose }: PreviewModalProps) => {
+    if (!open) return null;
+
+    return createPortal(
+        <PreviewModalContent key={quiz.id} quiz={quiz} onClose={onClose} />,
+        document.body
     );
 };
 

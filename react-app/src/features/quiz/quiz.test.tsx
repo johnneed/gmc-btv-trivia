@@ -51,9 +51,10 @@ describe("QuizScreen", () => {
         expect(screen.getByText("Q1")).toBeInTheDocument();
     });
 
-    it("renders ProgressBar", () => {
+    it("renders answer choice buttons for the current question", () => {
         renderQuiz();
-        expect(screen.getByRole("progressbar")).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "A" })).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "D" })).toBeInTheDocument();
     });
 
     it("shows not-found message for unknown quiz id", () => {

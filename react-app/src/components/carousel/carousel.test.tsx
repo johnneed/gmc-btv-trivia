@@ -109,4 +109,33 @@ describe("Carousel — interaction", () => {
         await user.click(buttons[0]);
         expect(screen.getByRole("img")).toBeInTheDocument();
     });
+
+    it("calls onComplete when finishing the quiz with onComplete provided", async () => {
+        const user = userEvent.setup();
+        const quiz = makeQuiz();
+        const onComplete = vi.fn();
+        render(
+            <MemoryRouter>
+                <Carousel quiz={quiz} questionIndex={4} incrementScore={vi.fn()} onComplete={onComplete} />
+            </MemoryRouter>
+        );
+        const buttons = screen.getAllByRole("button");
+        await user.click(buttons[0]);
+        await user.click(screen.getByText(/survived the quiz/));
+        expect(onComplete).toHaveBeenCalledTimes(1);
+    });
+
+    it("calls onNext when advancing with onNext provided", async () => {
+        const user = userEvent.setup();
+        const onNext = vi.fn();
+        render(
+            <MemoryRouter>
+                <Carousel quiz={makeQuiz()} questionIndex={0} incrementScore={vi.fn()} onNext={onNext} />
+            </MemoryRouter>
+        );
+        const buttons = screen.getAllByRole("button");
+        await user.click(buttons[0]);
+        await user.click(screen.getByText(/Next Question/));
+        expect(onNext).toHaveBeenCalledWith(1);
+    });
 });

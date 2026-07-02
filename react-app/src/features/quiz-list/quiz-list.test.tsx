@@ -32,8 +32,9 @@ describe("QuizListScreen", () => {
         expect(container.querySelectorAll("a[href^='/quiz/']").length).toBe(6);
     });
 
-    it("renders Back button", () => {
+    it("renders archives heading link", () => {
         render(<Provider store={makeStore()}><MemoryRouter><QuizListScreen /></MemoryRouter></Provider>);
-        expect(screen.getByText(/Back to Trail Trivia/)).toBeInTheDocument();
+        const link = screen.getByRole("link", { name: "Trail Trivia Archives" });
+        expect(link).toHaveAttribute("href", "/");
     });
 });

@@ -2,18 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdminDispatch, useAdminSelector } from "../../store";
 import {
-    loadGames, removeGame, setStatusFilter, setSearchQuery, setPage,
+    loadGames, setStatusFilter, setSearchQuery, setPage,
 } from "../../store/games/games.slice";
-import ConfirmationDialog from "../../components/confirmation-dialog/confirmation-dialog";
 import { seedGames } from "../../data/admin-api";
-import type { Quiz } from "../../../domain/types";
 
 const GameList = () => {
     const dispatch = useAdminDispatch();
     const navigate = useNavigate();
     const { items, total, page, perPage, statusFilter, status } = useAdminSelector((s) => s.gamesAdmin);
     const [searchInput, setSearchInput] = useState("");
-    const [trashTarget, setTrashTarget] = useState<Quiz | null>(null);
     const [seeding, setSeeding] = useState(false);
     const [seedError, setSeedError] = useState<string | null>(null);
 
@@ -28,12 +25,6 @@ const GameList = () => {
     const handleFilter = (filter: "all" | "published" | "draft") => {
         dispatch(setStatusFilter(filter));
         dispatch(loadGames());
-    };
-
-    const handleTrashConfirm = async () => {
-        if (!trashTarget) return;
-        await dispatch(removeGame(trashTarget.id));
-        setTrashTarget(null);
     };
 
     const handleSeed = async () => {
@@ -128,27 +119,18 @@ const GameList = () => {
                         <tr><td colSpan={5}>No games found.</td></tr>
                     )}
                     {items.map((game) => (
-                        <tr key={game.id}>
+                        <tr key={game.id} onClick={() => navigate(`/games/${game.id}/edit`)} style={{ cursor: "pointer" }}>
                             <td>
                                 <div className="row-title-wrap">
                                     <button
                                         type="button"
                                         className="row-title"
-                                        onClick={() => navigate(`/games/${game.id}/edit`)}
+                                        onClick={(e) => { e.stopPropagation(); navigate(`/games/${game.id}/edit`); }}
                                         aria-label={`Edit ${game.title}`}
                                     >
                                         {game.title}
                                     </button>
                                     {game.subtitle && <span className="row-subtitle">{game.subtitle}</span>}
-                                    <div className="row-actions" role="group" aria-label={`Actions for ${game.title}`}>
-                                        <button type="button" className="edit-link" onClick={() => navigate(`/games/${game.id}/edit`)}>
-                                            Edit
-                                        </button>
-                                        <span className="sep" aria-hidden="true">|</span>
-                                        <button type="button" className="trash-link" onClick={() => setTrashTarget(game)}>
-                                            Trash
-                                        </button>
-                                    </div>
                                 </div>
                             </td>
                             <td>
@@ -182,12 +164,6 @@ const GameList = () => {
                 </div>
             )}
 
-            <ConfirmationDialog
-                open={trashTarget !== null}
-                message={`Move "${trashTarget?.title}" to trash? You can recover it from WordPress Trash.`}
-                onConfirm={handleTrashConfirm}
-                onCancel={() => setTrashTarget(null)}
-            />
         </div>
     );
 };

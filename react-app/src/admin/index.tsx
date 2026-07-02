@@ -5,8 +5,14 @@ import { Provider } from "react-redux";
 import { adminStore } from "./store";
 import App from "./app";
 
+declare global {
+    interface Window {
+        ttDebug: () => void;
+    }
+}
+
 // Debugging helper
-(window as any).ttDebug = () => {
+window.ttDebug = () => {
     console.log("Current Admin Store State:", adminStore.getState());
 };
 console.log("Trail Trivia Admin Initialized. Type ttDebug() to inspect state.");

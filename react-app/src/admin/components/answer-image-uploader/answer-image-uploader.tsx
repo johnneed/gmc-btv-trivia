@@ -129,9 +129,9 @@ const AnswerImageUploader = ({
                             type="button"
                             onClick={handleUrlSubmit}
                             disabled={isUploading}
-                            aria-label="Use URL"
+                            aria-label="Import from Web"
                         >
-                            Use URL
+                            Import from Web
                         </button>
                     )}
                 </div>

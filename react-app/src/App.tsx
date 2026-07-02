@@ -5,7 +5,7 @@ import ErrorBoundaryFallback from "./app/ErrorBoundary";
 import { HashRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import QuizScreen from "./features/quiz";
 import HomeScreen from "./features/home";
-import ScoreScreen from "./features/score";
+import { ScoreScreenRoute } from "./features/score";
 import Loader from "./features/loader";
 import QuizListScreen from "./features/quiz-list";
 import { store } from "./app/store";
@@ -26,7 +26,7 @@ function TriviaRoutes() {
                 <Routes location={location} key={location.pathname}>
                     <Route path="/" Component={HomeScreen}/>
                     <Route path="/quiz-list" Component={QuizListScreen}/>
-                    <Route path="/score/:qid" Component={ScoreScreen}/>
+                    <Route path="/score/:qid" Component={ScoreScreenRoute}/>
                     <Route path="/quiz/:qid/:questionIndex?" Component={QuizScreen}/>
                     <Route path="*" element={<Navigate to="/" replace/>}/>
                 </Routes>

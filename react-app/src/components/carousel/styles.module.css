@@ -111,16 +111,19 @@
     font-size: 1.5rem;
     color: #000;
     text-align: right;
+    text-decoration: none;
     padding: 1rem 2rem;
     display: inline-block;
     cursor: pointer;
     border: solid 1px #AAA;
+    background: none;
     transition: all 0.2s;
 }
 
 .next_question:hover {
     background-color: slateblue;
     color: white;
+    text-decoration: none;
 }
 
 .congratulations {
@@ -171,6 +174,7 @@
     text-align: center;
     display: inline-block;
     text-decoration: none;
+    background: none;
     transition: all 0.2s;
 
 }

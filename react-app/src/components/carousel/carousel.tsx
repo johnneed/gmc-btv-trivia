@@ -117,7 +117,6 @@ const Carousel = ({ quiz, incrementScore, questionIndex = 0, onNext, onComplete 
                                                     {onComplete
                                                         ? (
                                                             <button className={styles.congrats_text}
-                                                                    style={{ background: "none" }}
                                                                     onClick={() => { onComplete(); scrollTop(); }}>
                                                                 You survived the quiz!<br/>
                                                                 Checkout your score.
@@ -140,7 +139,6 @@ const Carousel = ({ quiz, incrementScore, questionIndex = 0, onNext, onComplete 
                                                 onNext
                                                     ? (
                                                         <button className={styles.next_question}
-                                                                style={{ background: "none" }}
                                                                 onClick={() => { nextQuestion(); onNext(questionIndex + 1); }}>
                                                             Next Question <span>{"▷"}</span>
                                                         </button>

@@ -64,7 +64,7 @@ const QuestionCard = ({ question, index, onChange, uploadingQuestionId, uploadEr
                 <span className="q-expand-icon" aria-hidden="true">▼</span>
             </div>
 
-            <div className="q-card-body">
+            <div className="q-card-body" hidden={!expanded}>
                     <div className="field">
                         <label>Question text</label>
                         <textarea
