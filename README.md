@@ -4,7 +4,7 @@
 
 A trail-themed trivia game plugin built for the Green Mountain Club — Burlington Section. Trail Trivia lets visitors test their knowledge of local trails, natural history, and GMC programs through short, shareable quizzes embedded directly on a WordPress site.
 
-![Home Screen](../home-screen.png)
+![Home Screen](home-screen.png)
 
 This repository is a monorepo containing both halves of the plugin:
 
