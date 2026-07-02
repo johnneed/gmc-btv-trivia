@@ -1,9 +1,7 @@
 import React from "react";
 import { afterEach, beforeEach, describe, expect, test, vi, type MockInstance } from "vitest";
-import { act } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
 import { createQuiz } from "../../../domain/factories/quiz.factory";
 import { createChoice } from "../../../domain/factories/choice.factory";
 import { createQuestion } from "../../../domain/factories/question.factory";
@@ -37,77 +35,62 @@ describe("PreviewModal", () => {
         scrollToSpy.mockRestore();
     });
 
-    test("starts preview at first question inside existing admin router", async () => {
+    test("starts preview at first question, isolated from the admin app's own router", async () => {
         const { unmount } = render(
-            <MemoryRouter>
-                <PreviewModal
-                    open={true}
-                    quiz={quiz}
-                    onClose={vi.fn()}
-                />
-            </MemoryRouter>
+            <PreviewModal
+                open={true}
+                quiz={quiz}
+                onClose={vi.fn()}
+            />
         );
 
         expect(await screen.findByText("Q1")).toBeInTheDocument();
         expect(screen.queryByText("Play The Latest")).toBeNull();
         expect(document.querySelector(".preview-player-shell")).not.toBeNull();
 
-        await act(async () => {
-            unmount();
-            await Promise.resolve();
-        });
+        unmount();
     });
 
     test("closes when close button clicked", async () => {
         const onClose = vi.fn();
 
         const { unmount } = render(
-            <MemoryRouter>
-                <PreviewModal
-                    open={true}
-                    quiz={quiz}
-                    onClose={onClose}
-                />
-            </MemoryRouter>
+            <PreviewModal
+                open={true}
+                quiz={quiz}
+                onClose={onClose}
+            />
         );
 
         await userEvent.click(screen.getByRole("button", { name: /close preview/i }));
         expect(onClose).toHaveBeenCalledTimes(1);
 
-        await act(async () => {
-            unmount();
-            await Promise.resolve();
-        });
+        unmount();
     });
 
     test("hides More Games button on preview score screen", async () => {
         const user = userEvent.setup();
         const { unmount } = render(
-            <MemoryRouter>
-                <PreviewModal
-                    open={true}
-                    quiz={quiz}
-                    onClose={vi.fn()}
-                />
-            </MemoryRouter>
+            <PreviewModal
+                open={true}
+                quiz={quiz}
+                onClose={vi.fn()}
+            />
         );
 
         for (let index = 0; index < quiz.questions.length; index += 1) {
             await user.click(await screen.findByRole("button", { name: "A" }));
 
             if (index < quiz.questions.length - 1) {
-                await user.click(await screen.findByRole("link", { name: /next question/i }));
+                await user.click(await screen.findByRole("button", { name: /next question/i }));
             } else {
-                await user.click(await screen.findByRole("link", { name: /checkout your score/i }));
+                await user.click(await screen.findByRole("button", { name: /checkout your score/i }));
             }
         }
 
         expect(await screen.findByText(/You got 5 out of 5/)).toBeInTheDocument();
         expect(screen.queryByText("More Games!")).toBeNull();
 
-        await act(async () => {
-            unmount();
-            await Promise.resolve();
-        });
+        unmount();
     });
 });

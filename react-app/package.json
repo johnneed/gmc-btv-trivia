@@ -49,15 +49,16 @@
     "vitest": "^1.6.0"
   },
   "scripts": {
-    "start": "vite",
     "build": "vite build",
-    "build:player": "vite build --config vite.player.config.ts",
     "build:admin": "vite build --config vite.admin.config.ts",
+    "build:player": "vite build --config vite.player.config.ts",
+    "lint": "eslint src/",
+    "start": "vite",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:domain": "vitest run src/domain",
     "test:domain:coverage": "vitest run --coverage src/domain --coverage.include=src/domain/**",
-    "lint": "eslint src/"
+    "typecheck": "tsc --noEmit"
   },
   "browserslist": {
     "production": [

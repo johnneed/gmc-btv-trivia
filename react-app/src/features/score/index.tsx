@@ -8,22 +8,20 @@ import { scrollTop } from "../../libs/window-helpers";
 import { SocialButtons } from "../../components/social-buttons";
 import { ActionButton } from "../../components/action-button";
 import { motion, useReducedMotion } from "framer-motion";
+import type { Quiz } from "../../domain/types";
 
 interface ScoreScreenProps {
-    previewMode?: boolean;
+    quiz?: Quiz;
+    score?: number;
+    showMoreGames?: boolean;
 }
 
-const ScoreScreen = ({ previewMode = false }: ScoreScreenProps) => {
+const ScoreScreen = ({ quiz, score, showMoreGames = true }: ScoreScreenProps) => {
     const reduceMotion = useReducedMotion();
-    const { qid } = useParams();
-    useEffect(() => { document.title = "Trail Trivia — Your Score"; }, []);
-    const score = useAppSelector(selectScores)[qid || ""];
-    const quizzes = useAppSelector(selectQuizzes);
-    const quiz = quizzes.find((q) => q.id === qid);
 
     return (
         <motion.div initial={reduceMotion ? false : { opacity: 0 }} animate={reduceMotion ? false : { opacity: 1 }} exit={reduceMotion ? undefined : { opacity: 0 }}>
-            <div className={`${styles.score_screen}${previewMode ? ` ${styles.preview_score_screen}` : ""}`}>
+            <div className={`${styles.score_screen}${showMoreGames ? "" : ` ${styles.preview_score_screen}`}`}>
                 <div className={styles.score_screen_header}>
                     <h1>Trail Trivia</h1>
                 </div>
@@ -37,7 +35,7 @@ const ScoreScreen = ({ previewMode = false }: ScoreScreenProps) => {
                 <div className={styles.score_screen_share_buttons}>
                     <SocialButtons/>
                 </div>
-                {!previewMode && (
+                {showMoreGames && (
                     <div className={styles.nav_buttons}>
                         <ActionButton onClick={scrollTop} text="More Games!" variant="light" to={"/quiz-list"}/>
                     </div>
@@ -45,6 +43,16 @@ const ScoreScreen = ({ previewMode = false }: ScoreScreenProps) => {
             </div>
         </motion.div>
     );
+};
+
+export const ScoreScreenRoute = () => {
+    const { qid } = useParams();
+    useEffect(() => { document.title = "Trail Trivia — Your Score"; }, []);
+    const score = useAppSelector(selectScores)[qid || ""];
+    const quizzes = useAppSelector(selectQuizzes);
+    const quiz = quizzes.find((q) => q.id === qid);
+
+    return <ScoreScreen quiz={quiz} score={score} />;
 };
 
 export default ScoreScreen;

@@ -1,12 +1,7 @@
-import React, { useEffect, useMemo, useRef } from "react";
-import { createRoot } from "react-dom/client";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { Provider } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
+import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import carouselStyles from "../../../components/carousel/styles.module.css";
-import loaderReducer from "../../../features/loader/loader-slice";
-import scoreReducer from "../../../features/score/score-slice";
-import QuizScreen from "../../../features/quiz";
+import { Carousel } from "../../../components/carousel";
 import ScoreScreen from "../../../features/score";
 import type { Quiz } from "../../../domain/types";
 
@@ -17,28 +12,9 @@ interface PreviewModalProps {
 }
 
 const PreviewModalContent = ({ quiz, onClose }: Omit<PreviewModalProps, "open">) => {
-    // Create a dedicated store for the preview so it doesn't pollute the admin store
-    // and correctly contains the quiz being edited.
-    const previewStore = useMemo(() => {
-        return configureStore({
-            reducer: {
-                loader: loaderReducer,
-                score: scoreReducer,
-            },
-            preloadedState: {
-                loader: {
-                    quizzes: [quiz],
-                    quizTags: quiz.tags,
-                    status: "idle",
-                    selectedQuizTags: [],
-                    selectedQuiz: null,
-                },
-                score: {
-                    scores: {},
-                },
-            },
-        });
-    }, [quiz]);
+    const [questionIndex, setQuestionIndex] = useState(0);
+    const [score, setScore] = useState(0);
+    const [screen, setScreen] = useState<"quiz" | "score">("quiz");
 
     return (
         <div
@@ -56,18 +32,22 @@ const PreviewModalContent = ({ quiz, onClose }: Omit<PreviewModalProps, "open">)
                 × Close Preview
             </button>
 
-            <Provider store={previewStore}>
-                <MemoryRouter initialEntries={[`/quiz/${quiz.id}/0`]}>
-                    <div className="preview-content">
-                        <div className="preview-player-shell">
-                        <Routes>
-                            <Route path="/quiz/:qid/:questionIndex?" element={<QuizScreen />} />
-                            <Route path="/score/:qid" element={<ScoreScreen previewMode={true} />} />
-                        </Routes>
-                        </div>
-                    </div>
-                </MemoryRouter>
-            </Provider>
+            <div className="preview-content">
+                <div className="preview-player-shell">
+                    {screen === "quiz"
+                        ? (
+                            <Carousel
+                                quiz={quiz}
+                                questionIndex={questionIndex}
+                                incrementScore={() => setScore((s) => s + 1)}
+                                onNext={setQuestionIndex}
+                                onComplete={() => setScreen("score")}
+                            />
+                        )
+                        : <ScoreScreen quiz={quiz} score={score} showMoreGames={false} />
+                    }
+                </div>
+            </div>
 
             <style>{`
                 @import url('https://fonts.googleapis.com/css?family=Tilt+Neon&display=swap');
@@ -159,47 +139,13 @@ const PreviewModalContent = ({ quiz, onClose }: Omit<PreviewModalProps, "open">)
     );
 };
 
-const PreviewModal: React.FC<PreviewModalProps> = ({ open, quiz, onClose }) => {
-    const onCloseRef = useRef(onClose);
-    const rootRef = useRef<ReturnType<typeof createRoot> | null>(null);
-    const containerRef = useRef<HTMLDivElement | null>(null);
+const PreviewModal = ({ open, quiz, onClose }: PreviewModalProps) => {
+    if (!open) return null;
 
-    useEffect(() => {
-        onCloseRef.current = onClose;
-    }, [onClose]);
-
-    useEffect(() => {
-        if (!open) return;
-
-        const container = document.createElement("div");
-        const root = createRoot(container);
-
-        containerRef.current = container;
-        rootRef.current = root;
-        document.body.appendChild(container);
-
-        return () => {
-            rootRef.current = null;
-            containerRef.current = null;
-            queueMicrotask(() => {
-                root.unmount();
-                container.remove();
-            });
-        };
-    }, [open]);
-
-    useEffect(() => {
-        if (!open || !rootRef.current) return;
-
-        rootRef.current.render(
-            <PreviewModalContent
-                quiz={quiz}
-                onClose={() => onCloseRef.current()}
-            />
-        );
-    }, [open, quiz]);
-
-    return null;
+    return createPortal(
+        <PreviewModalContent key={quiz.id} quiz={quiz} onClose={onClose} />,
+        document.body
+    );
 };
 
 export default PreviewModal;
