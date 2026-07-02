@@ -271,18 +271,12 @@ class Trail_Trivia_REST_API {
     // Public read handlers
     // -------------------------------------------------------------------------
 
-    /** GET /games — published games with publishDate <= now */
+    /** GET /games — all published games */
     public function get_games_handler( WP_REST_Request $request ): WP_REST_Response {
         $query = new WP_Query(
             array(
                 'post_type'      => 'trail_trivia_game',
                 'post_status'    => 'publish',
-                'date_query'     => array(
-                    array(
-                        'before'    => 'now',
-                        'inclusive' => true,
-                    ),
-                ),
                 'posts_per_page' => -1,
                 'orderby'        => 'date',
                 'order'          => 'DESC',

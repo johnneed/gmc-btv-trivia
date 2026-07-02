@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectQuizzes } from "../loader/loader-slice";
 import * as R from "ramda";
 import { Carousel } from "../../components/carousel";
-import { ProgressBar } from "../../components/progress-bar";
 import type { Quiz } from "../../domain/types";
 import { incrementScore, setScore } from "../score/score-slice";
 
@@ -33,7 +32,6 @@ const QuizScreen = () => {
 
     return (
         <div className={styles.quiz_screen}>
-            <ProgressBar current={qIndex + 1} total={quiz.questions.length} />
             <div className={styles.quiz_box}>
                 <div className={styles.quiz_box_content}>
                     <Carousel incrementScore={() => dispatch(incrementScore(quiz.id))} quiz={quiz} questionIndex={qIndex}/>

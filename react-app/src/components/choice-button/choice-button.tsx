@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import type { Choice } from "../../domain/types";
 import styles from "./styles.module.css";
-import wrongAnswer from "../../assets/images/wrong-answer.svg";
 
 interface ChoiceProps {
     choice: Choice,
@@ -23,8 +22,10 @@ const ChoiceButton = ({ choice, onClick, isCorrect }: ChoiceProps) => {
     };
 
     return (
-        <div className={`${styles.choice} ${hasBeenSelected ? styles.ahh_too_bad : styles.pick_me}`} style={{ backgroundImage: `url(${wrongAnswer})` }}>
-            <div className={styles.button_container}>
+        <div className={styles.choice}>
+            <div
+                className={`${styles.button_container} ${hasBeenSelected ? styles.ahh_too_bad : ""}`}
+            >
                 <button
                     disabled={hasBeenSelected}
                     onClick={handleClick}>

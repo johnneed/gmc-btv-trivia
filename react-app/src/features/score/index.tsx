@@ -23,21 +23,18 @@ const ScoreScreen = () => {
                 <div className={styles.score_screen_header}>
                     <h1>Trail Trivia</h1>
                 </div>
-                <div aria-live="assertive">
-                    {
-                        (score === undefined || quiz === undefined)
-                            ? (<p className={styles.message}>Congratulations!</p>)
-                            : (<p className={styles.message}>
-                                {`You got ${score} out of ${quiz.questions.length} right on the first try!`}
-                            </p>)
-                    }
-                </div>
+                {
+                    (score === undefined || quiz === undefined)
+                        ? (<p className={styles.message}>Congratulations!</p>)
+                        : (<p className={styles.message}>
+                            {`You got ${score} out of ${quiz.questions.length} right on the first try!`}
+                        </p>)
+                }
                 <div className={styles.score_screen_share_buttons}>
                     <SocialButtons/>
                 </div>
                 <div className={styles.nav_buttons}>
-                    <ActionButton onClick={scrollTop} text="Past Games" variant="dark" to={"/quiz-list"}/>
-                    <ActionButton variant={"light"} to={"/"} text={"◁ Back to Trail Trivia"}/>
+                    <ActionButton onClick={scrollTop} text="More Games!" variant="light" to={"/quiz-list"}/>
                 </div>
             </div>
         </motion.div>
