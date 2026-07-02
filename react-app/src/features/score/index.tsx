@@ -9,7 +9,11 @@ import { SocialButtons } from "../../components/social-buttons";
 import { ActionButton } from "../../components/action-button";
 import { motion, useReducedMotion } from "framer-motion";
 
-const ScoreScreen = () => {
+interface ScoreScreenProps {
+    previewMode?: boolean;
+}
+
+const ScoreScreen = ({ previewMode = false }: ScoreScreenProps) => {
     const reduceMotion = useReducedMotion();
     const { qid } = useParams();
     useEffect(() => { document.title = "Trail Trivia — Your Score"; }, []);
@@ -19,7 +23,7 @@ const ScoreScreen = () => {
 
     return (
         <motion.div initial={reduceMotion ? false : { opacity: 0 }} animate={reduceMotion ? false : { opacity: 1 }} exit={reduceMotion ? undefined : { opacity: 0 }}>
-            <div className={styles.score_screen}>
+            <div className={`${styles.score_screen}${previewMode ? ` ${styles.preview_score_screen}` : ""}`}>
                 <div className={styles.score_screen_header}>
                     <h1>Trail Trivia</h1>
                 </div>
@@ -33,9 +37,11 @@ const ScoreScreen = () => {
                 <div className={styles.score_screen_share_buttons}>
                     <SocialButtons/>
                 </div>
-                <div className={styles.nav_buttons}>
-                    <ActionButton onClick={scrollTop} text="More Games!" variant="light" to={"/quiz-list"}/>
-                </div>
+                {!previewMode && (
+                    <div className={styles.nav_buttons}>
+                        <ActionButton onClick={scrollTop} text="More Games!" variant="light" to={"/quiz-list"}/>
+                    </div>
+                )}
             </div>
         </motion.div>
     );

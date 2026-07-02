@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import ScoreScreen from "./index";
+import styles from "./styles.module.css";
 import loaderReducer from "../loader/loader-slice";
 import scoreReducer from "../score/score-slice";
 import { createQuiz } from "../../domain/factories/quiz.factory";
@@ -19,12 +20,12 @@ const makeStore = (score?: number) =>
         },
     });
 
-const renderScore = (score?: number) =>
+const renderScore = (score?: number, previewMode = false) =>
     render(
         <Provider store={makeStore(score)}>
             <MemoryRouter initialEntries={["/score/quiz-1"]}>
                 <Routes>
-                    <Route path="/score/:qid" Component={ScoreScreen} />
+                    <Route path="/score/:qid" element={<ScoreScreen previewMode={previewMode} />} />
                 </Routes>
             </MemoryRouter>
         </Provider>
@@ -55,5 +56,11 @@ describe("ScoreScreen", () => {
         renderScore(3);
         const link = screen.getByText("More Games!");
         expect(link.closest("a")).toHaveAttribute("href", "/quiz-list");
+    });
+
+    it("hides More Games button and adds top spacing in preview mode", () => {
+        const { container } = renderScore(3, true);
+        expect(screen.queryByText("More Games!")).toBeNull();
+        expect(container.querySelector(`.${styles.preview_score_screen}`)).not.toBeNull();
     });
 });

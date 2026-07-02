@@ -111,6 +111,7 @@
     font-size: 1.5rem;
     color: #000;
     text-align: right;
+    text-decoration: none;
     padding: 1rem 2rem;
     display: inline-block;
     cursor: pointer;
@@ -121,6 +122,7 @@
 .next_question:hover {
     background-color: slateblue;
     color: white;
+    text-decoration: none;
 }
 
 .congratulations {

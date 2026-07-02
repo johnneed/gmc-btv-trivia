@@ -69,26 +69,27 @@ describe("AnswerImageUploader", () => {
         render(<AnswerImageUploader {...baseProps} onUrlSubmit={onUrlSubmit} />);
         const input = screen.getByLabelText(/enter image url/i) as HTMLInputElement;
         fireEvent.change(input, { target: { value: "  https://example.com/img.jpg  " } });
-        fireEvent.click(screen.getByRole("button", { name: /use url/i }));
+        fireEvent.click(screen.getByRole("button", { name: /import from web/i }));
         expect(onUrlSubmit).toHaveBeenCalledWith("https://example.com/img.jpg");
     });
 
-    it("disables Use URL button when isUploading", () => {
+    it("disables Import from Web button when isUploading", () => {
         render(<AnswerImageUploader {...baseProps} onUrlSubmit={noop} isUploading={true} />);
-        const btn = screen.getByRole("button", { name: /use url/i }) as HTMLButtonElement;
+        const btn = screen.getByRole("button", { name: /import from web/i }) as HTMLButtonElement;
         expect(btn.disabled).toBe(true);
     });
 
     it("does not render URL section when onUrlSubmit is not provided", () => {
         render(<AnswerImageUploader {...baseProps} onUrlSubmit={undefined} />);
-        expect(screen.queryByRole("button", { name: /use url/i })).toBeNull();
+        expect(screen.queryByRole("button", { name: /import from web/i })).toBeNull();
     });
 
     // ---- US3: thumbnail + remove ----
 
     it("shows thumbnail and Remove button when imageUrl is provided", () => {
         render(<AnswerImageUploader {...baseProps} imageId={42} imageUrl="http://example.com/img.jpg" imageAlt="trail" />);
-        expect(screen.getByAltText("trail")).toBeTruthy();
+        const preview = screen.getByRole("button", { name: /view full-size image/i });
+        expect(preview).toHaveStyle({ backgroundImage: "url(http://example.com/img.jpg)" });
         expect(screen.getByRole("button", { name: /remove answer image/i })).toBeTruthy();
     });
 

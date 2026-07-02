@@ -33,11 +33,11 @@ describe("PublishSidebar", () => {
 
     it("shows saved autosave status", () => {
         render(<PublishSidebar {...baseProps} autosaveStatus="saved" autosaveTimestamp={Date.now()} />);
-        expect(screen.getByText(/Draft saved at/)).toBeInTheDocument();
+        expect(screen.getByText(/Saved at/)).toBeInTheDocument();
     });
 
     it("shows failed autosave status in red", () => {
         render(<PublishSidebar {...baseProps} autosaveStatus="failed" />);
-        expect(screen.getByText(/Draft save failed/)).toBeInTheDocument();
+        expect(screen.getByText(/Save failed — check connection/)).toHaveStyle({ color: "rgb(214, 54, 56)" });
     });
 });

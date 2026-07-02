@@ -56,7 +56,7 @@
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:domain": "vitest run src/domain",
-    "test:domain:coverage": "vitest run --coverage src/domain",
+    "test:domain:coverage": "vitest run --coverage src/domain --coverage.include=src/domain/**",
     "lint": "eslint src/"
   },
   "browserslist": {

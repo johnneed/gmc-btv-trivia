@@ -56,8 +56,9 @@ describe("HomeScreen", () => {
 
     it("buttons appear before quiz title in DOM", () => {
         wrap();
-        const buttons = screen.getByText("Play The Latest").closest("div")!;
+        const buttons = screen.getByText("Play The Latest").closest("div");
         const title = screen.getByText("CDT Quiz");
+        if (!buttons) throw new Error("buttons container not found");
         expect(buttons.compareDocumentPosition(title) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     });
 

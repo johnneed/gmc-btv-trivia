@@ -27,19 +27,20 @@ describe("QuestionCard", () => {
     it("renders question number and collapses body by default", () => {
         render(<QuestionCard {...baseProps} />);
         expect(screen.getByText(/01/)).toBeTruthy();
-        expect(screen.queryByLabelText(/question text/i)).toBeNull();
+        expect(screen.getByRole("button", { name: /expand question/i })).toHaveAttribute("aria-expanded", "false");
+        expect(screen.queryByRole("region", { name: /answer image upload area/i })).toBeNull();
     });
 
     it("expands card body on toggle click", () => {
         render(<QuestionCard {...baseProps} />);
-        fireEvent.click(screen.getByRole("button", { name: /01/i }));
+        fireEvent.click(screen.getByRole("button", { name: /expand question/i }));
         expect(screen.getByRole("region", { name: /answer image upload area/i })).toBeTruthy();
     });
 
     it("passes isUploading to AnswerImageUploader when uploadingQuestionId matches", () => {
         const q = makeQuestion();
         render(<QuestionCard {...baseProps} question={q} uploadingQuestionId={q.id} />);
-        fireEvent.click(screen.getByRole("button", { name: /01/i }));
+        fireEvent.click(screen.getByRole("button", { name: /expand question/i }));
         const fileInput = screen.getByLabelText(/upload image from computer/i) as HTMLInputElement;
         expect(fileInput.disabled).toBe(true);
     });
@@ -48,7 +49,7 @@ describe("QuestionCard", () => {
         const onImageUpload = vi.fn();
         const q = makeQuestion();
         render(<QuestionCard {...baseProps} question={q} onImageUpload={onImageUpload} />);
-        fireEvent.click(screen.getByRole("button", { name: /01/i }));
+        fireEvent.click(screen.getByRole("button", { name: /expand question/i }));
         const dropzone = screen.getByRole("region", { name: /answer image upload area/i });
         const file = new File(["x"], "img.jpg", { type: "image/jpeg" });
         fireEvent.drop(dropzone, { dataTransfer: { files: [file], types: ["Files"] } });

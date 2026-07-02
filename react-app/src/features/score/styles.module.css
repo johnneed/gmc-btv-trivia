@@ -4,6 +4,10 @@
     width: 100%;
 }
 
+.preview_score_screen {
+    padding-top: 2rem;
+}
+
 
 .score_screen_header > h1 {
     font-family: "Henny Penny", sans-serif;
