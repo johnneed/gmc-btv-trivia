@@ -52,6 +52,7 @@
     "build": "vite build",
     "build:admin": "vite build --config vite.admin.config.ts",
     "build:player": "vite build --config vite.player.config.ts",
+    "build:plugin-zip": "bash ../scripts/build-plugin-zip.sh",
     "lint": "eslint src/",
     "start": "vite",
     "test": "vitest",
