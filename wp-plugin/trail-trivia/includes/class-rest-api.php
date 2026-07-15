@@ -451,14 +451,23 @@ class Trail_Trivia_REST_API {
             return $error;
         }
 
-        $post_date = $this->unix_ms_to_wp_date( $body['publishDate'] );
-        $post_id   = wp_insert_post(
+        $post_id = $this->insert_game_post( wp_generate_uuid4(), $body );
+        if ( is_wp_error( $post_id ) ) {
+            return $post_id;
+        }
+
+        return new WP_REST_Response( $this->build_game_response( get_post( $post_id ) ), 201 );
+    }
+
+    /** Inserts a new game post, storing $uuid as its canonical `_trivia_original_id`. */
+    private function insert_game_post( string $uuid, array $body ): int|WP_Error {
+        $post_id = wp_insert_post(
             array(
                 'post_type'    => 'trail_trivia_game',
                 'post_title'   => sanitize_text_field( $body['title'] ),
                 'post_excerpt' => sanitize_text_field( $body['subtitle'] ?? '' ),
                 'post_status'  => 'published' === ( $body['status'] ?? 'draft' ) ? 'publish' : 'draft',
-                'post_date'    => $post_date,
+                'post_date'    => $this->unix_ms_to_wp_date( $body['publishDate'] ),
                 'post_author'  => get_current_user_id(),
             ),
             true
@@ -468,10 +477,10 @@ class Trail_Trivia_REST_API {
             return $post_id;
         }
 
-        update_post_meta( $post_id, '_trivia_original_id', wp_generate_uuid4() );
+        update_post_meta( $post_id, '_trivia_original_id', $uuid );
         $this->save_game_data( $post_id, $body );
 
-        return new WP_REST_Response( $this->build_game_response( get_post( $post_id ) ), 201 );
+        return $post_id;
     }
 
     /** PUT /games/{id} — full replacement */
@@ -485,14 +494,21 @@ class Trail_Trivia_REST_API {
 
         $uuid = sanitize_text_field( $request->get_param( 'id' ) );
         $post = $this->get_game_by_any_id( $uuid );
-        if ( ! $post ) {
-            return new WP_Error( 'game_not_found', 'Game not found.', array( 'status' => 404 ) );
-        }
 
         $body  = $request->get_json_params();
         $error = $this->validate_create_body( $body );
         if ( is_wp_error( $error ) ) {
             return $error;
+        }
+
+        // The client assigns a UUID before the game is ever saved, so the first
+        // save of a new game arrives here as a PUT rather than a POST. Upsert.
+        if ( ! $post ) {
+            $post_id = $this->insert_game_post( $uuid, $body );
+            if ( is_wp_error( $post_id ) ) {
+                return $post_id;
+            }
+            return new WP_REST_Response( $this->build_game_response( get_post( $post_id ) ), 201 );
         }
 
         $post_date = $this->unix_ms_to_wp_date( $body['publishDate'] );
@@ -710,7 +726,7 @@ class Trail_Trivia_REST_API {
         }
 
         foreach ( $questions as $index => $q ) {
-            if ( empty( $q['questionText'] ) || ! is_string( $q['questionText'] ) ) {
+            if ( ! is_string( $q['questionText'] ?? null ) || '' === trim( $q['questionText'] ) ) {
                 return new WP_Error(
                     'invalid_questions',
                     sprintf( 'Question %d: questionText must be a non-empty string.', $index + 1 ),
@@ -725,7 +741,7 @@ class Trail_Trivia_REST_API {
                 );
             }
             foreach ( $q['choices'] as $ci => $choice ) {
-                if ( empty( $choice['text'] ) || ! is_string( $choice['text'] ) ) {
+                if ( ! is_string( $choice['text'] ?? null ) || '' === trim( $choice['text'] ) ) {
                     return new WP_Error(
                         'invalid_questions',
                         sprintf( 'Question %d, choice %d: text must be a non-empty string.', $index + 1, $ci + 1 ),
@@ -741,7 +757,7 @@ class Trail_Trivia_REST_API {
                     array( 'status' => 400 )
                 );
             }
-            if ( empty( $q['answerText'] ) || ! is_string( $q['answerText'] ) ) {
+            if ( ! is_string( $q['answerText'] ?? null ) || '' === trim( $q['answerText'] ) ) {
                 return new WP_Error(
                     'invalid_questions',
                     sprintf( 'Question %d: answerText must be a non-empty string.', $index + 1 ),
@@ -755,7 +771,7 @@ class Trail_Trivia_REST_API {
 
     /** Validates a full create/update body and returns a WP_Error or null. */
     private function validate_create_body( array $body ): ?WP_Error {
-        if ( empty( $body['title'] ) ) {
+        if ( ! is_string( $body['title'] ?? null ) || '' === trim( $body['title'] ) ) {
             return new WP_Error( 'missing_required_field', 'title is required.', array( 'status' => 400 ) );
         }
 

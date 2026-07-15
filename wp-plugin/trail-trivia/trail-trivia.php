@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Trail Trivia
  * Description:       Trail Trivia game plugin for GMC Burlington. Embeds the player and provides a TriviaSmith admin interface for creating and managing trail trivia games.
- * Version:           1.0.0
+ * Version:           1.0.3
  * Requires at least: 6.4
  * Requires PHP:      8.0
  * Author:            GMC Burlington
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'TRAIL_TRIVIA_VERSION', '1.0.0' );
+define( 'TRAIL_TRIVIA_VERSION', '1.0.3' );
 define( 'TRAIL_TRIVIA_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'TRAIL_TRIVIA_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 

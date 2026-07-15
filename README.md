@@ -1,6 +1,6 @@
 # Trail Trivia
 
-**Version 1.0.0**
+**Version 1.0.3**
 
 A trail-themed trivia game plugin built for the Green Mountain Club — Burlington Section. Trail Trivia lets visitors test their knowledge of local trails, natural history, and GMC programs through short, shareable quizzes embedded directly on a WordPress site.
 
@@ -100,6 +100,18 @@ Built for the [Green Mountain Club, Burlington Section](https://GMCBurlington.or
 Need help with your own custom WordPress app? Check out [Inu Labs](https://inulabs.tech/).
 
 ## Release Notes
+
+### 1.0.3
+
+- Fixed: publishing/saving a game could wrongly reject a question, choice, or title of literally `"0"` as empty (PHP's `empty()` treats the string `"0"` as falsy)
+
+### 1.0.2
+
+- Fixed: same `empty("0")` validation bug scoped to the questions validator; superseded by 1.0.3
+
+### 1.0.1
+
+- Fixed: saving a newly created game returned `404 Not Found` — the editor assigns a UUID to a game before it's ever saved, so the first save arrived as `PUT /games/{id}` for an id the server had never seen. `PUT` now upserts: if no game exists for that id, it creates one using the client's UUID as the canonical id
 
 ### 1.0.0
 
