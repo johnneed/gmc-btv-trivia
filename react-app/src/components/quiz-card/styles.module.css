@@ -15,7 +15,7 @@
     height: 24rem;
     text-align: left;
     box-shadow: 0 10px 16px -13px rgba(0, 0, 0, 0.3);
-    width: 12rem;
+    width: 13.5rem;
 }
 
 .quiz_card:hover {
@@ -106,7 +106,7 @@ a:active {
         justify-content: space-between;
         align-content: stretch;
         align-items: stretch;
-        margin: 0.5rem;
+        margin: 1rem auto;
         height: auto;
         max-width: 80vw;
     }
