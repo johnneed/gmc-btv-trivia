@@ -42,6 +42,7 @@ h1 > a:hover {
     order: 1;
     flex: 0 0 auto;
     align-self: stretch;
+    margin: 0 auto;
 }
 
 
